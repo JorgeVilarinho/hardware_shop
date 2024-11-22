@@ -1,0 +1,9 @@
+<app-header (collapsedEvent)="setOpened($event)"></app-header>
+<mat-sidenav-container>
+  <mat-sidenav [opened]="opened" mode="side" class="!w-[350px]">
+    <app-sidenav-custom (collapsedEvent)="setOpened($event)"></app-sidenav-custom>
+  </mat-sidenav>
+  <mat-sidenav-content class="bg-white p-[24px]">
+    <router-outlet></router-outlet>
+  </mat-sidenav-content>
+</mat-sidenav-container>
