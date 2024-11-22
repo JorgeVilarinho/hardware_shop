@@ -1,4 +1,5 @@
-import { Component, EventEmitter, Output } from '@angular/core';
+import { StateService } from './../../services/state.service';
+import { Component, inject } from '@angular/core';
 import { MatIconModule } from '@angular/material/icon';
 import { MatIconButton } from '@angular/material/button';
 import { MatListModule } from '@angular/material/list';
@@ -10,11 +11,9 @@ import { MatListModule } from '@angular/material/list';
   styleUrl: './sidenav-custom.component.css'
 })
 export class SidenavCustomComponent {
-  @Output() collapsedEvent = new EventEmitter<boolean>();
-  opened: boolean = false;
+  stateService: StateService = inject(StateService);
 
-  changeOpened() {
-    this.opened = !this.opened;
-    this.collapsedEvent.emit(this.opened);
+  changeOpenedState() {
+    this.stateService.opened.next(!this.stateService.opened.value);
   }
 }

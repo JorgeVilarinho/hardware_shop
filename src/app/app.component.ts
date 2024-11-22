@@ -1,8 +1,9 @@
-import { Component, Signal, signal } from '@angular/core';
+import { Component, OnInit, Signal, signal, inject } from '@angular/core';
 import { RouterOutlet } from '@angular/router';
 import { HeaderComponent } from './components/header/header.component';
 import {MatSidenavModule} from '@angular/material/sidenav';
 import { SidenavCustomComponent } from './components/sidenav-custom/sidenav-custom.component';
+import { StateService } from './services/state.service';
 
 @Component({
   selector: 'app-root',
@@ -10,10 +11,12 @@ import { SidenavCustomComponent } from './components/sidenav-custom/sidenav-cust
   templateUrl: './app.component.html',
   styleUrl: './app.component.css'
 })
-export class AppComponent {
-  opened: boolean = false;
+export class AppComponent implements OnInit {
+  stateService: StateService = inject(StateService);
+  openedState: boolean | undefined;
 
-  setOpened(collapsed: boolean) {
-    this.opened = collapsed;
+  ngOnInit(): void {
+    this.stateService.opened.subscribe((actualValue) =>
+      this.openedState = actualValue);
   }
 }

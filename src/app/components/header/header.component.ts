@@ -1,23 +1,22 @@
-import { Component, EventEmitter, Output } from '@angular/core';
+import { Component, inject } from '@angular/core';
 import {MatIconModule} from '@angular/material/icon';
 import {MatButtonModule} from '@angular/material/button';
 import {MatToolbarModule} from '@angular/material/toolbar';
 import {MatBadgeModule} from '@angular/material/badge';
 import {MatSidenavModule} from '@angular/material/sidenav';
+import { StateService } from '../../services/state.service';
+import { RouterLink } from '@angular/router';
 
 @Component({
   selector: 'app-header',
-  imports: [ MatToolbarModule, MatIconModule, MatButtonModule, MatBadgeModule, MatSidenavModule ],
+  imports: [ MatToolbarModule, MatIconModule, MatButtonModule, MatBadgeModule, MatSidenavModule, RouterLink ],
   templateUrl: './header.component.html',
   styleUrl: './header.component.css'
 })
 export class HeaderComponent {
-  @Output() collapsedEvent = new EventEmitter<boolean>();
+  stateService: StateService = inject(StateService);
 
-  opened = false;
-
-  changeOpened() {
-    this.opened = !this.opened;
-    this.collapsedEvent.emit(this.opened);
+  changeOpenedState() {
+    this.stateService.opened.next(!this.stateService.opened.value);
   }
 }
