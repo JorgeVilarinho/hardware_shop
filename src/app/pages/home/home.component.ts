@@ -3,6 +3,7 @@ import { Component, inject } from '@angular/core';
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import { MatGridListModule } from '@angular/material/grid-list';
 import { ProductBoxComponent } from "../../components/product-box/product-box.component";
+import { Product } from '../../models/product.model';
 
 @Component({
   selector: 'app-home',
@@ -12,7 +13,74 @@ import { ProductBoxComponent } from "../../components/product-box/product-box.co
 })
 export class HomeComponent {
   breakpointObserver: BreakpointObserver = inject(BreakpointObserver);
-  cols: number = 4;
+  cols: number = 5;
+
+  products: Array<Product> = [
+    {
+      id: 1,
+      description: "Intel Core i5-12400F 4.4GHz Socket 1700 Boxed",
+      discount: 38,
+      imageUrl: "https://placehold.co/300x300",
+      price: 124.95,
+      units: 1
+    },
+    {
+      id: 2,
+      description: "Intel Core i5-12400F 4.4GHz Socket 1700 Boxed",
+      discount: 38,
+      imageUrl: "https://placehold.co/300x300",
+      price: 124.95,
+      units: 1
+    },
+    {
+      id: 3,
+      description: "Intel Core i5-12400F 4.4GHz Socket 1700 Boxed",
+      discount: 38,
+      imageUrl: "https://placehold.co/300x300",
+      price: 124.95,
+      units: 1
+    },
+    {
+      id: 4,
+      description: "Intel Core i5-12400F 4.4GHz Socket 1700 Boxed",
+      discount: 38,
+      imageUrl: "https://placehold.co/300x300",
+      price: 124.95,
+      units: 1
+    },
+    {
+      id: 5,
+      description: "Intel Core i5-12400F 4.4GHz Socket 1700 Boxed",
+      discount: 38,
+      imageUrl: "https://placehold.co/300x300",
+      price: 124.95,
+      units: 1
+    },
+    {
+      id: 6,
+      description: "Intel Core i5-12400F 4.4GHz Socket 1700 Boxed",
+      discount: 38,
+      imageUrl: "https://placehold.co/300x300",
+      price: 124.95,
+      units: 1
+    },
+    {
+      id: 7,
+      description: "Intel Core i5-12400F 4.4GHz Socket 1700 Boxed",
+      discount: 38,
+      imageUrl: "https://placehold.co/300x300",
+      price: 124.95,
+      units: 1
+    },
+    {
+      id: 8,
+      description: "Intel Core i5-12400F 4.4GHz Socket 1700 Boxed",
+      discount: 38,
+      imageUrl: "https://placehold.co/300x300",
+      price: 124.95,
+      units: 1
+    }
+  ]
 
   constructor() {
     this.breakpointObserver.observe([
@@ -26,13 +94,13 @@ export class HomeComponent {
       const breakpoints = _result.breakpoints;
 
       if(breakpoints[Breakpoints.XSmall]) {
-        this.cols = 1;
-      } else if(breakpoints[Breakpoints.Small]) {
         this.cols = 2;
-      } else if(breakpoints[Breakpoints.Medium]) {
+      } else if(breakpoints[Breakpoints.Small]) {
         this.cols = 3;
-      } else if(breakpoints[Breakpoints.Large]) {
+      } else if(breakpoints[Breakpoints.Medium]) {
         this.cols = 4;
+      } else if(breakpoints[Breakpoints.Large]) {
+        this.cols = 5;
       }
     });
   }

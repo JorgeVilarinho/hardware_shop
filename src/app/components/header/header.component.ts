@@ -6,10 +6,11 @@ import {MatBadgeModule} from '@angular/material/badge';
 import {MatSidenavModule} from '@angular/material/sidenav';
 import { StateService } from '../../services/state.service';
 import { RouterLink } from '@angular/router';
+import { MatMenuModule } from '@angular/material/menu';
 
 @Component({
   selector: 'app-header',
-  imports: [ MatToolbarModule, MatIconModule, MatButtonModule, MatBadgeModule, MatSidenavModule, RouterLink ],
+  imports: [ MatToolbarModule, MatIconModule, MatButtonModule, MatBadgeModule, MatSidenavModule, RouterLink, MatMenuModule ],
   templateUrl: './header.component.html',
   styleUrl: './header.component.css'
 })

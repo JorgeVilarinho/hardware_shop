@@ -1,6 +1,14 @@
-<mat-card class="p-4 w-full">
-  <div class="flex justify-center">
-    <img src="https://placehold.co/100x100" alt="" class="mb-2 h-[300px]">
+<mat-card class="p-4 max-w-[300px]">
+  <div class="relative mb-8">
+    <div class="absolute top-3 left-3 bg-red-600 rounded-full px-2">
+      <span class="text-sm text-white">Dto. 38%</span>
+    </div>
+    <img src="https://placehold.co/300x300" alt="" class="mb-3">
+    <p>Intel Core i5-12400F 4.4GHz Socket 1700 Boxed</p>
   </div>
-  <p>Intel Core i5-12400F 4.4GHz Socket 1700 Boxed </p>
+  <div>
+    <div class="text-slate-500 underline line-through">149,95€</div>
+    <div class="text-red-600 mb-2">124,95 €</div>
+    <button mat-button disableRipple="true" class="!w-full !bg-red-600 !active:bg-red-800 !text-white !py-1 !mt-1 !rounded-md">Añadir</button>
+  </div>
 </mat-card>
