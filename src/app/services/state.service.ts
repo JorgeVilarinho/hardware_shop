@@ -9,7 +9,7 @@ export class StateService {
 
   constructor() { }
 
-  changeOpenedState() {
+  changeOpenedState(): void {
     this.opened.next(!this.opened.value);
   }
 }

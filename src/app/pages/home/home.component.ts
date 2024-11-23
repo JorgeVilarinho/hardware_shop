@@ -1,3 +1,4 @@
+import { StateService } from './../../services/state.service';
 import { BreakpointObserver, Breakpoints } from '@angular/cdk/layout';
 import { Component, inject } from '@angular/core';
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
@@ -13,70 +14,79 @@ import { Product } from '../../models/product.model';
 })
 export class HomeComponent {
   breakpointObserver: BreakpointObserver = inject(BreakpointObserver);
+  stateService: StateService = inject(StateService);
   cols: number = 5;
 
   products: Array<Product> = [
     {
       id: 1,
       description: "Intel Core i5-12400F 4.4GHz Socket 1700 Boxed",
-      discount: 38,
+      discount: 0,
       imageUrl: "https://placehold.co/300x300",
-      price: 124.95,
+      category: "Procesadores",
+      price: 108.95,
       units: 1
     },
     {
       id: 2,
-      description: "Intel Core i5-12400F 4.4GHz Socket 1700 Boxed",
+      description: "MSI GeForce RTX 4060 VENTUS 2X Black OC 8GB GDDR6 DLSS3",
       discount: 38,
       imageUrl: "https://placehold.co/300x300",
-      price: 124.95,
+      category: "Tarjetas gráficas",
+      price: 305.72,
       units: 1
     },
     {
       id: 3,
       description: "Intel Core i5-12400F 4.4GHz Socket 1700 Boxed",
-      discount: 38,
+      discount: 21,
       imageUrl: "https://placehold.co/300x300",
+      category: "Procesadores",
       price: 124.95,
       units: 1
     },
     {
       id: 4,
       description: "Intel Core i5-12400F 4.4GHz Socket 1700 Boxed",
-      discount: 38,
+      discount: 0,
       imageUrl: "https://placehold.co/300x300",
+      category: "Procesadores",
       price: 124.95,
       units: 1
     },
     {
       id: 5,
       description: "Intel Core i5-12400F 4.4GHz Socket 1700 Boxed",
-      discount: 38,
+      discount: 0,
       imageUrl: "https://placehold.co/300x300",
+      category: "Procesadores",
       price: 124.95,
       units: 1
     },
     {
       id: 6,
       description: "Intel Core i5-12400F 4.4GHz Socket 1700 Boxed",
-      discount: 38,
+      discount: 7,
       imageUrl: "https://placehold.co/300x300",
+      category: "Procesadores",
       price: 124.95,
       units: 1
     },
     {
       id: 7,
       description: "Intel Core i5-12400F 4.4GHz Socket 1700 Boxed",
-      discount: 38,
+      discount: 5,
       imageUrl: "https://placehold.co/300x300",
+      category: "Procesadores",
       price: 124.95,
       units: 1
     },
     {
       id: 8,
       description: "Intel Core i5-12400F 4.4GHz Socket 1700 Boxed",
-      discount: 38,
+      discount: 0,
       imageUrl: "https://placehold.co/300x300",
+      category: "Procesadores",
       price: 124.95,
       units: 1
     }

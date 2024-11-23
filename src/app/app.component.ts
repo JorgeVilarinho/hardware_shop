@@ -1,4 +1,4 @@
-import { Component, OnInit, Signal, signal, inject } from '@angular/core';
+import { Component, OnInit, inject } from '@angular/core';
 import { RouterOutlet } from '@angular/router';
 import { HeaderComponent } from './components/header/header.component';
 import {MatSidenavModule} from '@angular/material/sidenav';

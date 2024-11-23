@@ -4,6 +4,9 @@
   "newProjectRoot": "projects",
   "projects": {
     "hardwareShop": {
+      "i18n": {
+        "sourceLocale": "es"
+      },
       "projectType": "application",
       "schematics": {},
       "root": "",
