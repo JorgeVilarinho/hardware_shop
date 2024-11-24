@@ -1,7 +1,9 @@
-<mat-grid-list [cols]="cols" rowHeight="500px" gutterSize="20">
-  @for (product of products; track product.id) {
-    <mat-grid-tile>
-      <app-product-box [product]="product"></app-product-box>
-    </mat-grid-tile>
-  }
-</mat-grid-list>
+<div class="p-[20px]">
+  <mat-grid-list [cols]="cols" rowHeight="500px" gutterSize="20">
+    @for (product of products; track product.id) {
+      <mat-grid-tile>
+        <app-product-box [product]="product"></app-product-box>
+      </mat-grid-tile>
+    }
+  </mat-grid-list>
+</div>
