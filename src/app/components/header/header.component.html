@@ -9,15 +9,27 @@
   </div>
   <div>
     <div class="flex items-center">
-      <button
+      @if(user) {
+        <button
+        mat-button
+        disableRipple="true"
+        routerLink="account">
+          <div class="flex items-center mr-3">
+            <mat-icon class="mr-2">person</mat-icon>
+            <p class="text-base">Mi cuenta</p>
+          </div>
+        </button>
+      } @else {
+        <button
         mat-button
         disableRipple="true"
         routerLink="login">
-        <div class="flex items-center mr-3">
-          <mat-icon class="mr-2">person</mat-icon>
-          <p class="text-base">Iniciar sesión</p>
-        </div>
-      </button>
+          <div class="flex items-center mr-3">
+            <mat-icon class="mr-2">person</mat-icon>
+            <p class="text-base">Iniciar sesión</p>
+          </div>
+        </button>
+      }
       <button
         mat-icon-button
         matBadge="1"

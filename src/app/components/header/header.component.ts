@@ -1,5 +1,6 @@
+import { UserService } from './../../services/user.service';
 import { Cart } from './../../models/cart.model';
-import { Component, inject, Injector } from '@angular/core';
+import { Component, inject } from '@angular/core';
 import {MatIconModule} from '@angular/material/icon';
 import {MatButtonModule} from '@angular/material/button';
 import {MatToolbarModule} from '@angular/material/toolbar';
@@ -11,6 +12,7 @@ import { MatMenuModule } from '@angular/material/menu';
 import { CartService } from '../../services/cart.service';
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import { CurrencyPipe } from '@angular/common';
+import { User } from '../../models/user.model';
 
 @Component({
   selector: 'app-header',
@@ -22,14 +24,21 @@ import { CurrencyPipe } from '@angular/common';
 export class HeaderComponent {
   stateService: StateService = inject(StateService);
   cartService: CartService = inject(CartService);
+  userService: UserService = inject(UserService)
+
   cart: Cart = {
     items: []
   };
+  user: User | null = null;
 
   constructor() {
     this.cartService.productsInCart.
     pipe(takeUntilDestroyed())
     .subscribe((_cart) => this.cart = _cart);
+
+    this.userService.loggedInUser.
+    pipe(takeUntilDestroyed())
+    .subscribe((_user) => this.user = _user);
   }
 
   changeOpenedState() {

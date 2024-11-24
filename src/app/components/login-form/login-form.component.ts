@@ -3,7 +3,8 @@ import { Component, inject } from '@angular/core';
 import { FormBuilder, ReactiveFormsModule, Validators } from '@angular/forms';
 import { MatIconModule } from '@angular/material/icon';
 import { MatSnackBar } from '@angular/material/snack-bar';
-import { RouterLink } from '@angular/router';
+import { Router, RouterLink } from '@angular/router';
+import { UserService } from '../../services/user.service';
 
 @Component({
   selector: 'app-login-form',
@@ -14,6 +15,9 @@ import { RouterLink } from '@angular/router';
 export class LoginFormComponent {
   formBuilder = inject(FormBuilder);
   snackBar = inject(MatSnackBar);
+  userService = inject(UserService);
+  router = inject(Router);
+
   registerForm = this.formBuilder.group({
     email: ['', [ Validators.required, Validators.email ]],
     password: ['', [Validators.required, Validators.minLength(6) ]]
@@ -21,8 +25,20 @@ export class LoginFormComponent {
   isSubmited = false
 
   onSubmit(): void {
-    this.snackBar.open("TODO", 'Ok', { duration: 3000 });
+    if(this.registerForm.valid) {
+      if(this.logInUser(this.registerForm.get('email')!.value!, this.registerForm.get('password')!.value!)) {
+        this.router.navigate(['/home']);
+      } else {
+        this.snackBar.open("Los campos introducidos no coincide con ningún usuario registrado", 'Ok', { duration: 3000 });
+      }
+    } else {
+      this.snackBar.open("Los campos introducidos no son válidos", 'Ok', { duration: 3000 });
+    }
     this.isSubmited = true;
+  }
+
+  logInUser(email: string, password: string): boolean {
+    return this.userService.logInUser(email, password)
   }
 
   emailHasRequiredError(): boolean | undefined {

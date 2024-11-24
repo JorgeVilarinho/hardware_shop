@@ -1,0 +1,18 @@
+<div class="container mx-auto flex py-12">
+  <div class="flex flex-col gap-2">
+    <a class="w-[250px] rounded-md hover:bg-gray-300 p-2"
+      (click)="changeSelected('orders')"
+      [ngClass]="{'selected': ordersIsActive}">Pedidos</a>
+    <a class="w-[250px] rounded-md hover:bg-gray-300 p-2"
+      (click)="changeSelected('address')"
+      [ngClass]="{'selected': addressIsActive}">Direcciones</a>
+    <a class="w-[250px] rounded-md hover:bg-gray-300 p-2 mb-16"
+      (click)="changeSelected('data')"
+      [ngClass]="{'selected': dataIsActive}">Datos</a>
+    <a class="w-[250px] rounded-md hover:bg-gray-300 p-2"
+      (click)="openCloseSessionDialog()">Cerrar sesión</a>
+  </div>
+  <div>
+    ffffffff
+  </div>
+</div>

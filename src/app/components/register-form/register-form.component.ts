@@ -3,6 +3,7 @@ import { Component, inject } from '@angular/core';
 import { FormBuilder, ReactiveFormsModule, Validators } from '@angular/forms';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { RouterLink } from '@angular/router';
+import { UserService } from '../../services/user.service';
 
 @Component({
   selector: 'app-register-form',
@@ -13,6 +14,7 @@ import { RouterLink } from '@angular/router';
 export class RegisterFormComponent {
   formBuilder = inject(FormBuilder);
   snackbar = inject(MatSnackBar);
+  userService = inject(UserService);
   registerForm = this.formBuilder.group({
     clientName: ['', [ Validators.required ]],
     email: ['', [ Validators.required, Validators.email ]],
@@ -21,8 +23,19 @@ export class RegisterFormComponent {
   isSubmited = false
 
   onSubmit(): void {
-    this.snackbar.open("TODO", 'Ok', { duration: 3000 });
+    if(this.registerForm.valid) {
+      this.registerUser(this.registerForm.get('clientName')!.value!,
+      this.registerForm.get('email')!.value!,
+      this.registerForm.get('password')!.value!)
+    } else {
+      this.snackbar.open("No se puede hacer el registro debido a que los campos son inválidos", 'Ok', { duration: 3000 });
+    }
+
     this.isSubmited = true;
+  }
+
+  registerUser(name: string, email: string, password: string): void {
+    this.userService.registerUser(name, email, password);
   }
 
   emailHasRequiredError(): boolean | undefined {
