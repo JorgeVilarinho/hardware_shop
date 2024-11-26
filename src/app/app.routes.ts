@@ -32,11 +32,7 @@ export const routes: Routes = [
         ]
       },
       {
-        path: 'address', component: AddressComponent, children: [
-          {
-            path: 'create', component: AddressCreateComponent
-          }
-        ]
+        path: 'address', component: AddressComponent
       }
     ]
   },

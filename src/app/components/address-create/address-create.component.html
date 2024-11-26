@@ -1,1 +1,90 @@
-<p>address-create works!</p>
+<div class="w-[700px]">
+  <form name="form" [formGroup]="addressForm" (ngSubmit)="onSubmit()">
+    <div class="flex flex-col">
+      <h1 class="text-2xl basis-20">Agregar dirección</h1>
+      <div class="flex flex-col gap-2 mb-2">
+        <label for="email">Nombre y apellidos</label>
+        <input type="text" name="fullName" formControlName="fullName"
+          class="rounded-md w-full p-3 border border-gray-400 focus:border-amber-500 outline-none"
+          [class.invalid]="invalidName()"
+          [ngClass]="{'mb-5': !invalidName()}">
+      </div>
+      @if(nameHasRequiredError()) {
+        <span class="text-red-600 mb-5">Este campo es obligatorio</span>
+      }
+      <div class="flex flex-col gap-2 mb-2">
+        <label for="password">DNI</label>
+        <input type="text" name="dni" formControlName="dni"
+          (input)="dniToUpperCase()"
+          class="rounded-md w-full p-3 border border-gray-400 focus:border-amber-500 outline-none"
+          [class.invalid]="invalidDni()"
+          [ngClass]="{'mb-5': !invalidDni()}">
+      </div>
+      @if(dniHasRequiredError()) {
+        <span class="text-red-600 mb-5">Este campo es obligatorio</span>
+      }
+      @if(dniHasPatternError()) {
+        <span class="text-red-600 mb-5">Este campo debe contener 8 números y una letra</span>
+      }
+      <div class="flex flex-col gap-2 mb-2">
+        <label for="password">Direccion</label>
+        <input type="text" name="address" formControlName="address"
+          class="rounded-md w-full p-3 border border-gray-400 focus:border-amber-500 outline-none"
+          [class.invalid]="invalidAddress()"
+          [ngClass]="{'mb-5': !invalidAddress()}">
+      </div>
+      @if(addressHasRequiredError()) {
+        <span class="text-red-600 mb-5">Este campo es obligatorio</span>
+      }
+      <div class="flex flex-col gap-2 mb-2">
+        <label for="password">Código postal</label>
+        <input type="text" name="cp" formControlName="cp"
+          class="rounded-md w-full p-3 border border-gray-400 focus:border-amber-500 outline-none"
+          [class.invalid]="invalidCP()"
+          [ngClass]="{'mb-5': !invalidCP()}">
+      </div>
+      @if(cpHasRequiredError()) {
+        <span class="text-red-600 mb-5">Este campo es obligatorio</span>
+      }
+      @if(cpHasPatternError()) {
+        <span class="text-red-600 mb-5">Este campo debe de tener 5 dígitos</span>
+      }
+      <div class="flex flex-col gap-2 mb-2">
+        <label for="password">Provincia</label>
+        <input type="text" name="region" formControlName="region"
+          class="rounded-md w-full p-3 border border-gray-400 focus:border-amber-500 outline-none"
+          [class.invalid]="invalidProvincia()"
+          [ngClass]="{'mb-5': !invalidProvincia()}">
+      </div>
+      @if(provinciaHasRequiredError()) {
+        <span class="text-red-600 mb-5">Este campo es obligatorio</span>
+      }
+      <div class="flex flex-col gap-2 mb-2">
+        <label for="password">Ciudad</label>
+        <input type="text" name="city" formControlName="city"
+          class="rounded-md w-full p-3 border border-gray-400 focus:border-amber-500 outline-none"
+          [class.invalid]="invalidCity()"
+          [ngClass]="{'mb-5': !invalidCity()}">
+      </div>
+      @if(cityHasRequiredError()) {
+        <span class="text-red-600 mb-5">Este campo es obligatorio</span>
+      }
+      <div class="flex flex-col gap-2 mb-2">
+        <label for="password">Teléfono</label>
+        <input type="tel" name="phone" formControlName="phone"
+          class="rounded-md w-full p-3 border border-gray-400 focus:border-amber-500 outline-none"
+          [class.invalid]="invalidPhone()"
+          [ngClass]="{'mb-5': !invalidPhone()}">
+      </div>
+      @if(phoneHasRequiredError()) {
+        <span class="text-red-600 mb-5">Este campo es obligatorio</span>
+      }
+      @if(phoneHasPatternError()) {
+        <span class="text-red-600 mb-5">Este campo debe tener 9 dígitos</span>
+      }
+      <button class="bg-amber-500 rounded-md w-full p-2 text-white mb-5" type="submit">Guardar dirección</button>
+      <button class="bg-white rounded-md w-full p-2 border border-gray-400 text-black mb-5"
+        (click)="changeInitialAddressComponentToActive()">Cancelar</button>
+    </div>
+  </form>
+</div>
