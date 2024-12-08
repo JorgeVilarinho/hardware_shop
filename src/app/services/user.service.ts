@@ -1,9 +1,12 @@
+import { LocalStorageService } from './local-storage.service';
 import { Injectable, inject } from '@angular/core';
 import { Client } from '../models/client.model';
-import { BehaviorSubject } from 'rxjs';
+import { BehaviorSubject, Observable } from 'rxjs';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { Router } from '@angular/router';
 import { Address } from '../models/address.model';
+import { HttpClient } from '@angular/common/http';
+import { environment } from '../../environments/environment.development';
 
 @Injectable({
   providedIn: 'root'
@@ -11,57 +14,162 @@ import { Address } from '../models/address.model';
 export class UserService {
   snackbar = inject(MatSnackBar);
   router = inject(Router);
-  users: Array<Client> = [
-    {
-      name: 'Jorge Vilarño Cagiao',
-      email: 'jorgevilarino05@gmail.com',
-      password: 'january24'
-    }
-  ];
-  loggedInUser = new BehaviorSubject<Client | null>(null);
+  localStorageService = inject(LocalStorageService);
+  httpClient = inject(HttpClient);
 
-  userExists(email: string): boolean {
-    const user = this.users.find((_user) => _user.email == email);
-    if(user) return true;
+  loggedInUser: Client | undefined;
+  userIsLoggedIn = new BehaviorSubject<boolean>(this.initializeLoggedInUser());
 
-    return false;
+  getNameFromLoggedInUser(): string {
+    return this.loggedInUser?.name ?? '';
   }
 
-  logInUser(email: string, password: string): boolean {
-    const user = this.users.find((_user) => _user.email == email && _user.password == password);
-    if(user) {
-      this.loggedInUser.next(user);
-      return true
-    }
-
-    return false;
+  getDniFromLoggedInUser(): string {
+    return this.loggedInUser?.dni ?? '';
   }
 
-  logOutUser() {
-    this.loggedInUser.next(null);
+  getEmailFromLoggedInUser(): string {
+    return this.loggedInUser?.email ?? '';
   }
 
-  registerUser(name: string, email: string, password: string): void {
-    if(this.userExists(email)) {
-      this.snackbar.open("Ya existe un usuario con ese email. Intentelo con otro email", "Ok", { duration: 3000 });
-    } else {
-      this.users.push({
+  getPhoneFromLoggedInUser(): string {
+    return this.loggedInUser?.phone ?? '';
+  }
+
+  initializeLoggedInUser(): boolean {
+    // let value = this.localStorageService.getItem("user");
+
+    // if(value) {
+    //   let user: Client = JSON.parse(value);
+    //   return user;
+    // }
+
+    // return null;
+    let isAuthenticated = false;
+
+    this.httpClient.get<any>(`${environment.apiBaseUrl}auth/isAuthenticated`, 
+      { observe: 'response', withCredentials: true }).subscribe(result => {
+        if(result.ok) {
+          isAuthenticated = true;
+        } else {
+          isAuthenticated = false;
+        }
+      }
+    );
+
+    return isAuthenticated;
+  }
+
+  logInUser(email: string, password: string): void {
+    this.httpClient.post<any>(`${environment.apiBaseUrl}auth/login`, {
+      email,
+      password
+    }, { observe: 'response', withCredentials: true }).
+    subscribe(result => {
+      if(result.ok) {
+       this.snackbar.open(result.body.message, 'Ok', { duration: 3000 });
+       let client: Client = {
+         name:  result.body.userData.name,
+         email: result.body.userData.email,
+         dni: result.body.userData.dni,
+         phone: result.body.userData.phone
+       }
+       
+       this.loggedInUser = client;
+       this.userIsLoggedIn.next(true);
+
+       this.router.navigate(['/home']);
+      } else {
+       this.snackbar.open(result.body.message, 'Ok', { duration: 3000 });
+      }
+   });
+  }
+
+  public logOutUser(): void {
+    this.httpClient.post<any>(`${environment.apiBaseUrl}auth/logout`, 
+      null,
+      { observe: 'response', withCredentials: true }).
+      subscribe(result => {
+        console.log(result);
+        if(result.ok) {
+          this.loggedInUser = undefined;
+          this.userIsLoggedIn.next(false);
+        }
+      }
+    );
+  }
+
+  public registerUser(name: string, email: string, password: string): void {
+    this.httpClient.post<any>(`${environment.apiBaseUrl}auth/register`, 
+      {
+        name,
+        email, 
+        password
+      },
+      { observe: 'response' }).
+      subscribe(result => {
+        if(result.ok) {
+          this.snackbar.open('Se ha realizado el registro correctamente', 'Ok', { duration: 3000 });
+          this.router.navigate(['/login']);
+        } else {
+          this.snackbar.open(result.body.message, "Ok", { duration: 3000 });
+        }
+      }
+    );
+  }
+
+  public changeUserData(name: string, dni: string, email: string, phone: string): void {
+    this.httpClient.put<any>(`${environment.apiBaseUrl}users/data`, 
+      {
         name,
         email,
-        password
-      });
-      this.logInUser(email, password);
-      this.router.navigate(['/home']);
+        dni,
+        phone
+      },
+      { observe: 'response', withCredentials: true }).
+      subscribe(result => {
+        this.snackbar.open(result.body.message, 'Ok', { duration: 3000 });
+      }
+    );
+  }
+
+  public changePassword(newPassword: string): void {
+    this.httpClient.put<any>(`${environment.apiBaseUrl}users/password`,
+      {
+        password: newPassword
+      },
+      { observe: 'response', withCredentials: true })
+      .subscribe(result => {
+        this.snackbar.open(result.body.message, 'Ok', { duration: 3000 });
+      }
+    );
+  }
+
+  public addAddressToLoggedInUser(address: Address): void {
+    let user = this.userIsLoggedIn.value;
+
+    if(user) {
+      // const userToAddAddress = this.users.find((_user) => _user.email === user.email);
+      // userToAddAddress!.address = address;
+      // user.address = address;
+      // this.localStorageService.setItem("user", JSON.stringify(user));
+      // this.userIsLoggedIn.next(user);
+      this.snackbar.open("Se ha añadido correctamente la nueva dirección al usuario.", "Ok", { duration: 3000 })
+    } else {
+      this.snackbar.open("ERROR: No se ha podido añadir correctamente la nueva dirección.", "Ok", { duration: 3000 })
     }
   }
 
-  addAddressToLoggedInUser(address: Address): void {
-    let user = this.loggedInUser.value;
+  public deleteAddressToLoggedInUser(): void {
+    let user = this.userIsLoggedIn.value;
 
     if(user) {
-      const userToAddAddress = this.users.find((_user) =>_user.email === user.email);
-      userToAddAddress!.address = address;
-      this.snackbar.open("Se ha añadido correctamente la nueva dirección al usuario.", "Ok", { duration: 3000 })
+      // user.address = undefined;
+      // this.localStorageService.setItem("user", JSON.stringify(user));
+      // this.userIsLoggedIn.next(user);
+      this.snackbar.open("Se ha eliminado correctamente la dirección", "Ok", { duration: 3000 });
+    } else {
+      this.snackbar.open("ERROR: No se ha eliminado correctamente la dirección", "Ok", { duration: 3000 });
     }
   }
 

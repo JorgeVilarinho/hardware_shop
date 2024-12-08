@@ -34,6 +34,7 @@ export class AddressCreateComponent {
   onSubmit(): void {
     if(this.addressForm.valid) {
       this.addAddressToLoggedInUser();
+      this.stateService.changeInitialAddressComponentToActive();
       this.snackBar.open("Se ha añadido correctamente la dirección del usuario", 'Ok', { duration: 3000 });
     } else {
       this.snackBar.open("Los campos introducidos no son válidos", 'Ok', { duration: 3000 });
@@ -137,7 +138,6 @@ export class AddressCreateComponent {
   addAddressToLoggedInUser(): void {
     this.userService.addAddressToLoggedInUser({
       fullName: this.addressForm.get('fullName')!.value!,
-      dni: this.addressForm.get('dni')!.value!,
       address: this.addressForm.get('address')!.value!,
       cp: this.addressForm.get('cp')!.value!,
       region: this.addressForm.get('region')!.value!,

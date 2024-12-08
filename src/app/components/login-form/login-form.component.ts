@@ -5,6 +5,8 @@ import { MatIconModule } from '@angular/material/icon';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { Router, RouterLink } from '@angular/router';
 import { UserService } from '../../services/user.service';
+import { HttpResponse } from '@angular/common/http';
+import { Client } from '../../models/client.model';
 
 @Component({
   selector: 'app-login-form',
@@ -26,19 +28,20 @@ export class LoginFormComponent {
 
   onSubmit(): void {
     if(this.registerForm.valid) {
-      if(this.logInUser(this.registerForm.get('email')!.value!, this.registerForm.get('password')!.value!)) {
-        this.router.navigate(['/home']);
-      } else {
-        this.snackBar.open("Los campos introducidos no coincide con ningún usuario registrado", 'Ok', { duration: 3000 });
-      }
+      // if(this.logInUser(this.registerForm.get('email')!.value!, this.registerForm.get('password')!.value!)) {
+      //   this.router.navigate(['/home']);
+      // } else {
+      //   this.snackBar.open("Los campos introducidos no coincide con ningún usuario registrado", 'Ok', { duration: 3000 });
+      // }
+      this.logInUser(this.registerForm.get('email')!.value!, this.registerForm.get('password')!.value!);
     } else {
       this.snackBar.open("Los campos introducidos no son válidos", 'Ok', { duration: 3000 });
     }
     this.isSubmited = true;
   }
 
-  logInUser(email: string, password: string): boolean {
-    return this.userService.logInUser(email, password)
+  logInUser(email: string, password: string): void {
+    this.userService.logInUser(email, password);
   }
 
   emailHasRequiredError(): boolean | undefined {

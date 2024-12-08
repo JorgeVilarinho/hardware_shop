@@ -24,21 +24,21 @@ import { User } from '../../models/user.model';
 export class HeaderComponent {
   stateService: StateService = inject(StateService);
   cartService: CartService = inject(CartService);
-  userService: UserService = inject(UserService)
+  userService: UserService = inject(UserService);
 
   cart: Cart = {
     items: []
   };
-  user: User | null = null;
+  isLoggedIn: boolean = false;
 
   constructor() {
     this.cartService.productsInCart.
     pipe(takeUntilDestroyed())
     .subscribe((_cart) => this.cart = _cart);
 
-    this.userService.loggedInUser.
+    this.userService.userIsLoggedIn.
     pipe(takeUntilDestroyed())
-    .subscribe((_user) => this.user = _user);
+    .subscribe((_isLoggedIn) => this.isLoggedIn = _isLoggedIn);
   }
 
   changeOpenedState() {

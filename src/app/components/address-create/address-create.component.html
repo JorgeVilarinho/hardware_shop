@@ -13,20 +13,6 @@
         <span class="text-red-600 mb-5">Este campo es obligatorio</span>
       }
       <div class="flex flex-col gap-2 mb-2">
-        <label for="password">DNI</label>
-        <input type="text" name="dni" formControlName="dni"
-          (input)="dniToUpperCase()"
-          class="rounded-md w-full p-3 border border-gray-400 focus:border-amber-500 outline-none"
-          [class.invalid]="invalidDni()"
-          [ngClass]="{'mb-5': !invalidDni()}">
-      </div>
-      @if(dniHasRequiredError()) {
-        <span class="text-red-600 mb-5">Este campo es obligatorio</span>
-      }
-      @if(dniHasPatternError()) {
-        <span class="text-red-600 mb-5">Este campo debe contener 8 números y una letra</span>
-      }
-      <div class="flex flex-col gap-2 mb-2">
         <label for="password">Direccion</label>
         <input type="text" name="address" formControlName="address"
           class="rounded-md w-full p-3 border border-gray-400 focus:border-amber-500 outline-none"
@@ -83,7 +69,7 @@
         <span class="text-red-600 mb-5">Este campo debe tener 9 dígitos</span>
       }
       <button class="bg-amber-500 rounded-md w-full p-2 text-white mb-5" type="submit">Guardar dirección</button>
-      <button class="bg-white rounded-md w-full p-2 border border-gray-400 text-black mb-5"
+      <button class="bg-white rounded-md w-full p-2 border border-gray-400 text-black mb-5" type="button"
         (click)="changeInitialAddressComponentToActive()">Cancelar</button>
     </div>
   </form>

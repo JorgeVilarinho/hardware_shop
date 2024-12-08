@@ -7,7 +7,7 @@ import { AccountComponent } from './pages/account/account.component';
 import { OrdersComponent } from './components/orders/orders.component';
 import { CanceledOrdersComponent } from './components/canceled-orders/canceled-orders.component';
 import { AddressComponent } from './components/address/address.component';
-import { AddressCreateComponent } from './components/address-create/address-create.component';
+import { UserDataComponent } from './components/user-data/user-data.component';
 
 export const routes: Routes = [
   {
@@ -33,6 +33,9 @@ export const routes: Routes = [
       },
       {
         path: 'address', component: AddressComponent
+      },
+      {
+        path: 'data', component: UserDataComponent
       }
     ]
   },
