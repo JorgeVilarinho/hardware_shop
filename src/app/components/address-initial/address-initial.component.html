@@ -1,20 +1,20 @@
-<div class="mb-7 flex w-[700px] justify-between">
+<div class="mb-7 flex justify-between">
   <h1 class="text-2xl">Direcciones</h1>
   <button class="bg-amber-500 rounded p-2 text-white"
     (click)="changeToAddressCreateComponent()">Añadir dirección</button>
 </div>
-@if(address) {
-  <div class="border rounded-md p-4 py-2 border-gray-400 max-w-[400px] transition-colors hover:border-amber-500">
+@for (address of addresses; track address.id) {
+  <div class="border rounded-md p-4 py-2 border-gray-400 min-w-[300px] mb-4 transition-colors hover:border-amber-500">
     <div class="flex justify-between">
-      <h2 class="mb-2 text-xl font-medium">{{ address!.fullName }}</h2>
-      <button mat-icon-button (click)="deleteAddress()">
+      <h2 class="mb-2 text-xl font-medium">{{ address.nombre }}</h2>
+      <button mat-icon-button (click)="deleteAddress(address.id)">
         <mat-icon>delete</mat-icon>
       </button>
     </div>
-    <p class="text-base">{{ address!.address }}</p>
-    <p class="text-base">{{ address!.city }}, {{ address!.region }} {{ address!.cp }}</p>
-    <p class="text-base">Número de teléfono: {{ address!.phone }}</p>
+    <p class="text-base">{{ address.direccion }}</p>
+    <p class="text-base">{{ address.ciudad }}, {{ address.provincia }} {{ address.cod_postal }}</p>
+    <p class="text-base">Número de teléfono: {{ address.telefono }}</p>
   </div>
-} @else {
+} @empty {
   <p class="text-gray-500">Todavía no tienes ninguna dirección</p>
 }

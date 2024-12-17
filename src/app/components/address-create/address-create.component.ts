@@ -12,7 +12,6 @@ import { UserService } from '../../services/user.service';
   styleUrl: './address-create.component.css'
 })
 export class AddressCreateComponent {
-  dniRegex = /^[0-9]{8}[TRWAGMYFPDXBNJZSQVHLCKE]$/i;
   cpRegex = /^[0-9]{5}$/i;
   phoneRegex = /^[0-9]{9}$/i
 
@@ -22,7 +21,6 @@ export class AddressCreateComponent {
   userService = inject(UserService);
   addressForm = this.formBuilder.group({
     fullName: ['', Validators.required],
-    dni: ['', [ Validators.required, Validators.pattern(this.dniRegex) ]],
     address: ['', Validators.required],
     cp: ['', [ Validators.required, Validators.pattern(this.cpRegex) ]],
     region: ['', Validators.required],
@@ -33,9 +31,7 @@ export class AddressCreateComponent {
 
   onSubmit(): void {
     if(this.addressForm.valid) {
-      this.addAddressToLoggedInUser();
-      this.stateService.changeInitialAddressComponentToActive();
-      this.snackBar.open("Se ha añadido correctamente la dirección del usuario", 'Ok', { duration: 3000 });
+      this.addAddress();
     } else {
       this.snackBar.open("Los campos introducidos no son válidos", 'Ok', { duration: 3000 });
     }
@@ -45,16 +41,6 @@ export class AddressCreateComponent {
   nameHasRequiredError(): boolean | undefined {
     return this.addressForm.get('fullName')?.hasError('required') && (this.addressForm.get('fullName')?.dirty
     || this.addressForm.get('fullName')?.touched || this.isSubmited);
-  }
-
-  dniHasRequiredError(): boolean | undefined {
-    return this.addressForm.get('dni')?.hasError('required') && (this.addressForm.get('dni')?.dirty
-    || this.addressForm.get('dni')?.touched || this.isSubmited);
-  }
-
-  dniHasPatternError(): boolean | undefined {
-    return this.addressForm.get('dni')?.hasError('pattern') && (this.addressForm.get('dni')?.dirty
-    || this.addressForm.get('dni')?.touched || this.isSubmited);
   }
 
   addressHasRequiredError(): boolean | undefined {
@@ -97,11 +83,6 @@ export class AddressCreateComponent {
           || this.addressForm.get('fullName')?.touched || this.isSubmited);
   }
 
-  invalidDni(): boolean | undefined {
-    return this.addressForm.get('dni')?.invalid && (this.addressForm.get('dni')?.dirty
-          || this.addressForm.get('dni')?.touched || this.isSubmited);
-  }
-
   invalidAddress(): boolean | undefined {
     return this.addressForm.get('address')?.invalid && (this.addressForm.get('address')?.dirty
           || this.addressForm.get('address')?.touched || this.isSubmited);
@@ -127,22 +108,17 @@ export class AddressCreateComponent {
           || this.addressForm.get('phone')?.touched || this.isSubmited);
   }
 
-  dniToUpperCase(): void {
-    this.addressForm.get('dni')!.setValue(this.addressForm.get('dni')?.getRawValue().toUpperCase());
-  }
-
   changeInitialAddressComponentToActive(): void {
     this.stateService.changeInitialAddressComponentToActive();
   }
 
-  addAddressToLoggedInUser(): void {
-    this.userService.addAddressToLoggedInUser({
-      fullName: this.addressForm.get('fullName')!.value!,
-      address: this.addressForm.get('address')!.value!,
-      cp: this.addressForm.get('cp')!.value!,
-      region: this.addressForm.get('region')!.value!,
-      city: this.addressForm.get('city')!.value!,
-      phone: this.addressForm.get('phone')!.value!
-    })
+  addAddress(): void {
+    this.userService.addAddress(
+      this.addressForm.get('fullName')!.value!,
+      this.addressForm.get('address')!.value!,
+      this.addressForm.get('cp')!.value!,
+      this.addressForm.get('region')!.value!,
+      this.addressForm.get('city')!.value!,
+      this.addressForm.get('phone')!.value!)
   }
 }

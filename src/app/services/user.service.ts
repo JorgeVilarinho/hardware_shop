@@ -1,12 +1,13 @@
 import { LocalStorageService } from './local-storage.service';
 import { Injectable, inject } from '@angular/core';
 import { Client } from '../models/client.model';
-import { BehaviorSubject, Observable } from 'rxjs';
+import { BehaviorSubject } from 'rxjs';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { Router } from '@angular/router';
 import { Address } from '../models/address.model';
 import { HttpClient } from '@angular/common/http';
 import { environment } from '../../environments/environment.development';
+import { StateService } from './state.service';
 
 @Injectable({
   providedIn: 'root'
@@ -15,10 +16,14 @@ export class UserService {
   snackbar = inject(MatSnackBar);
   router = inject(Router);
   localStorageService = inject(LocalStorageService);
+  stateService = inject(StateService);
   httpClient = inject(HttpClient);
 
   loggedInUser: Client | undefined;
   userIsLoggedIn = new BehaviorSubject<boolean>(this.initializeLoggedInUser());
+  addedAddress = new BehaviorSubject<Address | undefined>(undefined);
+  initializeAddresses = new BehaviorSubject<Address[] | undefined>(undefined);
+  deletedAddress = new BehaviorSubject<number | undefined>(undefined);
 
   getNameFromLoggedInUser(): string {
     return this.loggedInUser?.name ?? '';
@@ -90,7 +95,6 @@ export class UserService {
       null,
       { observe: 'response', withCredentials: true }).
       subscribe(result => {
-        console.log(result);
         if(result.ok) {
           this.loggedInUser = undefined;
           this.userIsLoggedIn.next(false);
@@ -145,32 +149,59 @@ export class UserService {
     );
   }
 
-  public addAddressToLoggedInUser(address: Address): void {
-    let user = this.userIsLoggedIn.value;
-
-    if(user) {
-      // const userToAddAddress = this.users.find((_user) => _user.email === user.email);
-      // userToAddAddress!.address = address;
-      // user.address = address;
-      // this.localStorageService.setItem("user", JSON.stringify(user));
-      // this.userIsLoggedIn.next(user);
-      this.snackbar.open("Se ha añadido correctamente la nueva dirección al usuario.", "Ok", { duration: 3000 })
-    } else {
-      this.snackbar.open("ERROR: No se ha podido añadir correctamente la nueva dirección.", "Ok", { duration: 3000 })
-    }
+  public initAddresses(): void {
+    this.httpClient.get<any>(`${environment.apiBaseUrl}users/addresses`, 
+      { observe: 'response', withCredentials: true })
+      .subscribe(result => {
+        if(result.ok) {
+          this.initializeAddresses.next(result.body.addresses)
+        } else {
+          this.snackbar.open(result.body.message, 'Ok', { duration: 3000 })
+        }
+      }
+    );
   }
 
-  public deleteAddressToLoggedInUser(): void {
-    let user = this.userIsLoggedIn.value;
+  public addAddress(name: string, address: string, cp: string, province: string, city: string, phone: string): void {
+    this.httpClient.post<any>(`${environment.apiBaseUrl}users/address`,
+      {
+        name,
+        address,
+        cp,
+        province,
+        city,
+        phone
+      },
+      { observe: 'response', withCredentials: true })
+      .subscribe(result => {
+        if(result.ok) {
+          this.stateService.changeInitialAddressComponentToActive()
+          this.addedAddress.next({
+            id: result.body.address.id,
+            nombre: result.body.address.name,
+            direccion: result.body.address.address,
+            cod_postal: result.body.address.cp,
+            provincia: result.body.address.province,
+            ciudad: result.body.address.city,
+            telefono: result.body.address.phone
+          });
+        }
 
-    if(user) {
-      // user.address = undefined;
-      // this.localStorageService.setItem("user", JSON.stringify(user));
-      // this.userIsLoggedIn.next(user);
-      this.snackbar.open("Se ha eliminado correctamente la dirección", "Ok", { duration: 3000 });
-    } else {
-      this.snackbar.open("ERROR: No se ha eliminado correctamente la dirección", "Ok", { duration: 3000 });
-    }
+        this.snackbar.open(result.body.message, 'Ok', { duration: 3000 })
+      }
+    );
+  }
+
+  public deleteAddress(id: number): void {
+    this.httpClient.delete<any>(`${environment.apiBaseUrl}users/address/${id}`,
+      { observe: 'response', withCredentials: true })
+      .subscribe(result => {
+        if(result.ok) {
+          this.deletedAddress.next(id);
+        }
+
+        this.snackbar.open(result.body.message, 'Ok', { duration: 3000 })
+      });
   }
 
   constructor() { }
