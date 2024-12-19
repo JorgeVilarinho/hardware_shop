@@ -19,7 +19,7 @@ export class AddressInitialComponent implements OnInit {
   addresses: Address[] = [];
 
   constructor() {
-    this.userService.initializeAddresses
+    this.userService.initializeAddressesSubject
       .pipe(takeUntilDestroyed())
       .subscribe(_addresses => {
         if(_addresses) {
@@ -28,7 +28,7 @@ export class AddressInitialComponent implements OnInit {
       }
     );
 
-    this.userService.addedAddress
+    this.userService.addedAddressSubject
      .pipe(takeUntilDestroyed())
      .subscribe(_address => {
       if(_address) {
@@ -37,7 +37,7 @@ export class AddressInitialComponent implements OnInit {
      }
     );
 
-    this.userService.deletedAddress
+    this.userService.deletedAddressSubject
       .pipe(takeUntilDestroyed())
       .subscribe(_id => {
         if(_id) {

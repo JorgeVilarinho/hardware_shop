@@ -20,36 +20,16 @@ export class UserService {
   httpClient = inject(HttpClient);
 
   loggedInUser: Client | undefined;
-  userIsLoggedIn = new BehaviorSubject<boolean>(this.initializeLoggedInUser());
-  addedAddress = new BehaviorSubject<Address | undefined>(undefined);
-  initializeAddresses = new BehaviorSubject<Address[] | undefined>(undefined);
-  deletedAddress = new BehaviorSubject<number | undefined>(undefined);
+  userIsLoggedInSubject = new BehaviorSubject<boolean>(this.initializeLoggedInUser());
+  addedAddressSubject = new BehaviorSubject<Address | undefined>(undefined);
+  initializeAddressesSubject = new BehaviorSubject<Address[] | undefined>(undefined);
+  deletedAddressSubject = new BehaviorSubject<number | undefined>(undefined);
+  getOrUpdateClientDataSubject = new BehaviorSubject<Client | undefined>(undefined);
+  
+  client$ = this.getOrUpdateClientDataSubject.asObservable()
 
-  getNameFromLoggedInUser(): string {
-    return this.loggedInUser?.name ?? '';
-  }
-
-  getDniFromLoggedInUser(): string {
-    return this.loggedInUser?.dni ?? '';
-  }
-
-  getEmailFromLoggedInUser(): string {
-    return this.loggedInUser?.email ?? '';
-  }
-
-  getPhoneFromLoggedInUser(): string {
-    return this.loggedInUser?.phone ?? '';
-  }
-
-  initializeLoggedInUser(): boolean {
-    // let value = this.localStorageService.getItem("user");
-
-    // if(value) {
-    //   let user: Client = JSON.parse(value);
-    //   return user;
-    // }
-
-    // return null;
+  // TODO: This method is not working
+  private initializeLoggedInUser(): boolean {
     let isAuthenticated = false;
 
     this.httpClient.get<any>(`${environment.apiBaseUrl}auth/isAuthenticated`, 
@@ -65,7 +45,7 @@ export class UserService {
     return isAuthenticated;
   }
 
-  logInUser(email: string, password: string): void {
+  public logInUser(email: string, password: string): void {
     this.httpClient.post<any>(`${environment.apiBaseUrl}auth/login`, {
       email,
       password
@@ -81,7 +61,7 @@ export class UserService {
        }
        
        this.loggedInUser = client;
-       this.userIsLoggedIn.next(true);
+       this.userIsLoggedInSubject.next(true);
 
        this.router.navigate(['/home']);
       } else {
@@ -97,7 +77,7 @@ export class UserService {
       subscribe(result => {
         if(result.ok) {
           this.loggedInUser = undefined;
-          this.userIsLoggedIn.next(false);
+          this.userIsLoggedInSubject.next(false);
         }
       }
     );
@@ -122,6 +102,24 @@ export class UserService {
     );
   }
 
+  public getUserData(): void {
+    this.httpClient.get<any>(`${environment.apiBaseUrl}users/data`, 
+      { observe: 'response', withCredentials: true })
+      .subscribe(result => {
+        if(result.ok) {
+          this.getOrUpdateClientDataSubject.next({
+            name: result.body.data.fullname,
+            email: result.body.data.email,
+            dni: result.body.data.dni,
+            phone: result.body.data.phone
+          })
+        } else {
+          this.snackbar.open(result.body.message, "Ok", { duration: 3000 });
+        }
+      }
+    );
+  }
+
   public changeUserData(name: string, dni: string, email: string, phone: string): void {
     this.httpClient.put<any>(`${environment.apiBaseUrl}users/data`, 
       {
@@ -132,6 +130,15 @@ export class UserService {
       },
       { observe: 'response', withCredentials: true }).
       subscribe(result => {
+        if(result.ok) {
+          this.getOrUpdateClientDataSubject.next({
+            name,
+            email,
+            dni,
+            phone
+          });
+        }
+
         this.snackbar.open(result.body.message, 'Ok', { duration: 3000 });
       }
     );
@@ -154,7 +161,7 @@ export class UserService {
       { observe: 'response', withCredentials: true })
       .subscribe(result => {
         if(result.ok) {
-          this.initializeAddresses.next(result.body.addresses)
+          this.initializeAddressesSubject.next(result.body.addresses)
         } else {
           this.snackbar.open(result.body.message, 'Ok', { duration: 3000 })
         }
@@ -176,7 +183,7 @@ export class UserService {
       .subscribe(result => {
         if(result.ok) {
           this.stateService.changeInitialAddressComponentToActive()
-          this.addedAddress.next({
+          this.addedAddressSubject.next({
             id: result.body.address.id,
             nombre: result.body.address.name,
             direccion: result.body.address.address,
@@ -197,7 +204,7 @@ export class UserService {
       { observe: 'response', withCredentials: true })
       .subscribe(result => {
         if(result.ok) {
-          this.deletedAddress.next(id);
+          this.deletedAddressSubject.next(id);
         }
 
         this.snackbar.open(result.body.message, 'Ok', { duration: 3000 })

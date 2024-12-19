@@ -36,7 +36,7 @@ export class HeaderComponent {
     pipe(takeUntilDestroyed())
     .subscribe((_cart) => this.cart = _cart);
 
-    this.userService.userIsLoggedIn.
+    this.userService.userIsLoggedInSubject.
     pipe(takeUntilDestroyed())
     .subscribe((_isLoggedIn) => this.isLoggedIn = _isLoggedIn);
   }

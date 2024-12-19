@@ -1,8 +1,9 @@
-import { Component, inject } from '@angular/core';
+import { Component, inject, OnInit } from '@angular/core';
 import { FormBuilder, ReactiveFormsModule, Validators } from '@angular/forms';
 import { UserService } from '../../services/user.service';
 import { NgClass } from '@angular/common';
 import { MatSnackBar } from '@angular/material/snack-bar';
+import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 
 @Component({
   selector: 'app-user-data',
@@ -10,7 +11,7 @@ import { MatSnackBar } from '@angular/material/snack-bar';
   templateUrl: './user-data.component.html',
   styleUrl: './user-data.component.css'
 })
-export class UserDataComponent {
+export class UserDataComponent implements OnInit {
   dniRegex = /^[0-9]{8}[TRWAGMYFPDXBNJZSQVHLCKE]$/i;
   phoneRegex = /^[0-9]{9}$/i;
 
@@ -18,17 +19,13 @@ export class UserDataComponent {
   userService = inject(UserService);
   snackbar = inject(MatSnackBar);
 
-  fullname: string = this.userService.getNameFromLoggedInUser();
-  dni: string = this.userService.getDniFromLoggedInUser();
-  email: string = this.userService.getEmailFromLoggedInUser();
-  phone: string = this.userService.getPhoneFromLoggedInUser();
   password: string = this.generateExamplePassword();
 
   dataForm = this.formBuilder.group({
-    fullName: [this.fullname, Validators.required ],
-    dni: [this.dni, [ Validators.required, Validators.pattern(this.dniRegex) ]],
-    email: [this.email, [ Validators.required, Validators.email ]],
-    phone: [this.phone, [ Validators.required, Validators.pattern(this.phoneRegex) ]]
+    fullName: ['', Validators.required ],
+    dni: ['', [ Validators.required, Validators.pattern(this.dniRegex) ]],
+    email: ['', [ Validators.required, Validators.email ]],
+    phone: ['', [ Validators.required, Validators.pattern(this.phoneRegex) ]]
   });
   passwordForm = this.formBuilder.group({
     password: [this.password, [ Validators.required, Validators.minLength(6) ]]
@@ -38,7 +35,19 @@ export class UserDataComponent {
   passwordFormIsSubmited = false;
 
   constructor() {
+    this.userService.client$
+      .pipe(takeUntilDestroyed())
+      .subscribe(client => {
+        this.dataForm.get('fullName')?.setValue(client?.name ?? '');
+        this.dataForm.get('dni')!.setValue(client?.dni ?? '');
+        this.dataForm.get('email')!.setValue(client?.email ?? '');
+        this.dataForm.get('phone')!.setValue(client?.phone ?? '');
+      }
+    );
+  }
 
+  ngOnInit(): void {
+    this.userService.getUserData();
   }
 
   public onSubmitUserData(): void {
