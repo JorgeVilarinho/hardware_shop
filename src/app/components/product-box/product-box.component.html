@@ -1,21 +1,40 @@
-<mat-card class="p-4 max-w-[300px]">
+<div class="p-4 bg-white rounded-lg max-w-[300px] shadow-lg">
   <div class="relative mb-5">
     @if(product?.discount) {
-      <div class="absolute top-3 left-3 bg-red-600 rounded-full px-2">
-        <span class="text-sm text-white">Dto. {{ product?.discount }}%</span>
-      </div>
+    <div class="absolute top-2 left-2 bg-red-600 rounded-full px-2.5">
+      <span class="text-sm font-medium text-white">Dto. {{ product?.discount }}%</span>
+    </div>
     }
-    <img src="https://placehold.co/300x300" alt="" class="mb-3">
-    <p class="line-clamp-2">{{ product?.name }}</p>
+    <img
+      [src]="'http://localhost:8080/images/' + product?.image"
+      alt="Imagen del producto"
+      class="mb-3"
+    />
+    <p class="line-clamp-2 font-medium">{{ product?.name }}</p>
   </div>
   <div>
-    <div [ngClass]="{ 'invisible': !product?.discount }" class="text-slate-500 underline 
-    line-through invisible">{{ (product!.price * (100 - product!.discount) / 100) | currency:'EUR' }}</div>
-    <div class="text-red-600 mb-2">{{ product!.price | currency:'EUR' }}</div>
+    @if(product?.discount) {
+    <div class="text-slate-500 underline line-through">
+      {{ product!.price | currency : "EUR" }}
+    </div>
+    <div class="text-red-600 mb-2 text-xl">
+      {{ (product!.price * (100 - product!.discount)) / 100 | currency : "EUR" }}
+    </div>
+    } @else {
+    <div class="invisible text-slate-500 underline line-through">
+      {{ product!.price }}
+    </div>
+    <div class="text-red-600 mb-2 text-xl">
+      {{ product!.price | currency : "EUR" }}
+    </div>
+    }
     <button
       mat-button
       disableRipple="true"
       (click)="onAddProductToCart()"
-      class="!w-full !bg-red-600 !active:bg-red-800 !text-white !py-1 !mt-1 !rounded-md">Añadir</button>
+      class="!w-full !bg-red-600 !active:bg-red-800 !text-white !py-1 !mt-1 !rounded-md"
+    >
+      Añadir
+    </button>
   </div>
-</mat-card>
+</div>

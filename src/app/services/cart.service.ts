@@ -25,10 +25,19 @@ export class CartService {
     const itemInCart = items.find(_item => _item.id == item.id);
 
     if(itemInCart) {
+      if(itemInCart.units >= item.units) {
+        this.snackBar.open('No se pueden añadir más unidades del producto ' 
+          + 'debido a que no tenemos más en la tienda', 'Ok', { duration: 3000 });
+        return
+      }
+
       itemInCart.units += 1;
       this.message = "Se ha incrementado el producto a una unidad más";
     } else {
-      items.push(item);
+      const copyOfItem = { ...item };
+      copyOfItem.units = 1;
+
+      items.push(copyOfItem);
       this.message = "Se ha añadido el producto correctamente";
     }
 
