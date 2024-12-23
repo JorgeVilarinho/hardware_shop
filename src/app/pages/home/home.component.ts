@@ -1,10 +1,11 @@
 import { StateService } from './../../services/state.service';
 import { BreakpointObserver, Breakpoints } from '@angular/cdk/layout';
-import { Component, inject } from '@angular/core';
+import { Component, inject, OnInit } from '@angular/core';
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import { MatGridListModule } from '@angular/material/grid-list';
 import { ProductBoxComponent } from "../../components/product-box/product-box.component";
 import { Product } from '../../models/product.model';
+import { ProductsService } from '../../services/products.service';
 
 @Component({
   selector: 'app-home',
@@ -12,87 +13,25 @@ import { Product } from '../../models/product.model';
   templateUrl: './home.component.html',
   styleUrl: './home.component.css'
 })
-export class HomeComponent {
-  breakpointObserver: BreakpointObserver = inject(BreakpointObserver);
-  stateService: StateService = inject(StateService);
-  cols: number = 5;
+export class HomeComponent implements OnInit {
+  breakpointObserver = inject(BreakpointObserver);
+  stateService = inject(StateService);
+  productsService = inject(ProductsService);
 
-  products: Array<Product> = [
-    {
-      id: 1,
-      description: "Intel Core i5-12400F 4.4GHz Socket 1700 Boxed",
-      discount: 0,
-      imageUrl: "https://placehold.co/300x300",
-      category: "Procesadores",
-      price: 108.95,
-      units: 1
-    },
-    {
-      id: 2,
-      description: "MSI GeForce RTX 4060 VENTUS 2X Black OC 8GB GDDR6 DLSS3",
-      discount: 38,
-      imageUrl: "https://placehold.co/300x300",
-      category: "Tarjetas gráficas",
-      price: 305.72,
-      units: 1
-    },
-    {
-      id: 3,
-      description: "Intel Core i5-12400F 4.4GHz Socket 1700 Boxed",
-      discount: 21,
-      imageUrl: "https://placehold.co/300x300",
-      category: "Procesadores",
-      price: 124.95,
-      units: 1
-    },
-    {
-      id: 4,
-      description: "Intel Core i5-12400F 4.4GHz Socket 1700 Boxed",
-      discount: 0,
-      imageUrl: "https://placehold.co/300x300",
-      category: "Procesadores",
-      price: 124.95,
-      units: 1
-    },
-    {
-      id: 5,
-      description: "Intel Core i5-12400F 4.4GHz Socket 1700 Boxed",
-      discount: 0,
-      imageUrl: "https://placehold.co/300x300",
-      category: "Procesadores",
-      price: 124.95,
-      units: 1
-    },
-    {
-      id: 6,
-      description: "Intel Core i5-12400F 4.4GHz Socket 1700 Boxed",
-      discount: 7,
-      imageUrl: "https://placehold.co/300x300",
-      category: "Procesadores",
-      price: 124.95,
-      units: 1
-    },
-    {
-      id: 7,
-      description: "Intel Core i5-12400F 4.4GHz Socket 1700 Boxed",
-      discount: 5,
-      imageUrl: "https://placehold.co/300x300",
-      category: "Procesadores",
-      price: 124.95,
-      units: 1
-    },
-    {
-      id: 8,
-      description: "Intel Core i5-12400F 4.4GHz Socket 1700 Boxed",
-      discount: 0,
-      imageUrl: "https://placehold.co/300x300",
-      category: "Procesadores",
-      price: 124.95,
-      units: 1
-    }
-  ]
+  cols: number = 5;
+  products: Array<Product> = []
 
   constructor() {
+    this.setBreakPoints();
+    this.listenToGetAllProducts();
+  }
+
+  ngOnInit(): void {
+    this.productsService.getAllProducts();
+  }
+
+  // TODO: Instead of mediaquery establish a container query
+  private setBreakPoints(): void {
     this.breakpointObserver.observe([
       Breakpoints.XSmall,
       Breakpoints.Small,
@@ -113,5 +52,13 @@ export class HomeComponent {
         this.cols = 5;
       }
     });
+  }
+
+  private listenToGetAllProducts(): void {
+    this.productsService.getAllProducts$
+    .pipe(takeUntilDestroyed())
+    .subscribe(products => {
+      this.products = products;
+    })
   }
 }

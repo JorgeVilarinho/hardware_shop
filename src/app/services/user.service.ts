@@ -28,6 +28,8 @@ export class UserService {
   
   client$ = this.getOrUpdateClientDataSubject.asObservable()
 
+  constructor() { }
+
   // TODO: This method is not working
   private initializeLoggedInUser(): boolean {
     let isAuthenticated = false;
@@ -52,21 +54,21 @@ export class UserService {
     }, { observe: 'response', withCredentials: true }).
     subscribe(result => {
       if(result.ok) {
-       this.snackbar.open(result.body.message, 'Ok', { duration: 3000 });
        let client: Client = {
          name:  result.body.userData.name,
          email: result.body.userData.email,
          dni: result.body.userData.dni,
-         phone: result.body.userData.phone
+         phone: result.body.userData.phone,
+         password
        }
        
        this.loggedInUser = client;
        this.userIsLoggedInSubject.next(true);
 
        this.router.navigate(['/home']);
-      } else {
-       this.snackbar.open(result.body.message, 'Ok', { duration: 3000 });
       }
+      
+      this.snackbar.open(result.body.message, 'Ok', { duration: 3000 });
    });
   }
 
@@ -137,6 +139,11 @@ export class UserService {
             dni,
             phone
           });
+
+          this.loggedInUser!.name = name
+          this.loggedInUser!.email = email
+          this.loggedInUser!.dni = dni
+          this.loggedInUser!.phone = phone
         }
 
         this.snackbar.open(result.body.message, 'Ok', { duration: 3000 });
@@ -151,6 +158,10 @@ export class UserService {
       },
       { observe: 'response', withCredentials: true })
       .subscribe(result => {
+        if(result.ok) {
+          this.loggedInUser!.password = newPassword;
+        }
+
         this.snackbar.open(result.body.message, 'Ok', { duration: 3000 });
       }
     );
@@ -210,6 +221,4 @@ export class UserService {
         this.snackbar.open(result.body.message, 'Ok', { duration: 3000 })
       });
   }
-
-  constructor() { }
 }

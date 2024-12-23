@@ -12,7 +12,7 @@ import { MatMenuModule } from '@angular/material/menu';
 import { CartService } from '../../services/cart.service';
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import { CurrencyPipe } from '@angular/common';
-import { User } from '../../models/user.model';
+import { LogoutService } from '../../services/logout.service';
 
 @Component({
   selector: 'app-header',
@@ -22,9 +22,10 @@ import { User } from '../../models/user.model';
   styleUrl: './header.component.css'
 })
 export class HeaderComponent {
-  stateService: StateService = inject(StateService);
-  cartService: CartService = inject(CartService);
-  userService: UserService = inject(UserService);
+  stateService = inject(StateService);
+  cartService = inject(CartService);
+  userService = inject(UserService);
+  logOutService = inject(LogoutService);
 
   cart: Cart = {
     items: []
@@ -32,20 +33,36 @@ export class HeaderComponent {
   isLoggedIn: boolean = false;
 
   constructor() {
-    this.cartService.productsInCart.
-    pipe(takeUntilDestroyed())
-    .subscribe((_cart) => this.cart = _cart);
-
-    this.userService.userIsLoggedInSubject.
-    pipe(takeUntilDestroyed())
-    .subscribe((_isLoggedIn) => this.isLoggedIn = _isLoggedIn);
+    this.listeToProductsInCart();
+    this.listenToUserIsLoggedIn();
+    this.listenToLogOut();
   }
 
-  changeOpenedState() {
+  private listeToProductsInCart(): void {
+    this.cartService.productsInCart.
+    pipe(takeUntilDestroyed())
+    .subscribe(_cart => this.cart = _cart);
+  }
+
+  private listenToUserIsLoggedIn(): void {
+    this.userService.userIsLoggedInSubject.
+    pipe(takeUntilDestroyed())
+    .subscribe(_isLoggedIn => this.isLoggedIn = _isLoggedIn);
+  }
+
+  private listenToLogOut(): void {
+    this.logOutService.logOutSubject
+    .pipe(takeUntilDestroyed())
+    .subscribe(_logOut => {
+      if(_logOut) this.userService.logOutUser();
+    })
+  }
+
+  public changeOpenedState() {
     this.stateService.opened.next(!this.stateService.opened.value);
   }
 
-  getTotal(): number {
+  public getTotal(): number {
     return this.cartService.getTotal()
   }
 }

@@ -16,13 +16,13 @@ export class CartService {
 
   addProduct(item: Product | undefined): void {
     if(!item) {
-      this.snackBar.open("ERROR: Problema al insertar el producto", 'Ok', { duration: 2000 });
+      this.snackBar.open("ERROR: Problema al insertar el producto", 'Ok', { duration: 3000 });
       return;
     }
 
     const items = [...this.productsInCart.value.items];
 
-    const itemInCart = items.find((_item) => _item.id == item.id);
+    const itemInCart = items.find(_item => _item.id == item.id);
 
     if(itemInCart) {
       itemInCart.units += 1;
@@ -33,7 +33,7 @@ export class CartService {
     }
 
     this.productsInCart.next({ items });
-    this.snackBar.open(this.message, 'Ok', { duration: 2000 });
+    this.snackBar.open(this.message, 'Ok', { duration: 3000 });
   }
 
   getCountProducts(): number {
@@ -42,7 +42,7 @@ export class CartService {
 
   getTotal(): number {
     return this.productsInCart.value.items
-    .map(_item => _item.discount !== 0 ? _item.units * _item.price * (_item.discount / 100) : _item.units * _item.price)
+    .map(_item => _item.discount ? _item.units * _item.price * (100 - _item.discount) / 100 : _item.units * _item.price)
     .reduce((previous, current) => previous + current, 0)
   }
 }

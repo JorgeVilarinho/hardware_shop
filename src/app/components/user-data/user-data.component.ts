@@ -19,8 +19,6 @@ export class UserDataComponent implements OnInit {
   userService = inject(UserService);
   snackbar = inject(MatSnackBar);
 
-  password: string = this.generateExamplePassword();
-
   dataForm = this.formBuilder.group({
     fullName: ['', Validators.required ],
     dni: ['', [ Validators.required, Validators.pattern(this.dniRegex) ]],
@@ -28,7 +26,7 @@ export class UserDataComponent implements OnInit {
     phone: ['', [ Validators.required, Validators.pattern(this.phoneRegex) ]]
   });
   passwordForm = this.formBuilder.group({
-    password: [this.password, [ Validators.required, Validators.minLength(6) ]]
+    password: [this.userService.loggedInUser?.password ?? '', [ Validators.required, Validators.minLength(6) ]]
   });
 
   dataFormIsSubmited = false;
@@ -77,10 +75,6 @@ export class UserDataComponent implements OnInit {
 
   private changePassword(): void {
     this.userService.changePassword(this.passwordForm.get('password')!.value!)
-  }
-
-  private generateExamplePassword(): string {
-    return 'io~ptMwtE7';
   }
 
   public nameHasRequiredError(): boolean | undefined {
