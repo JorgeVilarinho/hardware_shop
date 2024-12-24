@@ -1,0 +1,21 @@
+  @if(this.cartService.productsInCart.value.items.length === 0) {
+  <div class="h-full flex flex-col justify-center items-center bg-gray-200">
+    <div>
+      <mat-icon class="!text-[200px] !h-full !w-full">local_mall</mat-icon>
+    </div>
+    <p class="text-2xl mb-2">No hay productos en la cesta</p>
+    <p class="text-lg mb-4">¡Échale un vistazo a los productos de nuestra tienda!</p>
+    <button class=" bg-red-600 active:bg-red-700 active:shadow-lg text-white
+    py-2 px-16 rounded-md"
+    routerLink="/home">Ver productos</button>
+  </div>
+} @else {
+  <div class="px-28 py-10 h-full">
+    <h1 class="text-4xl font-medium mb-3">Cesta de la compra</h1>
+    <p class="text-zinc-400 text-lg mb-3">{{ this.cartService.getCountProducts() }} productos</p>
+    <hr class="w-full mb-4">
+    @for (item of this.cartService.productsInCart.value.items; track item.id) {
+      <app-shopping-basket-item [cartItem]="item"></app-shopping-basket-item>
+    }
+  </div>
+}

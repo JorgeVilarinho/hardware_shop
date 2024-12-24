@@ -1,0 +1,23 @@
+<div class="flex gap-6">
+  <div>
+    <img [src]="'http://localhost:8080/images/' + cartItem?.image" 
+    alt="Imagen del producto de la cesta"
+    class="max-w-[160px]">
+  </div>
+  <div>
+    <div class="flex min-w-[900px] justify-between">
+      <p>{{ cartItem?.name }}</p>
+      @if(cartItem?.discount) {
+        <p>{{ cartItem!.units * cartItem!.price * (100 - cartItem!.discount) / 100 | currency:'EUR' }}</p>
+      } @else {
+        <p>{{ cartItem!.units * cartItem!.price | currency:'EUR' }}</p>
+      }
+    </div>
+    <p class="text-zinc-400">{{ cartItem?.category }}</p>
+    <div class="flex items-center">
+        <mat-icon>remove</mat-icon>
+      <input type="text" name="units">
+        <mat-icon>add</mat-icon>
+    </div>
+  </div>
+</div>

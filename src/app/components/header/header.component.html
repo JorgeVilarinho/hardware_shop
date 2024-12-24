@@ -42,14 +42,14 @@
         mat-icon-button
         [matBadge]="cart.items.length"
         [matBadgeHidden]="cart.items.length === 0"
-        [matMenuTriggerFor]="menu"
+        [matMenuTriggerFor]="cart.items.length === 0 ? null: menu"
         disableRipple="true">
         <mat-icon>shopping_cart</mat-icon>
       </button>
     </div>
-    <mat-menu #menu="matMenu" class="mt-2 p-4 !max-w-[700px] !min-w-[400px] !bg-white">
+    <mat-menu #menu="matMenu" class="mt-2 p-4 !max-w-[700px] !min-w-[400px] !bg-white !overflow-y-hidden">
       <p class="mb-2">Productos en tu cesta ({{ cart.items.length }})</p>
-      <div class="overflow-x-hidden max-h-[400px] mb-3">
+      <div class="overflow-x-hidden max-h-[320px] mb-3">
         @for(item of cart.items; track item.id; let last = $last) {
           <div class="flex mb-3 max-w-[400px]">
             <img [src]="'http://localhost:8080/images/' + item.image" alt="Imagen del producto" class="mr-3 max-w-36 max-h-36">
@@ -58,7 +58,7 @@
               <p class="text-gray-500 mb-2">Unidades: <b class="text-black">{{ item.units }}</b></p>
               <div class="h-full flex flex-col justify-end">
                 @if(item.discount) {
-                  <p class="text-slate-500 underline line-through">{{ item.price | currency:'EUR' }}</p>
+                  <p class="text-slate-500 line-through">{{ item.price | currency:'EUR' }}</p>
                   <div class="flex">
                     <p class="text-red-600 text-xl mr-2">{{ (item.price * item.units * (100 - item.discount) / 100) | currency:'EUR' }}</p>
                     <div class="bg-red-600 rounded-full px-2.5 text-white text-sm flex items-center">
@@ -75,7 +75,6 @@
             <hr class="mb-3 border-gray-300" />
           }
         }
-        <div class="p-1"></div>
       </div>
       <hr class="mb-3 border-gray-300" />
       <div class="flex justify-between">
@@ -83,7 +82,8 @@
           <p>Total <span>(IVA incluido)</span></p>
           <p>Gastos de envío</p>
           <button class="w-full bg-white active:bg-slate-200 active:shadow-md text-black
-            border-gray-300 border py-2 mt-1 rounded-md mt-3">Ver cesta</button>
+            border-gray-300 border py-2 mt-1 rounded-md mt-3"
+            routerLink="shopping-basket">Ver cesta</button>
         </div>
         <div class="text-right w-6/12">
           <p>{{ getTotal() | currency:'EUR' }}</p>

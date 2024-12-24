@@ -14,14 +14,14 @@
   </div>
   <div>
     @if(product?.discount) {
-    <div class="text-slate-500 underline line-through">
+    <div class="text-slate-500 line-through">
       {{ product!.price | currency : "EUR" }}
     </div>
     <div class="text-red-600 mb-2 text-xl">
       {{ (product!.price * (100 - product!.discount)) / 100 | currency : "EUR" }}
     </div>
     } @else {
-    <div class="invisible text-slate-500 underline line-through">
+    <div class="invisible text-slate-500 line-through">
       {{ product!.price }}
     </div>
     <div class="text-red-600 mb-2 text-xl">
