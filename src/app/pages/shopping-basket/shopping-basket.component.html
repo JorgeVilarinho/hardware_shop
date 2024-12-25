@@ -10,12 +10,52 @@
     routerLink="/home">Ver productos</button>
   </div>
 } @else {
-  <div class="px-28 py-10 h-full">
-    <h1 class="text-4xl font-medium mb-3">Cesta de la compra</h1>
-    <p class="text-zinc-400 text-lg mb-3">{{ this.cartService.getCountProducts() }} productos</p>
-    <hr class="w-full mb-4">
-    @for (item of this.cartService.productsInCart.value.items; track item.id) {
-      <app-shopping-basket-item [cartItem]="item"></app-shopping-basket-item>
-    }
+  <div class="px-24 py-10">
+    <div class="flex gap-10 items-start">
+      <div class="basis-[70%]">
+        <h1 class="text-4xl font-medium mb-3">Cesta de la compra</h1>
+        <p class="text-zinc-400 text-lg mb-3">{{ this.cartService.getCountItems() }} productos</p>
+        <hr class="w-full mb-4">
+        @for (item of this.cartService.productsInCart.value.items; track item.id; let last = $last) {
+          <app-shopping-basket-item [cartItem]="item"></app-shopping-basket-item>
+          @if(!last) {
+            <hr class="mb-4">
+          }
+        }
+        <hr class="border-[2px] rounded-full mb-3">
+        <div class="flex justify-end">
+          <button class="flex justify-center items-center border rounded-md p-2 hover:border-slate-400
+            transition-transform active:scale-95 shadow-sm"
+            (click)="removeAllItems()"
+          >
+            <mat-icon class="mr-2">delete</mat-icon>
+            <p class="text-md">Vaciar la cesta</p>
+          </button>
+        </div>
+      </div>
+      <div class="flex flex-col flex-1 rounded-md shadow-lg px-6 pt-12 pb-8">
+        <h1 class="text-2xl font-medium mb-4">Resumen del pedido</h1>
+        <div class="flex flex-col gap-4 mb-5">
+          <div class="flex justify-between">
+            <p>Precio de los productos</p>
+            <p class="font-medium">{{ getTotal() | currency:'EUR' }}</p>
+          </div>
+          <div class="flex justify-between">
+            <p>IVA</p>
+            <p class="font-medium">{{ getTaxImport() | currency:'EUR' }}</p>
+          </div>
+          <div class="flex justify-between">
+            <p>Gastos de envío</p>
+            <p class="font-medium">Por calcular</p>
+          </div>
+        </div>
+        <hr class="mb-6">
+        <div class="flex justify-between mb-6">
+          <p>Total <span class="text-gray-400">(IVA incluido)</span></p>
+          <p class="font-medium">{{ getTotalWithTax() | currency:'EUR' }}</p>
+        </div>
+        <button class="bg-red-600 py-2 rounded-md text-white transition-transform active:scale-95 shadow-sm hover:bg-red-700">Terminar pedido</button>
+      </div>
+    </div>
   </div>
 }

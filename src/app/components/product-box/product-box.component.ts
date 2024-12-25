@@ -15,6 +15,6 @@ export class ProductBoxComponent {
   cartService = inject(CartService);
 
   onAddProductToCart(): void {
-    this.cartService.addProduct(this.product)
+    this.cartService.addItem(this.product)
   }
 }
