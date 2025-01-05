@@ -6,6 +6,7 @@ import { CartService } from '../../services/cart.service';
 import { HttpClient } from '@angular/common/http';
 import { environment } from '../../../environments/environment.development';
 import { MatSnackBar } from '@angular/material/snack-bar';
+import { LocalStorageService } from '../../services/local-storage.service';
 
 @Component({
   selector: 'app-shopping-basket-item',
@@ -16,6 +17,7 @@ import { MatSnackBar } from '@angular/material/snack-bar';
 export class ShoppingBasketItemComponent implements OnInit {
   @Input() cartItem: Product | undefined;
   cartService = inject(CartService)
+  localStorage = inject(LocalStorageService)
   httpClient = inject(HttpClient)
   snackBar = inject(MatSnackBar)
   stock: number = 0
@@ -44,6 +46,8 @@ export class ShoppingBasketItemComponent implements OnInit {
     }
 
     this.cartItem!.units += 1;
+    this.cartService.upsertItemToShoppingBasketDatabase(this.cartItem!.id, this.cartItem!.units);
+    this.localStorage.setItem('items', JSON.stringify(this.cartService.productsInCart.value.items));
   }
 
   public substractUnits(): void {
@@ -52,6 +56,8 @@ export class ShoppingBasketItemComponent implements OnInit {
     }
 
     this.cartItem!.units -= 1;
+    this.cartService.upsertItemToShoppingBasketDatabase(this.cartItem!.id, this.cartItem!.units);
+    this.localStorage.setItem('items', JSON.stringify(this.cartService.productsInCart.value.items));
   }
 
   public changeUnits(event: Event): void {
@@ -69,5 +75,7 @@ export class ShoppingBasketItemComponent implements OnInit {
     }
 
     this.cartItem!.units = +input.value;
+    this.cartService.upsertItemToShoppingBasketDatabase(this.cartItem!.id, this.cartItem!.units);
+    this.localStorage.setItem('items', JSON.stringify(this.cartService.productsInCart.value.items));
   }
 }

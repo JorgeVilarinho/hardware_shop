@@ -1,3 +1,4 @@
+import { AuthenticationService } from './../../services/authentication.service';
 import { Component, inject, OnInit } from '@angular/core';
 import { FormBuilder, ReactiveFormsModule, Validators } from '@angular/forms';
 import { UserService } from '../../services/user.service';
@@ -17,6 +18,7 @@ export class UserDataComponent implements OnInit {
 
   formBuilder = inject(FormBuilder);
   userService = inject(UserService);
+  authenticationService = inject(AuthenticationService);
   snackbar = inject(MatSnackBar);
 
   dataForm = this.formBuilder.group({
@@ -26,7 +28,7 @@ export class UserDataComponent implements OnInit {
     phone: ['', [ Validators.required, Validators.pattern(this.phoneRegex) ]]
   });
   passwordForm = this.formBuilder.group({
-    password: [this.userService.loggedInUser?.password ?? '', [ Validators.required, Validators.minLength(6) ]]
+    password: [ this.authenticationService.loggedInUser?.password ?? '', [ Validators.required, Validators.minLength(6) ]]
   });
 
   dataFormIsSubmited = false;

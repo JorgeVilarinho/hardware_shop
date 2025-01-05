@@ -1,3 +1,4 @@
+import { AuthenticationService } from './../../services/authentication.service';
 import { UserService } from './../../services/user.service';
 import { Cart } from './../../models/cart.model';
 import { Component, inject } from '@angular/core';
@@ -6,13 +7,13 @@ import {MatButtonModule} from '@angular/material/button';
 import {MatToolbarModule} from '@angular/material/toolbar';
 import {MatBadgeModule} from '@angular/material/badge';
 import {MatSidenavModule} from '@angular/material/sidenav';
-import { StateService } from '../../services/state.service';
 import { RouterLink } from '@angular/router';
 import { MatMenuModule } from '@angular/material/menu';
 import { CartService } from '../../services/cart.service';
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
-import { CurrencyPipe, NgClass } from '@angular/common';
+import { CurrencyPipe } from '@angular/common';
 import { LogoutService } from '../../services/logout.service';
+import { StateService } from '../../services/state.service';
 
 @Component({
   selector: 'app-header',
@@ -22,6 +23,7 @@ import { LogoutService } from '../../services/logout.service';
   styleUrl: './header.component.css'
 })
 export class HeaderComponent {
+  authenticationService = inject(AuthenticationService);
   stateService = inject(StateService);
   cartService = inject(CartService);
   userService = inject(UserService);
@@ -45,7 +47,7 @@ export class HeaderComponent {
   }
 
   private listenToUserIsLoggedIn(): void {
-    this.userService.userIsLoggedInSubject.
+    this.authenticationService.userIsLoggedInSubject.
     pipe(takeUntilDestroyed())
     .subscribe(_isLoggedIn => this.isLoggedIn = _isLoggedIn);
   }
@@ -54,11 +56,11 @@ export class HeaderComponent {
     this.logOutService.logOutSubject
     .pipe(takeUntilDestroyed())
     .subscribe(_logOut => {
-      if(_logOut) this.userService.logOutUser();
+      if(_logOut) this.authenticationService.logOutUser();
     })
   }
 
-  public changeOpenedState() {
+  public changeOpenedState(): void {
     this.stateService.opened.next(!this.stateService.opened.value);
   }
 

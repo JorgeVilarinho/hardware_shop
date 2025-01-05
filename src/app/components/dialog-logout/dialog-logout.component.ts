@@ -1,6 +1,6 @@
+import { AuthenticationService } from './../../services/authentication.service';
 import { Component, inject } from '@angular/core';
 import { MatDialogRef } from '@angular/material/dialog';
-import { UserService } from '../../services/user.service';
 import { Router } from '@angular/router';
 
 @Component({
@@ -11,7 +11,7 @@ import { Router } from '@angular/router';
 })
 export class DialogLogoutComponent {
   refDialog = inject(MatDialogRef<DialogLogoutComponent>);
-  userService = inject(UserService);
+  authenticationService = inject(AuthenticationService);
   router = inject(Router);
 
   closeDialog(): void {
@@ -19,7 +19,7 @@ export class DialogLogoutComponent {
   }
 
   closeSessionAndDialog(): void {
-    this.userService.logOutUser();
+    this.authenticationService.logOutUser();
     this.refDialog.close();
     this.router.navigate(['/home']);
   }

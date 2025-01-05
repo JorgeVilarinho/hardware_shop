@@ -9,6 +9,7 @@ import { CanceledOrdersComponent } from './components/canceled-orders/canceled-o
 import { AddressComponent } from './components/address/address.component';
 import { UserDataComponent } from './components/user-data/user-data.component';
 import { ShoppingBasketComponent } from './pages/shopping-basket/shopping-basket.component';
+import { ProductComponent } from './pages/product/product.component';
 
 export const routes: Routes = [
   {
@@ -42,6 +43,9 @@ export const routes: Routes = [
   },
   {
     path: 'shopping-basket', component: ShoppingBasketComponent
+  },
+  {
+    path: 'product', component: ProductComponent
   },
   {
     path: '', redirectTo: 'home', pathMatch: 'full'

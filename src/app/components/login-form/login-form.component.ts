@@ -1,12 +1,10 @@
+import { AuthenticationService } from './../../services/authentication.service';
 import { NgClass } from '@angular/common';
 import { Component, inject } from '@angular/core';
 import { FormBuilder, ReactiveFormsModule, Validators } from '@angular/forms';
 import { MatIconModule } from '@angular/material/icon';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { Router, RouterLink } from '@angular/router';
-import { UserService } from '../../services/user.service';
-import { HttpResponse } from '@angular/common/http';
-import { Client } from '../../models/client.model';
 
 @Component({
   selector: 'app-login-form',
@@ -17,7 +15,7 @@ import { Client } from '../../models/client.model';
 export class LoginFormComponent {
   formBuilder = inject(FormBuilder);
   snackBar = inject(MatSnackBar);
-  userService = inject(UserService);
+  authenticationService = inject(AuthenticationService);
   router = inject(Router);
 
   registerForm = this.formBuilder.group({
@@ -41,7 +39,7 @@ export class LoginFormComponent {
   }
 
   logInUser(email: string, password: string): void {
-    this.userService.logInUser(email, password);
+    this.authenticationService.logInUser(email, password);
   }
 
   emailHasRequiredError(): boolean | undefined {

@@ -1,3 +1,4 @@
+import { AuthenticationService } from './services/authentication.service';
 import { Component, OnInit, inject } from '@angular/core';
 import { RouterOutlet } from '@angular/router';
 import { HeaderComponent } from './components/header/header.component';
@@ -12,8 +13,13 @@ import { StateService } from './services/state.service';
   styleUrl: './app.component.css'
 })
 export class AppComponent implements OnInit {
-  stateService: StateService = inject(StateService);
+  stateService = inject(StateService);
+  authenticationService = inject(AuthenticationService);
   openedState: boolean | undefined;
+
+  constructor() {
+    this.authenticationService.initializeLoggedInUser();
+  }
 
   ngOnInit(): void {
     this.stateService.opened.subscribe((actualValue) =>

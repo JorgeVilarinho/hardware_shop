@@ -1,5 +1,5 @@
 <div class="p-4 bg-white rounded-lg max-w-[300px] shadow-lg">
-  <div class="relative mb-5">
+  <div class="relative mb-5 cursor-pointer" routerLink="/product" [state]="product">
     @if(product?.discount) {
     <div class="absolute top-2 left-2 bg-red-600 rounded-full px-2.5">
       <span class="text-sm font-medium text-white">Dto. {{ product?.discount }}%</span>

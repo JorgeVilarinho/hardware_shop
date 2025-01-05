@@ -1,0 +1,27 @@
+<div class="container mx-auto h-full pt-10">
+  <div class="flex content-start">
+    <div>
+      <img [src]="'http://localhost:8080/images/' + product?.image" alt="Imagen del producto" />
+    </div>
+    <div class="flex flex-col items-start max-w-lg">
+      @if(product?.discount) {
+        <div class="bg-red-600 rounded-full px-2.5 mb-4">
+          <span class="text-sm font-medium text-white">Dto. {{ product?.discount }}%</span>
+        </div>
+      }
+      <p class="text-base mb-2">Marca: <span class="text-red-500 font-medium">{{ product?.brand }}</span></p>
+      <h1 class="text-2xl font-medium leading-9">{{ product?.name }}</h1>
+      <p class="text-gray-500 text-base mb-3">{{ product?.category }}</p>
+      @if(product?.discount) {
+        <p class="line-through text-gray-400 text-lg">{{ product?.price | currency:'EUR' }}</p>
+        <p class="text-2xl font-medium mb-8">{{ product!.price * (100 - product!.discount) / 100 | currency:'EUR' }}</p>
+      } @else {
+        <p class="text-2xl font-medium mb-8">{{ product?.price | currency:'EUR' }}</p>
+      }
+      <button 
+      class="w-full bg-red-600 py-3 rounded-md text-white text-lg transition-transform 
+      active:scale-95 shadow-sm hover:bg-red-700"
+      (click)="addProductToCart()">Añadir a la cesta</button>
+    </div>
+  </div>
+</div>

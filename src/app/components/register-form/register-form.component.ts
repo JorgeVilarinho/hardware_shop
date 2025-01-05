@@ -1,9 +1,9 @@
+import { AuthenticationService } from './../../services/authentication.service';
 import { NgClass } from '@angular/common';
 import { Component, inject } from '@angular/core';
 import { FormBuilder, ReactiveFormsModule, Validators } from '@angular/forms';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { RouterLink } from '@angular/router';
-import { UserService } from '../../services/user.service';
 
 @Component({
   selector: 'app-register-form',
@@ -14,7 +14,7 @@ import { UserService } from '../../services/user.service';
 export class RegisterFormComponent {
   formBuilder = inject(FormBuilder);
   snackbar = inject(MatSnackBar);
-  userService = inject(UserService);
+  authenticationService = inject(AuthenticationService);
   registerForm = this.formBuilder.group({
     clientName: ['', [ Validators.required ]],
     email: ['', [ Validators.required, Validators.email ]],
@@ -35,7 +35,7 @@ export class RegisterFormComponent {
   }
 
   registerUser(name: string, email: string, password: string): void {
-    this.userService.registerUser(name, email, password);
+    this.authenticationService.registerUser(name, email, password);
   }
 
   emailHasRequiredError(): boolean | undefined {
