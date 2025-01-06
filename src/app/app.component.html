@@ -1,9 +1,17 @@
-<app-header></app-header>
-<mat-sidenav-container>
-  <mat-sidenav [opened]="openedState" mode="side" class="!w-[350px]">
-    <app-sidenav-custom></app-sidenav-custom>
+<mat-sidenav-container class="!h-screen">
+  <mat-sidenav comment="[opened]=filtersMenuOpenedState disableClose=true" opened="true" mode="over" 
+    disableClose="false" position="end" class="!w-[400px] !rounded-none">
+    <app-filters-sidenav></app-filters-sidenav>
   </mat-sidenav>
   <mat-sidenav-content class="bg-white">
-    <router-outlet></router-outlet>
+    <app-header></app-header>
+    <mat-sidenav-container>
+      <mat-sidenav [opened]="menuOpenedState" mode="side" class="!w-[350px]">
+        <app-sidenav-custom></app-sidenav-custom>
+      </mat-sidenav>
+      <mat-sidenav-content>
+        <router-outlet></router-outlet>
+      </mat-sidenav-content>
+    </mat-sidenav-container>
   </mat-sidenav-content>
 </mat-sidenav-container>

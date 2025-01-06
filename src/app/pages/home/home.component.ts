@@ -6,10 +6,12 @@ import { MatGridListModule } from '@angular/material/grid-list';
 import { ProductBoxComponent } from "../../components/product-box/product-box.component";
 import { Product } from '../../models/product.model';
 import { ProductsService } from '../../services/products.service';
+import { MatIcon } from '@angular/material/icon';
+import { MatSidenavModule } from '@angular/material/sidenav';
 
 @Component({
   selector: 'app-home',
-  imports: [MatGridListModule, ProductBoxComponent],
+  imports: [ MatGridListModule, MatIcon, MatSidenavModule, ProductBoxComponent],
   templateUrl: './home.component.html',
   styleUrl: './home.component.css'
 })
@@ -28,6 +30,10 @@ export class HomeComponent implements OnInit {
 
   ngOnInit(): void {
     this.productsService.getAllProducts();
+  }
+
+  public changeFilterMenuOpenedState(): void {
+    this.stateService.changeFilterMenuOpenedState();
   }
 
   // TODO: Instead of mediaquery establish a container query

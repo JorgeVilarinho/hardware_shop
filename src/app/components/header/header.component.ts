@@ -61,7 +61,7 @@ export class HeaderComponent {
   }
 
   public changeOpenedState(): void {
-    this.stateService.opened.next(!this.stateService.opened.value);
+    this.stateService.menuOpened.next(!this.stateService.menuOpened.value);
   }
 
   public getTotal(): number {

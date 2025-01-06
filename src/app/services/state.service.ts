@@ -1,20 +1,22 @@
-import { inject, Injectable } from '@angular/core';
+import { Injectable } from '@angular/core';
 import { BehaviorSubject } from 'rxjs';
-import { HttpClient } from '@angular/common/http';
 
 @Injectable({
   providedIn: 'root'
 })
 export class StateService {
-  httpClient = inject(HttpClient);
-
-  opened = new BehaviorSubject<boolean>(false);
+  menuOpened = new BehaviorSubject<boolean>(false);
+  filterMenuOpened = new BehaviorSubject<boolean>(false);
   initialAddressComponentIsActive = new BehaviorSubject<boolean>(true);
 
   constructor() { }
 
-  public changeOpenedState(): void {
-    this.opened.next(!this.opened.value);
+  public changeMenuOpenedState(): void {
+    this.menuOpened.next(!this.menuOpened.value);
+  }
+
+  public changeFilterMenuOpenedState(): void {
+    this.filterMenuOpened.next(!this.filterMenuOpened.value);
   }
 
   public changeInitialAddressComponentToActive(): void {

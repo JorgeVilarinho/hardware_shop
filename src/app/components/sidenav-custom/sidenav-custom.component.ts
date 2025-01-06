@@ -14,6 +14,6 @@ export class SidenavCustomComponent {
   stateService: StateService = inject(StateService);
 
   changeOpenedState() {
-    this.stateService.opened.next(!this.stateService.opened.value);
+    this.stateService.menuOpened.next(!this.stateService.menuOpened.value);
   }
 }

@@ -1,0 +1,48 @@
+<div class="flex flex-col gap-5 p-5">
+  <div class="flex w-full justify-between items-center">
+    <h1 class="text-xl font-medium">Filtrar</h1>
+    <button mat-icon-button class="!flex !justify-center !items-center">
+      <mat-icon fontIcon="close"></mat-icon>
+    </button>
+  </div>
+  <mat-expansion-panel>
+    <mat-expansion-panel-header>
+      <mat-panel-title>Ordenar</mat-panel-title>
+    </mat-expansion-panel-header>
+    <select name="order-filter" id="order-filter" 
+      class="w-full p-2 rounded-md border border-slate-200">
+      <option value="lower-price">Menor precio</option>
+      <option value="higher-price">Mayor precio</option>
+      <option value="stock">Stock</option>
+      <option value="discount">Descuento</option>
+    </select>
+  </mat-expansion-panel>
+  <mat-expansion-panel>
+    <mat-expansion-panel-header>
+      <mat-panel-title>Precio</mat-panel-title>
+    </mat-expansion-panel-header>
+    <div>
+      <mat-slider min="0" max="1500" class="!w-[95%]">
+        <input value="0" matSliderStartThumb>
+        <input value="1500" matSliderEndThumb>
+      </mat-slider>  
+      <div class="flex justify-between">
+        <input type="number" name="start" id="start" disabled class="w-36">
+        <p>-</p>
+        <input type="number" name="end" id="end" disabled class="w-36">
+      </div>
+    </div>  
+  </mat-expansion-panel>
+  <mat-expansion-panel>
+    <mat-expansion-panel-header>
+      <mat-panel-title>Marca</mat-panel-title>
+    </mat-expansion-panel-header>
+    <select name="order-filter" id="order-filter" 
+      class="w-full p-2 rounded-md border border-slate-200">
+      <option value="lower-price">Menor precio</option>
+      <option value="higher-price">Mayor precio</option>
+      <option value="stock">Stock</option>
+      <option value="discount">Descuento</option>
+    </select>
+  </mat-expansion-panel>
+</div>
