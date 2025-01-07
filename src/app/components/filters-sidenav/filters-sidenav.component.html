@@ -23,26 +23,46 @@
     </mat-expansion-panel-header>
     <div>
       <mat-slider min="0" max="1500" class="!w-[95%]">
-        <input value="0" matSliderStartThumb>
-        <input value="1500" matSliderEndThumb>
+        <input [(value)]="minPriceValue" matSliderStartThumb>
+        <input [(value)]="maxPriceValue" matSliderEndThumb>
       </mat-slider>  
-      <div class="flex justify-between">
-        <input type="number" name="start" id="start" disabled class="w-36">
+      <div class="flex justify-between items-center mt-2">
+        <input type="text" name="start" id="start" 
+          disabled 
+          [value]="minPriceValue | currency:'EUR':'symbol':'1.0'"
+          class="w-36 border border-gray-200 bg-white rounded-md py-[6px] text-center">
         <p>-</p>
-        <input type="number" name="end" id="end" disabled class="w-36">
+        <input type="text" name="end" id="end" 
+          disabled 
+          [value]="maxPriceValue | currency:'EUR':'symbol':'1.0'"
+          class="w-36 border border-gray-200 bg-white rounded-md py-[6px] text-center">
       </div>
     </div>  
   </mat-expansion-panel>
   <mat-expansion-panel>
     <mat-expansion-panel-header>
+      <mat-panel-title>Categoría</mat-panel-title>
+    </mat-expansion-panel-header>
+    @for (category of categories; track category.id) {
+      <label [for]="category.nombre" class="cursor-pointer flex items-center mb-2"> 
+        <input type="radio" name="category" [id]="category.nombre" [value]="category.id" 
+        class="w-5 h-5 rounded-sm mr-2 accent-red-500" (click)="selectCategory(category.id)"> 
+        {{ category.nombre }}
+      </label>
+    }
+  </mat-expansion-panel>
+  <mat-expansion-panel>
+    <mat-expansion-panel-header>
       <mat-panel-title>Marca</mat-panel-title>
     </mat-expansion-panel-header>
-    <select name="order-filter" id="order-filter" 
-      class="w-full p-2 rounded-md border border-slate-200">
-      <option value="lower-price">Menor precio</option>
-      <option value="higher-price">Mayor precio</option>
-      <option value="stock">Stock</option>
-      <option value="discount">Descuento</option>
-    </select>
+    <div class="grid grid-cols-2 gap-y-1">
+      @for (brand of brands; track brand.id) {
+        <label [for]="brand.nombre" class="cursor-pointer flex items-center">
+          <input type="checkbox" [name]="brand.nombre" [id]="brand.nombre" 
+            class="w-5 h-5 rounded-sm mr-2 accent-red-500">
+          {{ brand.nombre }}
+        </label>
+      }
+    </div>
   </mat-expansion-panel>
 </div>
