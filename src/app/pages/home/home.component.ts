@@ -26,6 +26,7 @@ export class HomeComponent implements OnInit {
   constructor() {
     this.setBreakPoints();
     this.listenToGetAllProducts();
+    this.listenToGetProductsWithFilters();
   }
 
   ngOnInit(): void {
@@ -66,5 +67,11 @@ export class HomeComponent implements OnInit {
     .subscribe(products => {
       this.products = products;
     })
+  }
+
+  private listenToGetProductsWithFilters(): void {
+    this.productsService.getProductsWithFilters$
+    .pipe(takeUntilDestroyed())
+    .subscribe(products => this.products = products);
   }
 }

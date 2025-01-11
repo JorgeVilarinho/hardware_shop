@@ -103,5 +103,8 @@
         }
       }
     }
+  },
+  "cli": {
+    "packageManager": "pnpm"
   }
 }

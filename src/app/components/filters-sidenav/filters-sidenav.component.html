@@ -1,4 +1,4 @@
-<div class="flex flex-col gap-5 p-5">
+<div class="flex flex-col gap-5 p-5 h-full">
   <div class="flex w-full justify-between items-center">
     <h1 class="text-xl font-medium">Filtrar</h1>
     <button mat-icon-button class="!flex !justify-center !items-center">
@@ -10,11 +10,11 @@
       <mat-panel-title>Ordenar</mat-panel-title>
     </mat-expansion-panel-header>
     <select name="order-filter" id="order-filter" 
-      class="w-full p-2 rounded-md border border-slate-200">
-      <option value="lower-price">Menor precio</option>
-      <option value="higher-price">Mayor precio</option>
-      <option value="stock">Stock</option>
-      <option value="discount">Descuento</option>
+      class="w-full p-2 rounded-md border border-slate-200" (change)="selectOrderBy($event)">
+      <option value="LOWER_PRICE">Menor precio</option>
+      <option value="GREATER_PRICE">Mayor precio</option>
+      <option value="STOCK">Stock</option>
+      <option value="DISCOUNT">Descuento</option>
     </select>
   </mat-expansion-panel>
   <mat-expansion-panel>
@@ -22,9 +22,9 @@
       <mat-panel-title>Precio</mat-panel-title>
     </mat-expansion-panel-header>
     <div>
-      <mat-slider min="0" max="1500" class="!w-[95%]">
-        <input [(value)]="minPriceValue" matSliderStartThumb>
-        <input [(value)]="maxPriceValue" matSliderEndThumb>
+      <mat-slider min="0" [max]="maxLimit" class="!w-[95%]">
+        <input [(value)]="minPriceValue" matSliderStartThumb (input)="minValueChanged($event)">
+        <input [(value)]="maxPriceValue" matSliderEndThumb (input)="maxValueChanged($event)">
       </mat-slider>  
       <div class="flex justify-between items-center mt-2">
         <input type="text" name="start" id="start" 
@@ -46,7 +46,7 @@
     @for (category of categories; track category.id) {
       <label [for]="category.nombre" class="cursor-pointer flex items-center mb-2"> 
         <input type="radio" name="category" [id]="category.nombre" [value]="category.id" 
-        class="w-5 h-5 rounded-sm mr-2 accent-red-500" (click)="selectCategory(category.id)"> 
+        class="w-5 h-5 rounded-sm mr-2 cursor-pointer accent-red-500" (click)="selectCategory(category)"> 
         {{ category.nombre }}
       </label>
     }
@@ -59,10 +59,18 @@
       @for (brand of brands; track brand.id) {
         <label [for]="brand.nombre" class="cursor-pointer flex items-center">
           <input type="checkbox" [name]="brand.nombre" [id]="brand.nombre" 
-            class="w-5 h-5 rounded-sm mr-2 accent-red-500">
+            class="w-5 h-5 rounded-sm mr-2 cursor-pointer accent-red-500" (click)="upsertBrandToFilters(brand)">
           {{ brand.nombre }}
         </label>
       }
     </div>
   </mat-expansion-panel>
+  <div class="flex-1 place-content-end">
+    <div class="flex gap-3 justify-evenly">
+      <button class="border border-gray-200 rounded-md py-2 flex-auto transition hover:border-gray-400 active:scale-95"
+        (click)="clearFilters()">Borrar filtros</button>
+      <button class="bg-red-600 text-white rounded-md py-2 flex-auto transition hover:bg-red-700 active:scale-95" 
+        (click)="applyFilters()">Aplicar filtros</button>
+    </div>
+  </div>
 </div>
