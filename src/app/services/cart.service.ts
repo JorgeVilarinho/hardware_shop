@@ -20,6 +20,10 @@ export class CartService {
 
   constructor() { }
 
+  public getItems(): Product[] {
+    return this.productsInCart.value.items;
+  }
+
   public addItem(item: Product | undefined): void {
     if(!item) {
       this.snackBar.open("ERROR: Problema al insertar el producto", 'Ok', { duration: 3000 });

@@ -5,7 +5,6 @@ import { BehaviorSubject, firstValueFrom } from 'rxjs';
 import { Product } from '../models/product.model';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { Filters } from '../models/filters.model';
-import { OrderBy } from '../models/orderBy.model';
 
 @Injectable({
   providedIn: 'root'
@@ -49,12 +48,11 @@ export class ProductsService {
   }
 
   public getProductsWithFilters(filters: Filters): void {
-    let url = `${environment.apiBaseUrl}products?`;
+    let url = `${environment.apiBaseUrl}products?`
     let queryParams = []
-    // orderBy=LOWER_PRICE&minPrice=15&maxPrice=1000&category=1&brands=1,2,3
 
     if(filters.orderBy !== undefined) {
-      queryParams.push('orderBy=' + OrderBy[filters.orderBy]);
+      queryParams.push('orderBy=' + filters.orderBy);
     }
 
     if(filters.minPrice !== undefined) {

@@ -1,6 +1,6 @@
 <mat-sidenav-container class="!h-screen">
-  <mat-sidenav comment="[opened]=filtersMenuOpenedState disableClose=true" opened="true" mode="over" 
-    disableClose="false" position="end" class="!w-[500px] !rounded-none">
+  <mat-sidenav [opened]="filtersMenuOpenedState" mode="over" 
+    disableClose="true" position="end" class="!w-[500px] !rounded-none">
     <app-filters-sidenav></app-filters-sidenav>
   </mat-sidenav>
   <mat-sidenav-content class="bg-white">

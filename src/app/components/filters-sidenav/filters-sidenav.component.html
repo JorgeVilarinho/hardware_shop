@@ -1,7 +1,8 @@
 <div class="flex flex-col gap-5 p-5 h-full">
   <div class="flex w-full justify-between items-center">
     <h1 class="text-xl font-medium">Filtrar</h1>
-    <button mat-icon-button class="!flex !justify-center !items-center">
+    <button mat-icon-button class="!flex !justify-center !items-center"
+      (click)="closeFiltersSideNav()">
       <mat-icon fontIcon="close"></mat-icon>
     </button>
   </div>
@@ -10,7 +11,8 @@
       <mat-panel-title>Ordenar</mat-panel-title>
     </mat-expansion-panel-header>
     <select name="order-filter" id="order-filter" 
-      class="w-full p-2 rounded-md border border-slate-200" (change)="selectOrderBy($event)">
+      class="w-full p-2 rounded-md border border-slate-200"
+      (change)="selectOrderBy($event)">
       <option value="LOWER_PRICE">Menor precio</option>
       <option value="GREATER_PRICE">Mayor precio</option>
       <option value="STOCK">Stock</option>
@@ -22,7 +24,7 @@
       <mat-panel-title>Precio</mat-panel-title>
     </mat-expansion-panel-header>
     <div>
-      <mat-slider min="0" [max]="maxLimit" class="!w-[95%]">
+    <mat-slider min="0" [max]="maxLimit" class="!w-[95%]">
         <input [(value)]="minPriceValue" matSliderStartThumb (input)="minValueChanged($event)">
         <input [(value)]="maxPriceValue" matSliderEndThumb (input)="maxValueChanged($event)">
       </mat-slider>  

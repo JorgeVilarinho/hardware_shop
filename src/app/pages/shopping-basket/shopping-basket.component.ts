@@ -4,6 +4,9 @@ import { MatIcon } from '@angular/material/icon';
 import { RouterModule } from '@angular/router';
 import { ShoppingBasketItemComponent } from "../../components/shopping-basket-item/shopping-basket-item.component";
 import { CurrencyPipe } from '@angular/common';
+import { environment } from '../../../environments/environment.development';
+import { HttpClient } from '@angular/common/http';
+import { firstValueFrom } from 'rxjs';
 
 @Component({
   selector: 'app-shopping-basket',
@@ -13,6 +16,7 @@ import { CurrencyPipe } from '@angular/common';
 })
 export class ShoppingBasketComponent {
   cartService = inject(CartService)
+  httpClient = inject(HttpClient)
 
   public removeAllItems(): void {
     this.cartService.removeAllItems();

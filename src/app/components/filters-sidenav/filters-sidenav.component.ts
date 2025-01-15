@@ -6,21 +6,23 @@ import { MatSliderModule } from '@angular/material/slider';
 import { Category } from '../../models/category.model';
 import { HttpClient } from '@angular/common/http';
 import { environment } from '../../../environments/environment.development';
-import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import { Brand } from '../../models/brand.model';
 import { CurrencyPipe } from '@angular/common';
 import { Filters } from '../../models/filters.model';
 import { OrderBy } from '../../models/orderBy.model';
 import { ProductsService } from '../../services/products.service';
+import { ReactiveFormsModule } from '@angular/forms';
+import { StateService } from '../../services/state.service';
 
 @Component({
   selector: 'app-filters-sidenav',
-  imports: [ MatIconModule, MatButtonModule, MatExpansionModule, MatSliderModule, CurrencyPipe ],
+  imports: [ MatIconModule, MatButtonModule, MatExpansionModule, MatSliderModule, CurrencyPipe, ReactiveFormsModule ],
   templateUrl: './filters-sidenav.component.html',
   styleUrl: './filters-sidenav.component.css'
 })
 export class FiltersSidenavComponent implements OnInit {
-  httpClient = inject(HttpClient);
+  httpClient = inject(HttpClient)
+  stateService = inject(StateService)
   productsService = inject(ProductsService)
   
   minPriceValue = 0;
@@ -96,21 +98,48 @@ export class FiltersSidenavComponent implements OnInit {
 
   public applyFilters(): void {
     this.productsService.getProductsWithFilters(this.filters);
+    this.stateService.changeFilterMenuOpenedState();
   }
 
   public clearFilters(): void {
+    this.getCategories();
+    this.getBrands();
+    this.resetSelect();
+    this.resetCheckBoxes();
+    this.resetRadioButtons();
+    this.minPriceValue = 0;
+    this.maxPriceValue = this.maxLimit;
     this.filters = {
       orderBy: OrderBy.LOWER_PRICE,
       minPrice: 0,
       brands: []
-    }
+    };
+    this.applyFilters();
+  }
+
+  public closeFiltersSideNav(): void {
+    this.stateService.changeFilterMenuOpenedState();
+  }
+
+  private resetCheckBoxes(): void {
+    const checkBoxes = document.querySelectorAll<HTMLInputElement>('input[type="checkbox"]');
+    checkBoxes.forEach(checkBox => checkBox.checked = false);
+  }
+
+  private resetRadioButtons(): void {
+    const radioButtons = document.querySelectorAll<HTMLInputElement>('input[type="radio"][name="category"]');
+    radioButtons.forEach(radio => radio.checked = false);
+  }
+
+  private resetSelect(): void {
+    const selectElement = document.getElementById('order-filter') as HTMLSelectElement;
+    selectElement.options[0].selected = true;
   }
 
   private getCategories(): void {
     this.httpClient.get<any>(
       `${environment.apiBaseUrl}categories`, 
       { observe: 'response' })
-      .pipe(takeUntilDestroyed())
       .subscribe(result => {
         if(result.ok) {
           this.categories = result.body!.categories;
@@ -123,7 +152,6 @@ export class FiltersSidenavComponent implements OnInit {
     this.httpClient.get<any>(
       `${environment.apiBaseUrl}brands`, 
       { observe: 'response' })
-      .pipe(takeUntilDestroyed())
       .subscribe(result => {
         if(result.ok) {
           this.brands = result.body!.brands;

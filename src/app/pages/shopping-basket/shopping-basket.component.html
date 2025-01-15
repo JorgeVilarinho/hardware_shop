@@ -1,5 +1,5 @@
   @if(this.cartService.productsInCart.value.items.length === 0) {
-  <div class="h-full flex flex-col justify-center items-center bg-gray-200">
+  <div class="fix-height flex flex-col justify-center items-center bg-gray-200">
     <div>
       <mat-icon class="!text-[200px] !h-full !w-full">local_mall</mat-icon>
     </div>
@@ -10,7 +10,7 @@
     routerLink="/home">Ver productos</button>
   </div>
 } @else {
-  <div class="px-24 py-10">
+  <div class="px-24 py-10 fix-height">
     <div class="flex gap-10 items-start">
       <div class="basis-[70%]">
         <h1 class="text-4xl font-medium mb-3">Cesta de la compra</h1>
@@ -54,7 +54,10 @@
           <p>Total <span class="text-gray-400">(IVA incluido)</span></p>
           <p class="font-medium">{{ getTotalWithTax() | currency:'EUR' }}</p>
         </div>
-        <button class="bg-red-600 py-2 rounded-md text-white transition-transform active:scale-95 shadow-sm hover:bg-red-700">Terminar pedido</button>
+        <button
+          role="link" 
+          class="bg-red-600 py-2 rounded-md text-white transition-transform active:scale-95 shadow-sm hover:bg-red-700"
+        >Terminar pedido</button>
       </div>
     </div>
   </div>
