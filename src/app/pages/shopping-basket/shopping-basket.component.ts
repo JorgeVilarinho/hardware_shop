@@ -1,12 +1,11 @@
+import { AuthenticationService } from './../../services/authentication.service';
 import { Component, inject } from '@angular/core';
 import { CartService } from '../../services/cart.service';
 import { MatIcon } from '@angular/material/icon';
-import { RouterModule } from '@angular/router';
+import { Router, RouterModule } from '@angular/router';
 import { ShoppingBasketItemComponent } from "../../components/shopping-basket-item/shopping-basket-item.component";
 import { CurrencyPipe } from '@angular/common';
-import { environment } from '../../../environments/environment.development';
 import { HttpClient } from '@angular/common/http';
-import { firstValueFrom } from 'rxjs';
 
 @Component({
   selector: 'app-shopping-basket',
@@ -16,6 +15,8 @@ import { firstValueFrom } from 'rxjs';
 })
 export class ShoppingBasketComponent {
   cartService = inject(CartService)
+  authenticationService = inject(AuthenticationService)
+  router = inject(Router)
   httpClient = inject(HttpClient)
 
   public removeAllItems(): void {
@@ -27,10 +28,19 @@ export class ShoppingBasketComponent {
   }
 
   public getTaxImport(): number {
-    return this.getTotal() * 21 / 100;
+    return this.cartService.getTaxImport()
   }
 
   public getTotalWithTax(): number {
-    return this.getTotal() + this.getTaxImport();
+    return this.cartService.getTotalWithTax();
+  }
+
+  public processCheckout(): void {
+    if(!this.authenticationService.isLoggedIn()) {
+      this.router.navigate(['login']);
+      return
+    }
+
+    this.router.navigate(['checkout']);
   }
 }

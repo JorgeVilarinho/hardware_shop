@@ -2,7 +2,7 @@ import { AuthenticationService } from './authentication.service';
 import { LocalStorageService } from './local-storage.service';
 import { Injectable, inject } from '@angular/core';
 import { Client } from '../models/client.model';
-import { BehaviorSubject } from 'rxjs';
+import { BehaviorSubject, firstValueFrom } from 'rxjs';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { Router } from '@angular/router';
 import { Address } from '../models/address.model';
@@ -106,6 +106,17 @@ export class UserService {
         }
       }
     );
+  }
+
+  public async getAddresses(): Promise<Address[]> {
+    const response = await firstValueFrom(
+      this.httpClient.get<any>(`${environment.apiBaseUrl}users/addresses`, 
+      { observe: 'response', withCredentials: true })
+    );
+
+    if(response.ok) return response.body.addresses;
+
+    return []
   }
 
   public addAddress(name: string, address: string, cp: string, province: string, city: string, phone: string): void {

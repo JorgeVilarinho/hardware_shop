@@ -10,6 +10,7 @@ import { AddressComponent } from './components/address/address.component';
 import { UserDataComponent } from './components/user-data/user-data.component';
 import { ShoppingBasketComponent } from './pages/shopping-basket/shopping-basket.component';
 import { ProductComponent } from './pages/product/product.component';
+import { CheckoutComponent } from './pages/checkout/checkout.component';
 
 export const routes: Routes = [
   {
@@ -46,6 +47,9 @@ export const routes: Routes = [
   },
   {
     path: 'product', component: ProductComponent
+  },
+  {
+    path: 'checkout', component: CheckoutComponent
   },
   {
     path: '', redirectTo: 'home', pathMatch: 'full'

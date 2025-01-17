@@ -1,5 +1,5 @@
 import { inject, Injectable } from '@angular/core';
-import { BehaviorSubject, firstValueFrom } from 'rxjs';
+import { BehaviorSubject } from 'rxjs';
 import { Product } from '../models/product.model';
 import { Cart } from '../models/cart.model';
 import { MatSnackBar } from '@angular/material/snack-bar';
@@ -91,6 +91,14 @@ export class CartService {
     return this.productsInCart.value.items
     .map(_item => _item.discount ? _item.units * _item.price * (100 - _item.discount) / 100 : _item.units * _item.price)
     .reduce((previous, current) => previous + current, 0)
+  }
+
+  public getTaxImport(): number {
+    return this.getTotal() * 21 / 100
+  }
+
+  public getTotalWithTax(): number {
+    return this.getTotal() + this.getTaxImport()
   }
 
   public upsertItemToShoppingBasketDatabase(product_id: number, units: number) {

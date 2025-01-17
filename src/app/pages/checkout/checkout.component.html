@@ -1,0 +1,274 @@
+<div class="flex">
+  <!-- COLUMNA 1 -->
+  <div class="w-[60%] fix-height py-10 pl-20">
+    @switch (checkoutSteps) {
+      @case(0) {
+        <div>
+          <div class="flex items-center gap-1 text-lg">
+            <p class="flex items-center justify-center gap-1 text-xl">
+              <span>Envío</span> 
+              <mat-icon fontIcon="arrow_forward_ios" class="!text-xs !flex !items-center !justify-center" />
+              <span class="text-zinc-400">Pago</span>
+            </p>
+          </div>
+        </div>
+        <form class="py-10 w-[95%] flex flex-col">
+          <p class="font-medium text-base mb-5">Elige tu forma de envío</p>
+          <div class="flex flex-col gap-4 mb-10">
+            <div class="border rounded-md px-4 py-3 flex justify-between">
+              <div class="flex items-center gap-5">
+                <input type="radio" name="shipping-method" class="w-5 h-5 accent-red-600">
+                <p>Envío a domicilio</p>
+              </div>
+              <div>4,50 €</div>
+            </div>
+            <div class="border rounded-md px-4 py-3 flex justify-between">
+              <div class="flex items-center gap-5">
+                <input type="radio" name="shipping-method" class="w-5 h-5 accent-red-600">
+                <p>Recogida en tienda</p>
+              </div>
+              <div class="text-green-400">Gratis</div>
+            </div>
+          </div>
+          
+          <p class="font-medium text-base mb-5">Elige una dirección de envío</p>
+          @for (address of addresses; track address.id) {
+            <div class="flex flex-col gap-4 mb-10">
+              <div class="border rounded-md px-4 py-3 flex items-center gap-5">
+                <input type="radio" name="address" class="w-5 h-5 accent-red-600">
+                <div>
+                  <p class="font-medium">{{ address.nombre }}</p>
+                  <p>{{ address.direccion }}, {{ address.provincia }}, {{ address.ciudad }}, Tel: {{address.telefono}}</p>
+                </div>
+              </div>
+            </div>
+          }
+    
+          <p class="font-medium text-base mb-5">Elige una opción de envío</p>
+          <div class="flex flex-col gap-4 mb-16">
+            <div class="border rounded-md px-4 py-3 gap-5 flex justify-between">
+              <div class="flex gap-4">
+                <input type="radio" name="shipping-option" class="w-5 h-5 accent-red-600">
+                <img src="http://localhost:8080/images/correos.svg" alt="Logotipo de correos" class="w-12">
+                <p>Correos</p>
+              </div>
+              <div>
+                4,50 €
+              </div>
+            </div>
+          </div>
+    
+          <button class="self-end border py-2 px-5 rounded-md bg-red-600 
+          text-white transition-transform active:scale-95 shadow-sm hover:bg-red-700"
+            type="button"
+            (click)="changeToPaymentStep()">
+            Continuar
+          </button>
+        </form>
+      }
+      @case(1) {
+        <div>
+          <div class="flex items-center gap-1 text-lg">
+            <p class="flex items-center justify-center gap-1 text-xl">
+              <span>Envío</span> 
+              <mat-icon fontIcon="arrow_forward_ios" class="!text-xs !flex !items-center !justify-center" />
+              <span class="text-red-500">Pago</span>
+            </p>
+          </div>
+        </div>
+        <form class="py-10 w-[95%] flex flex-col">
+          <p class="font-medium text-base mb-5">Seleccione una opción de pago</p>
+          <div class="flex flex-col gap-4 mb-10">
+            <div class="border rounded-md px-4 py-3 flex items-center gap-5">
+              <input type="radio" name="shipping-method" class="w-5 h-5 accent-red-600">
+              <img src="http://localhost:8080/images/checkout.svg" 
+                  alt="Icono de los distintos bancos"
+                  class="w-12">
+              <p>Tarjeta bancaria</p>
+            </div>
+            <div class="border rounded-md px-4 py-3 flex items-center gap-5">
+              <input type="radio" name="shipping-method" class="w-5 h-5 accent-red-600">
+              <img src="http://localhost:8080/images/byteShopLogo.png" 
+                  alt="Icono de los distintos bancos"
+                  class="w-12">
+              <p>Pago y recogida en tienda</p>
+            </div>
+          </div>
+    
+          <button class="self-end border py-2 px-5 rounded-md bg-red-600 
+          text-white transition-transform active:scale-95 shadow-sm hover:bg-red-700"
+            type="button"
+            (click)="changeToProcessOrderStep()">
+            Continuar
+          </button>
+        </form>
+      }
+      @case(2) {
+        <p class="text-lg font-medium">Por favor, complete a continuación el pago de tu pedido</p>
+        <div>
+          <form class="py-5 w-[95%] flex flex-col mb-5">
+            <div class="border rounded-md p-5 flex flex-col gap-5">
+              <p class="text-lg font-medium">Tarjeta</p>
+              <div class="flex flex-col gap-1">
+                <p class="font-medium text-sm">Nombre del titular de la tarjeta</p>
+                <input 
+                  class="w-full px-4 py-3 border border-gray-400 rounded-md outline-none
+                  transition hover:border-red-400" 
+                  type="text"
+                  placeholder="Nombre Apellidos"
+                >
+              </div>
+  
+              <div class="flex flex-col gap-1">
+                <p class="font-medium text-sm">Número de tarjeta</p>
+                <div class="flex border border-gray-400 rounded-md transition hover:border-red-400">
+                  <input 
+                    type="text" 
+                    name="cardNumber" 
+                    class="w-full rounded-md px-4 py-3 outline-none" 
+                    placeholder="1234 1234 1234 1234" >
+                  <div class="bg-white rounded-md flex justify-center items-center gap-1 px-3">
+                    <img src="http://localhost:8080/images/visa.svg" alt="" class="w-8">
+                    <img src="http://localhost:8080/images/mastercard.svg" alt="" class="w-8">
+                  </div>
+                </div>
+              </div>
+  
+              <div class="flex gap-5">
+                <div class="flex-1 flex flex-col gap-1">
+                  <p class="font-medium text-sm">Fecha de caducidad</p>
+                  <input 
+                    class="w-full px-4 py-3 border border-gray-400 rounded-md outline-none transition hover:border-red-400" 
+                    type="text"
+                    placeholder="MM/AA"
+                  >
+                </div>
+                <div class="flex-1  flex flex-col gap-1">
+                  <p class="font-medium text-sm">Código de serguridad</p>
+                  <input 
+                    class="w-full px-4 py-3 border border-gray-400 rounded-md outline-none transition hover:border-red-400" 
+                    type="text"
+                    placeholder="CVV"
+                  >
+                </div>
+              </div>
+  
+              <button 
+                class="flex-auto bg-red-600 text-white rounded-md py-3 transition hover:bg-red-700 "
+                type="button"
+              >Pagar</button>
+  
+            </div>
+          </form>
+          <div class="flex justify-center items-center gap-5">
+            <button 
+              class="border rounded-md py-2 px-6 transition outline-none hover:border-gray-400 active:scale-95"
+              routerLink="/account/orders/active"
+            >Ir a mis pedidos</button>
+            <button 
+              class="border rounded-md py-2 px-6 bg-red-600 text-white outline-none transition hover:bg-red-700 active:scale-95"
+              routerLink="/home"
+            >Seguir comprando</button>
+          </div>
+        </div>
+      }
+    }
+  </div>
+
+  <!-- COLUMNA 2 -->
+  <div class="bg-gray-200 w-[40%] py-10 px-10">
+    @if(checkoutSteps == 0 || checkoutSteps == 1) {
+      <h1 class="mb-5 text-xl">Resumen del pedido</h1>
+      <hr class="w-full border border-gray-300 mb-5">
+
+      <h2 class="text-xl">Artículos</h2>
+      <p class="mb-3">{{ cartProducts.length }} artículos</p>
+      <div class="flex flex-col gap-5 mb-5">
+        @for (item of cartProducts; track item.id) {
+          <div class="grid grid-cols-5 gap-4">
+            <img 
+              [src]="'http://localhost:8080/images/' + item.image" 
+              alt="Imagen producto"
+              class="w-full"
+            >
+            <div class="col-span-3 flex flex-col justify-between">
+              <p>{{ item.name }}</p>
+              <div class="text-sm">
+                <p class="text-neutral-400">{{ item.category }}</p>
+                <p class="text-neutral-400">{{ item.units }} ud.</p>
+              </div>
+            </div>
+            <div class="text-end">
+              @if(item.discount) {
+                {{ item.price * item.units * (100 - item.discount) / 100 | currency:'EUR' }}
+              } @else {
+                {{ item.price * item.units | currency:'EUR' }}
+              }
+            </div>
+          </div>
+        }
+      </div>
+
+      <hr class="w-full border border-gray-300 mb-5">
+      <div class="flex flex-col gap-5 mb-5">
+        <div class="flex justify-between">
+          <p>Precio de los productos</p>
+          <p class="font-medium">{{ getCartTotal() | currency:'EUR' }}</p>
+        </div>
+        <div class="flex justify-between">
+          <p>Gastos de envío</p>
+          <p class="font-medium">Por calcular</p>
+        </div>
+      </div>
+
+      <hr class="w-full border border-gray-300 mb-5">
+      <div class="flex justify-between mb-5 text-xl font-medium">
+        <p>Total (IVA incluido)</p>
+        <p>{{ getTotalWithTax() | currency:'EUR' }}</p>
+      </div>
+
+      <div class="flex flex-col gap-5">
+        <p class="text-xl">Envío</p>
+        <div>
+          <p class="text-neutral-400">Método de envío</p>
+          <p>Envío a domicilio</p>
+        </div>
+        <div>
+          <p class="text-neutral-400">Opción de envío</p>
+          <p>Correos</p>
+        </div>
+        <div>
+          <p class="text-neutral-400">Dirección de facturación</p>
+          <div>
+            <p class="font-medium">DIRECCION 1</p>
+            <p>Rúa Vigo, A CORUÑA, Narón, ESPAÑA, Tel:640843929</p>
+          </div>
+        </div>
+      </div>
+    } @else {
+      <div class="flex flex-col gap-5">
+        <p class="text-3xl font-medium">Datos de tu pedido</p>
+        <div>
+          <p class="font-medium text-lg">Número de tu pedido</p>
+          <p>250156165156</p>
+        </div>
+        <div>
+          <p class="font-medium text-lg">Total</p>
+          <p>514,45 €</p>
+        </div>
+        <div>
+          <p class="font-medium text-lg">Método de envío</p>
+          <p>Envíos ByteShop</p>
+        </div>
+        <div>
+          <p class="font-medium text-lg">Métodos de pago</p>
+          <p>Tarjeta</p>
+        </div>
+        <div>
+          <p class="font-medium text-lg">Información adicional</p>
+          <p>ñasjdasjdk sda sjdkkasd jaksdj lasdj askdjsa </p>
+        </div>
+      </div>
+    }
+  </div>
+</div>

@@ -49,7 +49,7 @@ export class AddressInitialComponent implements OnInit {
   }
 
   ngOnInit(): void {
-    this.userService.initAddresses();
+    this.userService.getAddresses();
   }
 
   changeToAddressCreateComponent(): void {

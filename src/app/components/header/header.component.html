@@ -88,8 +88,11 @@
         <div class="text-right w-6/12">
           <p>{{ getTotal() | currency:'EUR' }}</p>
           <p>Por calcular</p>
-          <button class="w-full bg-red-600 active:bg-red-800 active:shadow-lg text-white
-            py-2 mt-1 rounded-md mt-3">Realizar pedido</button>
+          <button 
+            class="w-full bg-red-600 active:bg-red-800 active:shadow-lg text-white
+            py-2 mt-1 rounded-md mt-3"
+            (click)="processCheckout()"
+            >Realizar pedido</button>
         </div>
       </div>
     </mat-menu>

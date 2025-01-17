@@ -2,12 +2,12 @@ import { AuthenticationService } from './../../services/authentication.service';
 import { UserService } from './../../services/user.service';
 import { Cart } from './../../models/cart.model';
 import { Component, inject } from '@angular/core';
-import {MatIconModule} from '@angular/material/icon';
-import {MatButtonModule} from '@angular/material/button';
-import {MatToolbarModule} from '@angular/material/toolbar';
-import {MatBadgeModule} from '@angular/material/badge';
-import {MatSidenavModule} from '@angular/material/sidenav';
-import { RouterLink } from '@angular/router';
+import { MatIconModule } from '@angular/material/icon';
+import { MatButtonModule } from '@angular/material/button';
+import { MatToolbarModule } from '@angular/material/toolbar';
+import { MatBadgeModule } from '@angular/material/badge';
+import { MatSidenavModule } from '@angular/material/sidenav';
+import { Router, RouterLink } from '@angular/router';
 import { MatMenuModule } from '@angular/material/menu';
 import { CartService } from '../../services/cart.service';
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
@@ -23,6 +23,7 @@ import { StateService } from '../../services/state.service';
   styleUrl: './header.component.css'
 })
 export class HeaderComponent {
+  router = inject(Router)
   authenticationService = inject(AuthenticationService);
   stateService = inject(StateService);
   cartService = inject(CartService);
@@ -66,5 +67,14 @@ export class HeaderComponent {
 
   public getTotal(): number {
     return this.cartService.getTotal()
+  }
+
+  public processCheckout(): void {
+    if(!this.authenticationService.isLoggedIn()) {
+      this.router.navigate(['login']);
+      return
+    }
+
+    this.router.navigate(['checkout']);
   }
 }

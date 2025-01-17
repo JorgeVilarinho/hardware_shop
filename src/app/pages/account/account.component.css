@@ -2,3 +2,7 @@
   background-color: rgb(255, 233, 208);
   color: rgb(255, 160, 51);
 }
+
+.fix-height {
+  height: calc(100vh - 64px);
+}
