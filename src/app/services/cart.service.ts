@@ -6,19 +6,24 @@ import { MatSnackBar } from '@angular/material/snack-bar';
 import { LocalStorageService } from './local-storage.service';
 import { HttpClient } from '@angular/common/http';
 import { environment } from '../../environments/environment.development';
+import { AuthenticationService } from './authentication.service';
+import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 
 @Injectable({
   providedIn: 'root'
 })
 export class CartService {
   localStorageService = inject(LocalStorageService);
+  authenticationService = inject(AuthenticationService);
   httpClient = inject(HttpClient);
   snackBar: MatSnackBar = inject(MatSnackBar);
   
   message: string | undefined;
   productsInCart = new BehaviorSubject<Cart>({ items: this.localStorageService.getItem('items') ? JSON.parse(this.localStorageService.getItem('items')!) : [] });
 
-  constructor() { }
+  constructor() {
+    this.listenToLogOut();
+  }
 
   public getItems(): Product[] {
     return this.productsInCart.value.items;
@@ -102,6 +107,10 @@ export class CartService {
   }
 
   public upsertItemToShoppingBasketDatabase(product_id: number, units: number) {
+    if(!this.authenticationService.isLoggedIn()) {
+      return
+    }
+
     this.httpClient.post(`${environment.apiBaseUrl}shopping-basket/item`, 
       {product_id, units }, { observe: 'response', withCredentials: true})
       .subscribe(result => {
@@ -113,6 +122,10 @@ export class CartService {
   }
 
   private deleteItemToShoppingBasketDatabase(product_id: number) {
+    if(!this.authenticationService.isLoggedIn()) {
+      return
+    }
+
     this.httpClient.delete(`${environment.apiBaseUrl}shopping-basket/item`, 
       { observe: 'response', withCredentials: true, body: { product_id } })
       .subscribe(result => {
@@ -124,6 +137,10 @@ export class CartService {
   }
 
   private removeAllItemsToShoppingBasketDatabase() {
+    if(!this.authenticationService.isLoggedIn()) {
+      return
+    }
+
     this.httpClient.delete(`${environment.apiBaseUrl}shopping-basket/items`,
       { observe: 'response', withCredentials: true })
       .subscribe(result => {
@@ -131,5 +148,11 @@ export class CartService {
           this.snackBar.open('No se ha podido eliminar todos los productos del carrito', 'Ok', { duration: 3000 });
         }
       })
+  }
+
+  private listenToLogOut(): void {
+    this.authenticationService.logOutEvent
+    .pipe(takeUntilDestroyed())
+    .subscribe(() => this.removeAllItems())
   }
 }

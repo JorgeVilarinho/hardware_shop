@@ -12,30 +12,30 @@
             </p>
           </div>
         </div>
-        <form class="py-10 w-[95%] flex flex-col">
+        <form class="py-10 w-[95%] flex flex-col" [formGroup]="selectionForm">
           <p class="font-medium text-base mb-5">Elige tu forma de envío</p>
-          <div class="flex flex-col gap-4 mb-10">
-            <div class="border rounded-md px-4 py-3 flex justify-between">
-              <div class="flex items-center gap-5">
-                <input type="radio" name="shipping-method" class="w-5 h-5 accent-red-600">
-                <p>Envío a domicilio</p>
+          @for (shippingMethod of shippingMethods; track shippingMethod.id) {
+            <div class="flex flex-col gap-4 mb-5">
+              <div class="border rounded-md px-4 py-3 flex justify-between">
+                <div class="flex items-center gap-5">
+                  <input type="radio" [id]="shippingMethod.valor" name="shippingMethod" formControlName="shippingMethod" [value]="shippingMethod"
+                    class="w-5 h-5 accent-red-600">
+                  <label [for]="shippingMethod.valor">{{ shippingMethod.descripcion }}</label>
+                </div>
+                @if(shippingMethod.coste) {
+                  <div>{{ shippingMethod.coste | currency:'EUR' }}</div>
+                } @else {
+                  <div class="text-green-400">Gratis</div>
+                }
               </div>
-              <div>4,50 €</div>
             </div>
-            <div class="border rounded-md px-4 py-3 flex justify-between">
-              <div class="flex items-center gap-5">
-                <input type="radio" name="shipping-method" class="w-5 h-5 accent-red-600">
-                <p>Recogida en tienda</p>
-              </div>
-              <div class="text-green-400">Gratis</div>
-            </div>
-          </div>
+          }
           
           <p class="font-medium text-base mb-5">Elige una dirección de envío</p>
           @for (address of addresses; track address.id) {
-            <div class="flex flex-col gap-4 mb-10">
+            <div class="flex flex-col gap-4 mb-5">
               <div class="border rounded-md px-4 py-3 flex items-center gap-5">
-                <input type="radio" name="address" class="w-5 h-5 accent-red-600">
+                <input type="radio" name="address" formControlName="address" [value]="address" class="w-5 h-5 accent-red-600">
                 <div>
                   <p class="font-medium">{{ address.nombre }}</p>
                   <p>{{ address.direccion }}, {{ address.provincia }}, {{ address.ciudad }}, Tel: {{address.telefono}}</p>
@@ -45,25 +45,33 @@
           }
     
           <p class="font-medium text-base mb-5">Elige una opción de envío</p>
-          <div class="flex flex-col gap-4 mb-16">
-            <div class="border rounded-md px-4 py-3 gap-5 flex justify-between">
-              <div class="flex gap-4">
-                <input type="radio" name="shipping-option" class="w-5 h-5 accent-red-600">
-                <img src="http://localhost:8080/images/correos.svg" alt="Logotipo de correos" class="w-12">
-                <p>Correos</p>
-              </div>
-              <div>
-                4,50 €
+          @for (shippingOption of shippingOptions; track shippingOption.id) {
+            <div class="flex flex-col gap-4 mb-5">
+              <div class="border rounded-md px-4 py-3 gap-5 flex justify-between">
+                <div class="flex gap-4">
+                  <input type="radio" [id]="shippingOption.valor" name="shippingOption" formControlName="shippingOption" [value]="shippingOption" class="w-5 h-5 accent-red-600">
+                  <img [src]="'http://localhost:8080/images/' + shippingOption.imagen" class="w-12">
+                  <label [for]="shippingOption.valor">{{ shippingOption.descripcion }}</label>
+                </div>
+                @if(shippingOption.coste) {
+                  <div>{{ shippingOption.coste | currency:'EUR' }}</div>
+                } @else {
+                  <div class="text-green-400">Gratis</div>
+                }
               </div>
             </div>
-          </div>
+          }
     
-          <button class="self-end border py-2 px-5 rounded-md bg-red-600 
-          text-white transition-transform active:scale-95 shadow-sm hover:bg-red-700"
-            type="button"
-            (click)="changeToPaymentStep()">
-            Continuar
-          </button>
+          @if(this.selectionForm.valid) {
+            <button class="self-end border py-2 px-5 rounded-md bg-red-600 
+            text-white transition-transform active:scale-95 shadow-sm hover:bg-red-700"
+              type="button"
+              (click)="changeToPaymentStep()"
+            >
+              Continuar
+            </button>
+          }
+          
         </form>
       }
       @case(1) {
@@ -217,7 +225,11 @@
         </div>
         <div class="flex justify-between">
           <p>Gastos de envío</p>
-          <p class="font-medium">Por calcular</p>
+          @if(shippingOptionIsSelected()) {
+            <p class="font-medium">{{ getShippingOptionCost() | currency:'EUR' }}</p>
+          } @else {
+            <p class="font-medium">Por calcular</p>
+          }
         </div>
       </div>
 
@@ -231,17 +243,17 @@
         <p class="text-xl">Envío</p>
         <div>
           <p class="text-neutral-400">Método de envío</p>
-          <p>Envío a domicilio</p>
+          <p>{{ this.getShippingMethodDescription() }}</p>
         </div>
         <div>
           <p class="text-neutral-400">Opción de envío</p>
-          <p>Correos</p>
+          <p>{{ this.getShippingOptionDescription() }}</p>
         </div>
         <div>
           <p class="text-neutral-400">Dirección de facturación</p>
           <div>
-            <p class="font-medium">DIRECCION 1</p>
-            <p>Rúa Vigo, A CORUÑA, Narón, ESPAÑA, Tel:640843929</p>
+            <p class="font-medium">{{ this.getAddressName() }}</p>
+            <p>{{ this.getAddressDescription() }}</p>
           </div>
         </div>
       </div>

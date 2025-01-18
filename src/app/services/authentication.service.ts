@@ -2,10 +2,9 @@ import { HttpClient } from '@angular/common/http';
 import { inject, Injectable } from '@angular/core';
 import { environment } from '../../environments/environment.development';
 import { Client } from '../models/client.model';
-import { BehaviorSubject } from 'rxjs';
+import { BehaviorSubject, Subject } from 'rxjs';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { Router } from '@angular/router';
-import { CartService } from './cart.service';
 import { LocalStorageService } from './local-storage.service';
 
 @Injectable({
@@ -13,13 +12,13 @@ import { LocalStorageService } from './local-storage.service';
 })
 export class AuthenticationService {
   httpClient = inject(HttpClient);
-  cartService = inject(CartService);
   localStorageService = inject(LocalStorageService);
   router = inject(Router);
   snackBar = inject(MatSnackBar);
 
   loggedInUser: Client | undefined;
   userIsLoggedInSubject = new BehaviorSubject<boolean>(false);
+  logOutEvent = new Subject();
 
   constructor() {}
 
@@ -56,7 +55,7 @@ export class AuthenticationService {
           if(result.ok) {
             this.loggedInUser = undefined;
             this.userIsLoggedInSubject.next(false);
-            this.cartService.removeAllItems();
+            this.logOutEvent.next(null)
             this.localStorageService.removeItem('items');
           }
         }
