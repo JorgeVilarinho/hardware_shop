@@ -15,12 +15,14 @@
         <form class="py-10 w-[95%] flex flex-col" [formGroup]="selectionForm">
           <p class="font-medium text-base mb-5">Elige tu forma de envío</p>
           @for (shippingMethod of shippingMethods; track shippingMethod.id) {
-            <div class="flex flex-col gap-4 mb-5">
+            <div class="flex flex-col mb-5">
               <div class="border rounded-md px-4 py-3 flex justify-between">
                 <div class="flex items-center gap-5">
-                  <input type="radio" [id]="shippingMethod.valor" name="shippingMethod" formControlName="shippingMethod" [value]="shippingMethod"
-                    class="w-5 h-5 accent-red-600">
-                  <label [for]="shippingMethod.valor">{{ shippingMethod.descripcion }}</label>
+                  <label [for]="shippingMethod.valor" class="cursor-pointer flex items-center justify-center gap-5">
+                    <input type="radio" [id]="shippingMethod.valor" name="shippingMethod" formControlName="shippingMethod" [value]="shippingMethod"
+                    class="w-5 h-5 accent-red-600 cursor-pointer" (change)="onChangeShippingMethod()">
+                    <span>{{ shippingMethod.descripcion }}</span>
+                  </label>
                 </div>
                 @if(shippingMethod.coste) {
                   <div>{{ shippingMethod.coste | currency:'EUR' }}</div>
@@ -31,38 +33,44 @@
             </div>
           }
           
-          <p class="font-medium text-base mb-5">Elige una dirección de envío</p>
-          @for (address of addresses; track address.id) {
-            <div class="flex flex-col gap-4 mb-5">
-              <div class="border rounded-md px-4 py-3 flex items-center gap-5">
-                <input type="radio" name="address" formControlName="address" [value]="address" class="w-5 h-5 accent-red-600">
-                <div>
-                  <p class="font-medium">{{ address.nombre }}</p>
-                  <p>{{ address.direccion }}, {{ address.provincia }}, {{ address.ciudad }}, Tel: {{address.telefono}}</p>
+          @if(shippingMethodIsHomeDelivery()) {
+            <p class="font-medium text-base mb-5">Elige una dirección de envío</p>
+            @for (address of addresses; track address.id) {
+              <div class="flex flex-col gap-4 mb-5">
+                <div class="border rounded-md px-4 py-3">
+                  <label [for]="address.id" class="flex items-center gap-5 cursor-pointer">
+                    <input type="radio" [id]="address.id" name="address" formControlName="address" 
+                      [value]="address" class="w-5 h-5 accent-red-600 cursor-pointer">
+                    <div>
+                      <p class="font-medium">{{ address.nombre }}</p>
+                      <p>{{ address.direccion }}, {{ address.provincia }}, {{ address.ciudad }}, Tel: {{address.telefono}}</p>
+                    </div>
+                  </label>
                 </div>
               </div>
-            </div>
-          }
-    
-          <p class="font-medium text-base mb-5">Elige una opción de envío</p>
-          @for (shippingOption of shippingOptions; track shippingOption.id) {
-            <div class="flex flex-col gap-4 mb-5">
-              <div class="border rounded-md px-4 py-3 gap-5 flex justify-between">
-                <div class="flex gap-4">
-                  <input type="radio" [id]="shippingOption.valor" name="shippingOption" formControlName="shippingOption" [value]="shippingOption" class="w-5 h-5 accent-red-600">
-                  <img [src]="'http://localhost:8080/images/' + shippingOption.imagen" class="w-12">
-                  <label [for]="shippingOption.valor">{{ shippingOption.descripcion }}</label>
+            }
+      
+            <p class="font-medium text-base mb-5">Elige una opción de envío</p>
+            @for (shippingOption of shippingOptions; track shippingOption.id) {
+              <div class="flex flex-col gap-4 mb-5">
+                <div class="border rounded-md px-4 py-3 gap-5 flex justify-between">
+                  <label [for]="shippingOption.valor" class="flex gap-4 cursor-pointer">
+                    <input type="radio" [id]="shippingOption.valor" name="shippingOption" 
+                      formControlName="shippingOption" [value]="shippingOption" class="w-5 h-5 accent-red-600 cursor-pointer">
+                    <img [src]="'http://localhost:8080/images/' + shippingOption.imagen" class="w-12">
+                    {{ shippingOption.descripcion }}
+                  </label>
+                  @if(shippingOption.coste) {
+                    <div>{{ shippingOption.coste | currency:'EUR' }}</div>
+                  } @else {
+                    <div class="text-green-400">Gratis</div>
+                  }
                 </div>
-                @if(shippingOption.coste) {
-                  <div>{{ shippingOption.coste | currency:'EUR' }}</div>
-                } @else {
-                  <div class="text-green-400">Gratis</div>
-                }
               </div>
-            </div>
+            }
           }
     
-          @if(this.selectionForm.valid) {
+          @if(selectionFormIsValid()) {
             <button class="self-end border py-2 px-5 rounded-md bg-red-600 
             text-white transition-transform active:scale-95 shadow-sm hover:bg-red-700"
               type="button"
@@ -84,100 +92,126 @@
             </p>
           </div>
         </div>
-        <form class="py-10 w-[95%] flex flex-col">
+        <form class="py-10 w-[95%] flex flex-col" [formGroup]="paymentForm">
           <p class="font-medium text-base mb-5">Seleccione una opción de pago</p>
           <div class="flex flex-col gap-4 mb-10">
-            <div class="border rounded-md px-4 py-3 flex items-center gap-5">
-              <input type="radio" name="shipping-method" class="w-5 h-5 accent-red-600">
-              <img src="http://localhost:8080/images/checkout.svg" 
-                  alt="Icono de los distintos bancos"
-                  class="w-12">
-              <p>Tarjeta bancaria</p>
-            </div>
-            <div class="border rounded-md px-4 py-3 flex items-center gap-5">
-              <input type="radio" name="shipping-method" class="w-5 h-5 accent-red-600">
-              <img src="http://localhost:8080/images/byteShopLogo.png" 
-                  alt="Icono de los distintos bancos"
-                  class="w-12">
-              <p>Pago y recogida en tienda</p>
-            </div>
+            @for (paymentOption of paymentOptions; track paymentOption.id) {
+              <div class="border rounded-md px-4 py-3 flex justify-between items-center">
+                <div>
+                  <label [for]="paymentOption.valor" class="flex items-center gap-5 cursor-pointer">
+                    <input 
+                      type="radio" [id]="paymentOption.valor" name="paymentOption" formControlName="paymentOption" 
+                      [value]="paymentOption" class="w-5 h-5 accent-red-600 cursor-pointer">
+                    <img [src]="'http://localhost:8080/images/' + paymentOption.imagen" class="w-12">
+                    {{ paymentOption.descripcion }}
+                  </label>
+                </div>
+                <button 
+                  class="flex items-center justify-center" 
+                  type="button" 
+                  (click)="openAddtionalInfoPopUp(paymentOption)"
+                >
+                  <mat-icon fontIcon="info"></mat-icon>
+                </button>
+              </div>
+            }
           </div>
     
-          <button class="self-end border py-2 px-5 rounded-md bg-red-600 
-          text-white transition-transform active:scale-95 shadow-sm hover:bg-red-700"
-            type="button"
-            (click)="changeToProcessOrderStep()">
-            Continuar
-          </button>
+          @if(paymentOptionIsSelected()) {
+            <button 
+              class="self-end border py-2 px-5 rounded-md bg-red-600 
+            text-white transition-transform active:scale-95 shadow-sm hover:bg-red-700"
+              type="button"
+              (click)="changeToProcessOrderStep()"
+            >
+              Continuar
+            </button>
+          }
         </form>
       }
       @case(2) {
-        <p class="text-lg font-medium">Por favor, complete a continuación el pago de tu pedido</p>
-        <div>
-          <form class="py-5 w-[95%] flex flex-col mb-5">
-            <div class="border rounded-md p-5 flex flex-col gap-5">
-              <p class="text-lg font-medium">Tarjeta</p>
-              <div class="flex flex-col gap-1">
-                <p class="font-medium text-sm">Nombre del titular de la tarjeta</p>
-                <input 
-                  class="w-full px-4 py-3 border border-gray-400 rounded-md outline-none
-                  transition hover:border-red-400" 
-                  type="text"
-                  placeholder="Nombre Apellidos"
-                >
-              </div>
-  
-              <div class="flex flex-col gap-1">
-                <p class="font-medium text-sm">Número de tarjeta</p>
-                <div class="flex border border-gray-400 rounded-md transition hover:border-red-400">
+        <div class="flex flex-col items-center gap-2 mb-5">
+          <div>
+            <mat-icon fontIcon="verified" class="text-green-500 !text-8xl !w-full !h-full"></mat-icon>
+          </div>
+          <p class="text-2xl font-medium">¡Tu pedido ha sido realizado con éxito!</p>
+        </div>
+        <div class="flex flex-col gap-5 mb-5">
+          <p>Gracias por tu compra</p>
+          <p>Te agradecemos la confianza en nuestra tienda</p>
+          <div>
+            <p>Número de pedido</p>
+            <p class="font-medium text-neutral-500">250119182946</p>
+          </div>
+        </div>
+        @if(paymentOptionIsCreditCard()) {
+          <p class="text-lg font-medium">Por favor, complete a continuación el pago de tu pedido</p>
+          <div>
+            <form class="py-5 w-[95%] flex flex-col">
+              <div class="border rounded-md p-5 flex flex-col gap-5">
+                <p class="text-lg font-medium">Tarjeta</p>
+                <div class="flex flex-col gap-1">
+                  <p class="font-medium text-sm">Nombre del titular de la tarjeta</p>
                   <input 
-                    type="text" 
-                    name="cardNumber" 
-                    class="w-full rounded-md px-4 py-3 outline-none" 
-                    placeholder="1234 1234 1234 1234" >
-                  <div class="bg-white rounded-md flex justify-center items-center gap-1 px-3">
-                    <img src="http://localhost:8080/images/visa.svg" alt="" class="w-8">
-                    <img src="http://localhost:8080/images/mastercard.svg" alt="" class="w-8">
+                    class="w-full px-4 py-3 border border-gray-400 rounded-md outline-none
+                    transition hover:border-red-400" 
+                    type="text"
+                    placeholder="Nombre Apellidos"
+                  >
+                </div>
+    
+                <div class="flex flex-col gap-1">
+                  <p class="font-medium text-sm">Número de tarjeta</p>
+                  <div class="flex border border-gray-400 rounded-md transition hover:border-red-400">
+                    <input 
+                      type="text" 
+                      name="cardNumber" 
+                      class="w-full rounded-md px-4 py-3 outline-none" 
+                      placeholder="1234 1234 1234 1234" >
+                    <div class="bg-white rounded-md flex justify-center items-center gap-1 px-3">
+                      <img src="http://localhost:8080/images/visa.svg" alt="" class="w-8">
+                      <img src="http://localhost:8080/images/mastercard.svg" alt="" class="w-8">
+                    </div>
                   </div>
                 </div>
-              </div>
-  
-              <div class="flex gap-5">
-                <div class="flex-1 flex flex-col gap-1">
-                  <p class="font-medium text-sm">Fecha de caducidad</p>
-                  <input 
-                    class="w-full px-4 py-3 border border-gray-400 rounded-md outline-none transition hover:border-red-400" 
-                    type="text"
-                    placeholder="MM/AA"
-                  >
+    
+                <div class="flex gap-5">
+                  <div class="flex-1 flex flex-col gap-1">
+                    <p class="font-medium text-sm">Fecha de caducidad</p>
+                    <input 
+                      class="w-full px-4 py-3 border border-gray-400 rounded-md outline-none transition hover:border-red-400" 
+                      type="text"
+                      placeholder="MM/AA"
+                    >
+                  </div>
+                  <div class="flex-1  flex flex-col gap-1">
+                    <p class="font-medium text-sm">Código de serguridad</p>
+                    <input 
+                      class="w-full px-4 py-3 border border-gray-400 rounded-md outline-none transition hover:border-red-400" 
+                      type="text"
+                      placeholder="CVV"
+                    >
+                  </div>
                 </div>
-                <div class="flex-1  flex flex-col gap-1">
-                  <p class="font-medium text-sm">Código de serguridad</p>
-                  <input 
-                    class="w-full px-4 py-3 border border-gray-400 rounded-md outline-none transition hover:border-red-400" 
-                    type="text"
-                    placeholder="CVV"
-                  >
-                </div>
+    
+                <button 
+                  class="flex-auto bg-red-600 text-white rounded-md py-3 transition hover:bg-red-700 "
+                  type="button"
+                >Pagar</button>
+    
               </div>
-  
-              <button 
-                class="flex-auto bg-red-600 text-white rounded-md py-3 transition hover:bg-red-700 "
-                type="button"
-              >Pagar</button>
-  
-            </div>
-          </form>
-          <div class="flex justify-center items-center gap-5">
-            <button 
-              class="border rounded-md py-2 px-6 transition outline-none hover:border-gray-400 active:scale-95"
-              routerLink="/account/orders/active"
-            >Ir a mis pedidos</button>
-            <button 
-              class="border rounded-md py-2 px-6 bg-red-600 text-white outline-none transition hover:bg-red-700 active:scale-95"
-              routerLink="/home"
-            >Seguir comprando</button>
+            </form>
           </div>
+        }
+        <div class="flex justify-center items-center gap-5">
+          <button 
+            class="border rounded-md py-2 px-6 transition outline-none hover:border-gray-400 active:scale-95"
+            routerLink="/account/orders/active"
+          >Ir a mis pedidos</button>
+          <button 
+            class="border rounded-md py-2 px-6 bg-red-600 text-white outline-none transition hover:bg-red-700 active:scale-95"
+            routerLink="/home"
+          >Seguir comprando</button>
         </div>
       }
     }
@@ -227,6 +261,8 @@
           <p>Gastos de envío</p>
           @if(shippingOptionIsSelected()) {
             <p class="font-medium">{{ getShippingOptionCost() | currency:'EUR' }}</p>
+          } @else if(shippingMethodIsShopPickUp()) {
+            <p class="font-medium">0,00 €</p>
           } @else {
             <p class="font-medium">Por calcular</p>
           }
@@ -258,27 +294,27 @@
         </div>
       </div>
     } @else {
-      <div class="flex flex-col gap-5">
+      <div class="flex flex-col gap-7">
         <p class="text-3xl font-medium">Datos de tu pedido</p>
         <div>
           <p class="font-medium text-lg">Número de tu pedido</p>
-          <p>250156165156</p>
+          <p>250119182946</p>
         </div>
         <div>
           <p class="font-medium text-lg">Total</p>
-          <p>514,45 €</p>
+          <p>{{ getTotalWithTax() | currency:'EUR' }}</p>
         </div>
         <div>
           <p class="font-medium text-lg">Método de envío</p>
-          <p>Envíos ByteShop</p>
+          <p>{{ getShippingMethodDescription() }}</p>
         </div>
         <div>
           <p class="font-medium text-lg">Métodos de pago</p>
-          <p>Tarjeta</p>
+          <p>{{ getPaymentOptionDescription() }}</p>
         </div>
         <div>
           <p class="font-medium text-lg">Información adicional</p>
-          <p>ñasjdasjdk sda sjdkkasd jaksdj lasdj askdjsa </p>
+          <p>{{ getPaymentOptionAddtionalInformation() }}</p>
         </div>
       </div>
     }

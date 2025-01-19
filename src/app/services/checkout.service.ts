@@ -4,6 +4,7 @@ import { ShippingMethod } from '../models/shippingMethod.model';
 import { firstValueFrom } from 'rxjs';
 import { environment } from '../../environments/environment.development';
 import { ShippingOption } from '../models/shippingOption.model';
+import { PaymentOption } from '../models/paymentOption.model';
 
 @Injectable({
   providedIn: 'root'
@@ -38,6 +39,21 @@ export class CheckoutService {
 
     if(response.ok) {
       return response.body.shippingOptions
+    }
+
+    return []
+  }
+
+  public async getPaymentOptions(): Promise<PaymentOption[]> {
+    const response = await firstValueFrom(
+      this.httpClient.get<any>(
+        `${environment.apiBaseUrl}checkout/payment-options`, 
+        { observe: 'response', withCredentials: true }
+      )
+    )
+
+    if(response.ok) {
+      return response.body.paymentOptions
     }
 
     return []
