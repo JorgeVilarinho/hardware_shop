@@ -74,15 +74,19 @@ export class CartService {
     }
 
     items.splice(index, 1);
-    this.deleteItemToShoppingBasketDatabase(id);
-
+    
+    if(this.authenticationService.isLoggedIn()) {
+      this.deleteItemToShoppingBasketDatabase(id);
+    }
     this.localStorageService.setItem('items', JSON.stringify(items))
     this.productsInCart.next({ items });
     this.snackBar.open('Se ha eliminado el producto correctamente', 'Ok', { duration: 3000 });
   }
 
   public removeAllItems(): void {
-    this.removeAllItemsToShoppingBasketDatabase();
+    if(this.authenticationService.isLoggedIn()) {
+      this.removeAllItemsToShoppingBasketDatabase();
+    }
     this.localStorageService.removeItem('items');
     this.productsInCart.next({ items: [] });
     this.snackBar.open('Se han eliminado todos los productos del carrito', 'Ok', { duration: 3000 })

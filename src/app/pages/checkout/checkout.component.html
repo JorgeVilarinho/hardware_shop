@@ -119,12 +119,16 @@
     
           @if(paymentOptionIsSelected()) {
             <button 
-              class="self-end border py-2 px-5 rounded-md bg-red-600 
-            text-white transition-transform active:scale-95 shadow-sm hover:bg-red-700"
+              class="self-end border py-2 px-3 rounded-md bg-red-600 
+            text-white transition-transform active:scale-95 shadow-sm hover:bg-red-700
+              flex justify-center items-center gap-3"
               type="button"
-              (click)="changeToProcessOrderStep()"
+              (click)="processOrderAndChangeToProcessOrderStep()"
             >
-              Continuar
+              @if(isLoading) {
+                <mat-progress-spinner mode="indeterminate" diameter="25"></mat-progress-spinner>
+              }
+              <span>Continuar</span>
             </button>
           }
         </form>
@@ -141,7 +145,7 @@
           <p>Te agradecemos la confianza en nuestra tienda</p>
           <div>
             <p>Número de pedido</p>
-            <p class="font-medium text-neutral-500">250119182946</p>
+            <p class="font-medium text-neutral-500">{{ order?.id }}</p>
           </div>
         </div>
         @if(paymentOptionIsCreditCard()) {
@@ -302,7 +306,7 @@
         </div>
         <div>
           <p class="font-medium text-lg">Total</p>
-          <p>{{ getTotalWithTax() | currency:'EUR' }}</p>
+          <p>{{ total | currency:'EUR' }}</p>
         </div>
         <div>
           <p class="font-medium text-lg">Método de envío</p>

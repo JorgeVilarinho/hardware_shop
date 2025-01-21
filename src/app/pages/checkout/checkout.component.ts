@@ -16,10 +16,12 @@ import { MatDialog } from '@angular/material/dialog';
 import { AdditionalInfoDialogComponent } from '../../components/additional-info-dialog/additional-info-dialog.component';
 import { ShippingMethodValue } from '../../models/shippingMethodValue.model';
 import { PaymentOptionValue } from '../../models/paymentOptionValue.models';
+import {MatProgressSpinnerModule} from '@angular/material/progress-spinner';
+import { Order } from '../../models/order.model';
 
 @Component({
   selector: 'app-checkout',
-  imports: [ MatIcon, RouterLink, CurrencyPipe, ReactiveFormsModule, MatIcon ],
+  imports: [ MatIcon, RouterLink, CurrencyPipe, ReactiveFormsModule, MatIcon, MatProgressSpinnerModule ],
   templateUrl: './checkout.component.html',
   styleUrl: './checkout.component.css'
 })
@@ -30,6 +32,9 @@ export class CheckoutComponent implements OnInit {
   shippingMethods: ShippingMethod[] = []
   shippingOptions: ShippingOption[] = []
   paymentOptions: PaymentOption[] = []
+  order: Order | undefined
+  isLoading = false
+  total = 0
 
   userService = inject(UserService)
   cartService = inject(CartService)
@@ -63,7 +68,19 @@ export class CheckoutComponent implements OnInit {
     this.checkoutSteps = CheckoutSteps.PAYMENT
   }
 
-  public changeToProcessOrderStep(): void {
+  public async processOrderAndChangeToProcessOrderStep(): Promise<void> {
+    // Create order
+    this.isLoading = true
+
+    this.total = this.getTotalWithTax()
+    this.order = await this.checkoutService.createOrder(
+      this.cartProducts, this.getShippingMethod(), 
+      this.getShippingOption(), this.getPaymentOption(), this.total, this.getAddress())
+    this.cartService.removeAllItems();
+
+    this.isLoading = false
+
+    // Change form step
     this.checkoutSteps = CheckoutSteps.PROCESS_ORDER
   }
 
@@ -79,12 +96,24 @@ export class CheckoutComponent implements OnInit {
     return this.cartService.getTotalWithTax()
   }
 
+  private getShippingMethod(): ShippingMethod {
+    return this.selectionForm.get('shippingMethod')?.value!
+  }
+
   public getShippingMethodDescription(): string | undefined {
     return this.selectionForm.get('shippingMethod')?.value?.descripcion;
-  } 
+  }
+
+  private getShippingOption(): ShippingOption {
+    return this.selectionForm.get('shippingOption')?.value!
+  }
 
   public getShippingOptionDescription(): string | undefined {
     return this.selectionForm.get('shippingOption')?.value?.descripcion;
+  }
+
+  private getPaymentOption(): PaymentOption {
+    return this.paymentForm.get('paymentOption')!.value!
   }
 
   public getPaymentOptionDescription(): string | undefined {
@@ -93,6 +122,10 @@ export class CheckoutComponent implements OnInit {
 
   public getPaymentOptionAddtionalInformation(): string | undefined {
     return this.paymentForm.get('paymentOption')?.value?.informacion_adicional;
+  }
+
+  private getAddress(): Address {
+    return this.selectionForm.get('address')?.value!
   }
 
   public getAddressName(): string | undefined {

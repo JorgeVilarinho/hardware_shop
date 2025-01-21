@@ -1,10 +1,14 @@
+import { CreateOrderResponse } from './../responses/createOrder.response';
+import { PaymentOption } from './../models/paymentOption.model';
+import { ShippingOption } from './../models/shippingOption.model';
+import { ShippingMethod } from './../models/shippingMethod.model';
 import { HttpClient } from '@angular/common/http';
 import { inject, Injectable } from '@angular/core';
-import { ShippingMethod } from '../models/shippingMethod.model';
 import { firstValueFrom } from 'rxjs';
 import { environment } from '../../environments/environment.development';
-import { ShippingOption } from '../models/shippingOption.model';
-import { PaymentOption } from '../models/paymentOption.model';
+import { Product } from '../models/product.model';
+import { Order } from '../models/order.model';
+import { Address } from '../models/address.model';
 
 @Injectable({
   providedIn: 'root'
@@ -57,5 +61,30 @@ export class CheckoutService {
     }
 
     return []
+  }
+
+  public async createOrder(products: Product[], shippingMethod: ShippingMethod, 
+    shippingOption: ShippingOption, paymentOption: PaymentOption, 
+    total: number, address: Address): Promise<Order | undefined> {
+    const response = await firstValueFrom(
+      this.httpClient.post<CreateOrderResponse>(
+        `${environment.apiBaseUrl}checkout`, 
+        { 
+          products, 
+          shippingMethod: shippingMethod, 
+          shippingOption: shippingOption, 
+          paymentOption: paymentOption,
+          total,
+          address
+        },
+        { observe: 'response', withCredentials: true }
+      )
+    )
+
+    if(response.ok) {
+      return response.body?.order
+    }
+
+    return undefined
   }
 }
