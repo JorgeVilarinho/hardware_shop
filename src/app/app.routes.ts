@@ -11,6 +11,7 @@ import { UserDataComponent } from './components/user-data/user-data.component';
 import { ShoppingBasketComponent } from './pages/shopping-basket/shopping-basket.component';
 import { ProductComponent } from './pages/product/product.component';
 import { CheckoutComponent } from './pages/checkout/checkout.component';
+import { OrderComponent } from './components/order/order.component';
 
 export const routes: Routes = [
   {
@@ -39,6 +40,9 @@ export const routes: Routes = [
       },
       {
         path: 'data', component: UserDataComponent
+      },
+      {
+        path: 'orders/:id', component: OrderComponent
       }
     ]
   },

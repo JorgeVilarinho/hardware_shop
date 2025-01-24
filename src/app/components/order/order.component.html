@@ -1,0 +1,45 @@
+<div class="flex items-center gap-3 cursor-pointer mb-5" (click)="goBack()">
+  <mat-icon fontIcon="arrow_back"></mat-icon>
+  <p class="text-lg">Volver</p>
+</div>
+<div class="flex flex-col">
+  <div class="flex items-center">
+    <h1>Nº de pedido: {{ order?.id }} </h1>
+    @switch (order?.estado_pedido_valor) {
+      @case (pendingPayment) {
+        <p class="bg-red-200 text-red-600 text-sm font-medium rounded-full px-2 py-1">{{ order?.estado_pedido_desc }}</p>
+      }
+      @case (canceled) {
+        <p class="bg-gray-200 text-gray-600 text-sm font-medium rounded-full px-2 py-1">{{ order?.estado_pedido_desc }}</p>
+      }
+    }
+  </div>
+  <p class="mb-5">Pedido realizado: {{ getFormattedDate(order?.fecha_creacion!) }}</p>
+  <div class="bg-neutral-200 px-4 py-2 mb-5">
+    <p>Envío - Entrega estimada {{ getFormattedDate(order?.fecha_creacion!) }} a {{ getFormattedDate(order?.fecha_creacion!) }}</p>
+  </div>
+  <div class="grid grid-cols-7 gap-y-2">
+    @for (product of products; track product.id) {
+      <div class="col-span-4 flex gap-3">
+        <img 
+          [src]="'http://localhost:8080/images/' + product.image" 
+          alt="Imagen del producto"
+          class="w-28 border"
+        >
+        <div>
+          <p class="text-black font-medium text-lg">{{ product.name }}</p>
+          <p class="text-sm text-neutral-500">{{ product.category }}</p>
+        </div>
+      </div>
+      <div class=" text-center">
+        {{ product.units }}
+      </div>
+      <div class="text-center">
+        {{ getFormattedDate(order?.fecha_creacion!) }} a {{ getFormattedDate(order?.fecha_creacion!) }}
+      </div>
+      <div class=" text-center">
+        {{ product.price | currency:'EUR' }}
+      </div>
+    }
+  </div>
+</div>

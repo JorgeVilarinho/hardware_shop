@@ -48,8 +48,8 @@ export class AddressInitialComponent implements OnInit {
       })
   }
 
-  ngOnInit(): void {
-    this.userService.getAddresses();
+  async ngOnInit(): Promise<void> {
+    this.addresses = await this.userService.getAddresses();
   }
 
   changeToAddressCreateComponent(): void {
