@@ -1,5 +1,5 @@
 import { OrdersService } from './../../services/orders.service';
-import { Router } from '@angular/router';
+import { Router, RouterModule } from '@angular/router';
 import { Component, inject, OnInit } from '@angular/core';
 import { MatIcon } from '@angular/material/icon';
 import { ActiveOrder } from '../../models/activeOrder.model';
@@ -9,13 +9,14 @@ import { CurrencyPipe } from '@angular/common';
 
 @Component({
   selector: 'app-order',
-  imports: [ MatIcon, CurrencyPipe ],
+  imports: [ MatIcon, CurrencyPipe, RouterModule ],
   templateUrl: './order.component.html',
   styleUrl: './order.component.css'
 })
 export class OrderComponent implements OnInit {
   order: ActiveOrder | undefined
   products: Product[] = []
+  shippingOptionCost: number = 0
 
   pendingPayment = OrderStatusValue.PENDING_PAYMENT
   canceled = OrderStatusValue.CANCELED
@@ -28,7 +29,11 @@ export class OrderComponent implements OnInit {
   
   async ngOnInit(): Promise<void> {
     this.products = await this.ordersService.getProductsFromOrder(this.order?.id!)
-    console.log(this.products)
+    this.shippingOptionCost = await this.ordersService.getShippingOptionCost(this.order?.id_opcion_envio!)
+  }
+
+  public getSubtotal(): number {
+    return this.order?.total! - this.shippingOptionCost
   }
 
   public getFormattedDate(createDate: string): string {

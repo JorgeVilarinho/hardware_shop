@@ -1,0 +1,107 @@
+<div class="fix-height container mx-auto">
+  <form class="py-14 flex flex-col" [formGroup]="paymentForm" (ngSubmit)="onSubmit()">
+    <div class="border rounded-md p-5 flex flex-col gap-5">
+      <p class="text-lg font-medium">Tarjeta</p>
+      <div class="flex flex-col gap-1">
+        <label class="font-medium text-sm" for="cardHolder">Nombre del titular de la tarjeta</label>
+        <input 
+          class="w-full px-4 py-3 border border-gray-400 rounded-md outline-none
+          transition hover:border-red-400" 
+          type="text"
+          name="cardHolder"
+          id="cardHolder"
+          placeholder="Nombre Apellidos"
+          formControlName="cardHolder"
+          [class.invalid]="invalidCardHolder()"
+        >
+        @if(cardHolderHasRequiredError()) {
+          <span class="text-red-600">Este campo es obligatorio</span>
+        }
+      </div>
+
+      <div class="flex flex-col gap-1">
+        <label class="font-medium text-sm" for="cardNumber">Número de tarjeta</label>
+        <div class="flex border border-gray-400 rounded-md transition hover:border-red-400" [class.invalid]="invalidCardNumber()">
+          <input 
+            type="text" 
+            name="cardNumber"
+            id="cardNumber"
+            class="w-full rounded-md px-4 py-3 outline-none" 
+            placeholder="1234 1234 1234 1234"
+            formControlName="cardNumber"
+          >
+          <div class="bg-white rounded-md flex justify-center items-center gap-1 px-3">
+            <img src="http://localhost:8080/images/visa.svg" alt="" class="w-8">
+            <img src="http://localhost:8080/images/mastercard.svg" alt="" class="w-8">
+          </div>
+        </div>
+        @if(cardNumberHasRequiredError()) {
+          <span class="text-red-600">Este campo es obligatorio</span>
+        }
+        @if(cardNumberHasPatternError()) {
+          <span class="text-red-600">El número de tarjeta debe tener al menos 12 dígitos</span>
+        }
+      </div>
+
+      <div class="flex gap-5">
+        <div class="flex-1 flex flex-col gap-1">
+          <label class="font-medium text-sm" for="expireDate">Fecha de caducidad</label>
+          <input 
+            class="w-full px-4 py-3 border border-gray-400 rounded-md outline-none transition hover:border-red-400" 
+            type="text"
+            id="expireDate"
+            name="expireDate"
+            formControlName="expireDate"
+            placeholder="MM/AA"
+            [class.invalid]="invalidExpireDate()"
+          >
+          @if(expireDateHasRequiredError()) {
+            <span class="text-red-600">Este campo es obligatorio</span>
+          }
+          @if(expireDateHasPatternError()) {
+            <span class="text-red-600">Este campo debe de tener el formato correcto de mes y año</span>
+          }
+          @if(expireDateHasValueError()) {
+            <span class="text-red-600">La fecha de vencimiento ya pasó</span>
+          }
+        </div>
+        <div class="flex-1  flex flex-col gap-1">
+          <label class="font-medium text-sm" for="securityCode">Código de serguridad</label>
+          <input 
+            class="w-full px-4 py-3 border border-gray-400 rounded-md outline-none transition hover:border-red-400" 
+            type="text"
+            id="securityCode"
+            name="securityCode"
+            formControlName="securityCode"
+            placeholder="CVV"
+            [class.invalid]="invalidSecurityCode()"
+          >
+          @if(securityCodeHasRequiredError()) {
+            <span class="text-red-600">Este campo es obligatorio</span>
+          }
+          @if(securityCodeHasPatternError()) {
+            <span class="text-red-600">Este campo debe de tener 3 dígitos</span>
+          }
+        </div>
+      </div>
+
+      <button 
+        class="flex-auto bg-red-600 text-white rounded-md py-3 transition hover:bg-red-700"
+        type="submit"
+      >
+        Pagar
+      </button>
+
+    </div>
+  </form>
+  <div class="flex justify-center items-center gap-5">
+    <button 
+      class="border rounded-md py-2 px-6 transition outline-none hover:border-gray-400 active:scale-95"
+      routerLink="/account/orders/active"
+    >Ir a mis pedidos</button>
+    <button 
+      class="border rounded-md py-2 px-6 bg-red-600 text-white outline-none transition hover:bg-red-700 active:scale-95"
+      routerLink="/home"
+    >Seguir comprando</button>
+  </div>
+</div>

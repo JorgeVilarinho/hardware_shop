@@ -6,6 +6,7 @@ import { GetActiveOrdersResponse } from '../responses/getActiveOrders.response';
 import { ActiveOrder } from '../models/activeOrder.model';
 import { GetProductsFromOrderResponse } from '../responses/getProductsFromOrder.response';
 import { Product } from '../models/product.model';
+import { GetShippingOptionCostResponse } from '../responses/getShippingOptionCost.response';
 
 @Injectable({
   providedIn: 'root'
@@ -35,10 +36,22 @@ export class OrdersService {
     )
     
     if(response.ok) {
-      console.log(response.body?.products)
       return response.body!.products;
     }
     
     return []
+  }
+
+  public async getShippingOptionCost(shippingOptionId: number): Promise<number> {
+    const response = await firstValueFrom(
+      this.httpClient.get<GetShippingOptionCostResponse>(`${environment.apiBaseUrl}orders/${shippingOptionId}/cost`, 
+      { observe: 'response', withCredentials: true })
+    )
+    
+    if(response.ok) {
+      return response.body!.cost;
+    }
+    
+    return 0
   }
 }

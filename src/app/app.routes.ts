@@ -12,6 +12,7 @@ import { ShoppingBasketComponent } from './pages/shopping-basket/shopping-basket
 import { ProductComponent } from './pages/product/product.component';
 import { CheckoutComponent } from './pages/checkout/checkout.component';
 import { OrderComponent } from './components/order/order.component';
+import { PaymentComponent } from './pages/payment/payment.component';
 
 export const routes: Routes = [
   {
@@ -54,6 +55,9 @@ export const routes: Routes = [
   },
   {
     path: 'checkout', component: CheckoutComponent
+  },
+  {
+    path: 'payment', component: PaymentComponent
   },
   {
     path: '', redirectTo: 'home', pathMatch: 'full'

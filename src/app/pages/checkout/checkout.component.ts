@@ -90,7 +90,7 @@ export class CheckoutComponent implements OnInit {
 
   public getTotalWithTax(): number {
     if(this.shippingOptionIsSelected()) {
-      return this.cartService.getTotalWithTax() + this.getShippingOptionCost()!
+      return (this.cartService.getTotal() + this.getShippingOptionCost()!) * 1.21
     }
 
     return this.cartService.getTotalWithTax()
