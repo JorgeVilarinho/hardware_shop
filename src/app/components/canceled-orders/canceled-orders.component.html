@@ -1,1 +1,30 @@
-<p>Todavía no has realizado ningún pedido</p>
+<div class="flex flex-col gap-3">
+  @for(canceledOrder of canceledOrders; track canceledOrder.id) {
+    <div class="flex items-center justify-between p-3 shadow-md bg-white rounded-lg cursor-pointer" (click)="openOrder(canceledOrder)">
+      <div class="flex items-center gap-14">
+        <div class="flex item items-center gap-5">
+          <img 
+          [src]="'http://localhost:8080/images/' + canceledOrder.imagen" 
+          alt="Imagen producto pedido"
+          class="w-20 border"
+          >
+          <p class="text-black">Nº Pedido {{ canceledOrder.id }}</p>
+        </div>
+        <p>{{ getFormattedDate(canceledOrder.fecha_creacion) }}</p>
+      </div>
+      <div class="flex items-center gap-20">
+        @switch (canceledOrder.estado_pedido_valor) {
+          @case (canceled) {
+            <p class="bg-gray-200 text-gray-600 text-sm font-medium rounded-full px-2 py-1">{{ canceledOrder.estado_pedido_desc }}</p>
+          }
+          @default {
+            <p class="text-red-600 text-sm font-medium rounded-full px-2 py-1">ERROR</p>
+          }
+        }
+        <p class="text-black font-medium">{{ canceledOrder.total | currency:'EUR' }}</p>
+      </div>
+    </div>
+  } @empty {
+    <p>Todavía no has realizado ningún pedido</p>
+  }
+</div>

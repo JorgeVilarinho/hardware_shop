@@ -17,7 +17,7 @@ import { AdditionalInfoDialogComponent } from '../../components/additional-info-
 import { ShippingMethodValue } from '../../models/shippingMethodValue.model';
 import { PaymentOptionValue } from '../../models/paymentOptionValue.models';
 import {MatProgressSpinnerModule} from '@angular/material/progress-spinner';
-import { Order } from '../../models/order.model';
+import { OrderRepository } from '../../models/orderRepository.model';
 
 @Component({
   selector: 'app-checkout',
@@ -32,7 +32,7 @@ export class CheckoutComponent implements OnInit {
   shippingMethods: ShippingMethod[] = []
   shippingOptions: ShippingOption[] = []
   paymentOptions: PaymentOption[] = []
-  order: Order | undefined
+  order: OrderRepository | undefined
   isLoading = false
   total = 0
 

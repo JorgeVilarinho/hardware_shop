@@ -1,0 +1,17 @@
+@if(canceled) {
+  <div class="p-5 flex flex-col items-center gap-3">
+    <div>
+      <mat-icon fontIcon="verified" class="text-green-500 !text-8xl !w-full !h-full"></mat-icon>
+    </div>
+    <p class="text-2xl font-medium">Pedido cancelado con éxito</p>
+    <p class="text-lg">¡Muchas gracias por confiar en nosotros!</p>
+  </div>
+} @else {
+  <div class="p-5 flex flex-col items-center gap-3">
+    <div>
+      <mat-icon fontIcon="cancel" class="text-red-600 !text-8xl !w-full !h-full"></mat-icon>
+    </div>
+    <p class="text-2xl font-medium">Error al cancelar el pedido</p>
+    <p class="text-lg">Por favor, inténtelo de nuevo más tarde</p>
+  </div>
+}

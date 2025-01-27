@@ -1,28 +1,36 @@
-@for (activeOrder of activeOrders; track activeOrder.id) {
-  <div class="flex items-center justify-between p-3 shadow-md bg-white rounded-lg cursor-pointer" (click)="openOrder(activeOrder)">
-    <div class="flex items-center gap-14">
-      <div class="flex item items-center gap-5">
-        <img 
-        [src]="'http://localhost:8080/images/' + activeOrder.imagen" 
-        alt="Imagen producto pedido"
-        class="w-20 border"
-        >
-        <p class="text-black">Nº Pedido {{ activeOrder.id }}</p>
+<div class="flex flex-col gap-3">
+  @for (activeOrder of activeOrders; track activeOrder.id) {
+    <div class="flex items-center justify-between p-3 shadow-md bg-white rounded-lg cursor-pointer" (click)="openOrder(activeOrder)">
+      <div class="flex items-center gap-14">
+        <div class="flex item items-center gap-5">
+          <img 
+          [src]="'http://localhost:8080/images/' + activeOrder.imagen" 
+          alt="Imagen producto pedido"
+          class="w-20 border"
+          >
+          <p class="text-black">Nº Pedido {{ activeOrder.id }}</p>
+        </div>
+        <p>{{ getFormattedDate(activeOrder.fecha_creacion) }}</p>
       </div>
-      <p>{{ getFormattedDate(activeOrder.fecha_creacion) }}</p>
-    </div>
-    <div class="flex items-center gap-20">
-      @switch (activeOrder.estado_pedido_valor) {
-        @case (pendingPayment) {
-          <p class="bg-red-200 text-red-600 text-sm font-medium rounded-full px-2 py-1">{{ activeOrder.estado_pedido_desc }}</p>
+      <div class="flex items-center gap-20">
+        @switch (activeOrder.estado_pedido_valor) {
+          @case (pendingPayment) {
+            <p class="bg-red-200 text-red-600 text-sm font-medium rounded-full px-2 py-1">{{ activeOrder.estado_pedido_desc }}</p>
+          }
+          @case(paid) {
+            <p class="bg-green-300 text-green-700 text-sm font-medium rounded-full px-2 py-1">{{ activeOrder.estado_pedido_desc }}</p>
+          }
+          @case (canceled) {
+            <p class="bg-gray-200 text-gray-600 text-sm font-medium rounded-full px-2 py-1">{{ activeOrder.estado_pedido_desc }}</p>
+          }
+          @default {
+            <p class="text-red-600 text-sm font-medium rounded-full px-2 py-1">ERROR</p>
+          }
         }
-        @case (canceled) {
-          <p class="bg-gray-200 text-gray-600 text-sm font-medium rounded-full px-2 py-1">{{ activeOrder.estado_pedido_desc }}</p>
-        }
-      }
-      <p class="text-black font-medium">{{ activeOrder.total | currency:'EUR' }}</p>
+        <p class="text-black font-medium">{{ activeOrder.total | currency:'EUR' }}</p>
+      </div>
     </div>
-  </div>
-} @empty {
-  <p>Todavía no has realizado ningún pedido</p>
-}
+  } @empty {
+    <p>Todavía no has realizado ningún pedido</p>
+  }
+</div>

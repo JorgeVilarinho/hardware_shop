@@ -1,6 +1,6 @@
 import { Component, inject, OnInit } from '@angular/core';
 import { OrdersService } from '../../services/orders.service';
-import { ActiveOrder } from '../../models/activeOrder.model';
+import { Order } from '../../models/order.model';
 import { OrderStatusValue } from '../../models/orderStatusValue.model';
 import { CurrencyPipe } from '@angular/common';
 import { Router } from '@angular/router';
@@ -12,9 +12,10 @@ import { Router } from '@angular/router';
   styleUrl: './active-orders.component.css'
 })
 export class ActiveOrdersComponent implements OnInit {
-  activeOrders: ActiveOrder[] = []
+  activeOrders: Order[] = []
 
   pendingPayment = OrderStatusValue.PENDING_PAYMENT
+  paid = OrderStatusValue.PAID
   canceled = OrderStatusValue.CANCELED
 
   ordersService = inject(OrdersService)
@@ -30,7 +31,7 @@ export class ActiveOrdersComponent implements OnInit {
     return new Date(createDate).toLocaleDateString()
   }
 
-  public openOrder(activeOrder: ActiveOrder): void {
+  public openOrder(activeOrder: Order): void {
     this.router.navigate(['/account/orders/' + activeOrder.id], { state: { 'order': activeOrder } });
   }
 }

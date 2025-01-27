@@ -7,7 +7,7 @@ import { inject, Injectable } from '@angular/core';
 import { firstValueFrom } from 'rxjs';
 import { environment } from '../../environments/environment.development';
 import { Product } from '../models/product.model';
-import { Order } from '../models/order.model';
+import { OrderRepository } from '../models/orderRepository.model';
 import { Address } from '../models/address.model';
 
 @Injectable({
@@ -65,7 +65,7 @@ export class CheckoutService {
 
   public async createOrder(products: Product[], shippingMethod: ShippingMethod, 
     shippingOption: ShippingOption, paymentOption: PaymentOption, 
-    total: number, address: Address): Promise<Order | undefined> {
+    total: number, address: Address): Promise<OrderRepository | undefined> {
     const response = await firstValueFrom(
       this.httpClient.post<CreateOrderResponse>(
         `${environment.apiBaseUrl}checkout`, 

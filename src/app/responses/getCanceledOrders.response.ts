@@ -1,5 +1,5 @@
 import { Order } from "../models/order.model";
 
-export interface GetActiveOrdersResponse {
+export interface GetCanceledOrdersResponse {
   orders: Order[]
 }

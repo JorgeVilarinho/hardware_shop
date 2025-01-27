@@ -1,7 +1,11 @@
+import { OrdersService } from './../../services/orders.service';
 import { Component, inject } from '@angular/core';
 import { FormBuilder, ReactiveFormsModule, Validators } from '@angular/forms';
 import { MatSnackBar } from '@angular/material/snack-bar';
-import { RouterLink } from '@angular/router';
+import { Router, RouterLink } from '@angular/router';
+import { Order } from '../../models/order.model';
+import { MatDialog } from '@angular/material/dialog';
+import { PaymentDialogComponent } from '../../components/payment-dialog/payment-dialog.component';
 
 @Component({
   selector: 'app-payment',
@@ -13,9 +17,12 @@ export class PaymentComponent {
   cardNumberRegex = /[0-9]{12}/i
   expireDateRegex = /^(0[1-9]|1[0-2])\/([0-9]{2})$/i
   securityCodeRegex = /^[0-9]{3}$/i
+  order: Order
 
   formBuilder = inject(FormBuilder)
-  snackBar = inject(MatSnackBar);
+  snackBar = inject(MatSnackBar)
+  dialog = inject(MatDialog)
+  ordersService = inject(OrdersService)
 
   paymentForm = this.formBuilder.group({
     cardHolder: ['', Validators.required],
@@ -24,6 +31,10 @@ export class PaymentComponent {
     securityCode: ['', [ Validators.required, Validators.pattern(this.securityCodeRegex) ]]
   })
   isSubmited = false
+
+  constructor(private router: Router) {
+    this.order = this.router.getCurrentNavigation()?.extras.state!['order']
+  }
 
   public invalidCardHolder(): boolean {
     return this.paymentForm.get('cardHolder')!.invalid && 
@@ -96,9 +107,19 @@ export class PaymentComponent {
     || this.paymentForm.get('securityCode')!.touched || this.isSubmited);
   }
 
-  public onSubmit(): void {
+  public async onSubmit(): Promise<void> {
     if(this.paymentForm.valid) {
-      // TODO: PAYMENT
+      let order = await this.ordersService.processOrderPayment(this.order.id)
+
+      if(order) {
+        const dialogRef = this.dialog.open(PaymentDialogComponent)
+        dialogRef.componentInstance.order = order
+        dialogRef.componentInstance.orderId = this.order.id
+        return
+      }
+
+      const dialogRef = this.dialog.open(PaymentDialogComponent)
+      dialogRef.componentInstance.orderId = this.order.id
     } else {
       this.snackBar.open('Los campos introducidos son inválidos', 'Ok', { duration: 3000 })
     }

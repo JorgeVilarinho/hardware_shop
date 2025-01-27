@@ -10,12 +10,20 @@
         @case (pendingPayment) {
           <p class="bg-red-200 text-red-600 text-sm font-medium rounded-full px-2 py-1">{{ order?.estado_pedido_desc }}</p>
         }
+        @case(paid) {
+          <p class="bg-green-300 text-green-700 text-sm font-medium rounded-full px-2 py-1">{{ order?.estado_pedido_desc }}</p>
+        }
         @case (canceled) {
           <p class="bg-gray-200 text-gray-600 text-sm font-medium rounded-full px-2 py-1">{{ order?.estado_pedido_desc }}</p>
         }
+        @default {
+          <p class="text-red-600 text-sm font-medium rounded-full px-2 py-1">ERROR</p>
+        }
       }
     </div>
-    <button class="bg-red-600 text-white rounded-md py-2 px-3 transition hover:bg-red-700 active:scale-95" routerLink="/payment">Realizar pago</button>
+    @if(isPayable()) {
+      <button class="bg-red-600 text-white rounded-md py-2 px-3 transition hover:bg-red-700 active:scale-95" (click)="goToPayment()">Realizar pago</button>
+    }
   </div>
   <p class="text-neutral-500 mb-5">Pedido realizado: {{ getFormattedDate(order?.fecha_creacion!) }}</p>
   <div class="bg-neutral-200 px-4 py-2 mb-5 font-medium">
@@ -78,7 +86,9 @@
     <p>{{ order?.total | currency:'EUR' }}</p>
   </div>
   <hr class="border-neutral-400 flex flex-1 mb-5">
-  <div class="flex flex-1 justify-end">
-    <button class="bg-red-600 text-white rounded-md py-2 px-3 transition hover:bg-red-700 active:scale-95">Cancelar pedido</button>
-  </div>
+  @if(isCancelable()) {
+    <div class="flex flex-1 justify-end mb-5">
+      <button class="bg-red-600 text-white rounded-md py-2 px-3 transition hover:bg-red-700 active:scale-95" (click)="cancelOrder()">Cancelar pedido</button>
+    </div>
+  }
 </div>
