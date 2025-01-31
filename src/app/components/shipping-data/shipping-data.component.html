@@ -1,0 +1,166 @@
+<div class="flex fix-height">
+  <div class="w-[60%] py-10 pl-20">
+    <div>
+      <div class="flex items-center gap-1 text-lg">
+        <p class="flex items-center justify-center gap-1 text-xl">
+          <span>Envío</span> 
+          <mat-icon fontIcon="arrow_forward_ios" class="!text-xs !flex !items-center !justify-center" />
+          <span class="text-zinc-400">Pago</span>
+        </p>
+      </div>
+    </div>
+    <form class="py-10 w-[95%] flex flex-col" [formGroup]="selectionForm">
+      <p class="font-medium text-base mb-5">Elige tu forma de envío</p>
+      @for (shippingMethod of shippingMethods; track shippingMethod.id) {
+        <div class="flex flex-col mb-5">
+          <div class="border rounded-md px-4 py-3 flex justify-between">
+            <div class="flex items-center gap-5">
+              <label [for]="shippingMethod.valor" class="cursor-pointer flex items-center justify-center gap-5">
+                <input type="radio" [id]="shippingMethod.valor" name="shippingMethod" formControlName="shippingMethod" [value]="shippingMethod"
+                class="w-5 h-5 accent-red-600 cursor-pointer" (change)="onChangeShippingMethod()">
+                <span>{{ shippingMethod.descripcion }}</span>
+              </label>
+            </div>
+            @if(shippingMethod.coste) {
+              <div>{{ shippingMethod.coste | currency:'EUR' }}</div>
+            } @else {
+              <div class="text-green-400">Gratis</div>
+            }
+          </div>
+        </div>
+      }
+      
+      @if(shippingMethodIsHomeDelivery()) {
+        <p class="font-medium text-base mb-5">Elige una dirección de envío</p>
+        @for (address of addresses; track address.id) {
+          <div class="flex flex-col gap-4 mb-5">
+            <div class="border rounded-md px-4 py-3">
+              <label [for]="address.id" class="flex items-center gap-5 cursor-pointer">
+                <input type="radio" [id]="address.id" name="address" formControlName="address" 
+                  [value]="address" class="w-5 h-5 accent-red-600 cursor-pointer" 
+                  (change)="onChangeAddressOption(address)"
+                >
+                <div>
+                  <p class="font-medium">{{ address.nombre }}</p>
+                  <p>{{ address.direccion }}, {{ address.provincia }}, {{ address.ciudad }}, Tel: {{address.telefono}}</p>
+                </div>
+              </label>
+            </div>
+          </div>
+        }
+  
+        <p class="font-medium text-base mb-5">Elige una opción de envío</p>
+        @for (shippingOption of shippingOptions; track shippingOption.id) {
+          <div class="flex flex-col gap-4 mb-5">
+            <div class="border rounded-md px-4 py-3 gap-5 flex justify-between">
+              <label [for]="shippingOption.valor" class="flex gap-4 cursor-pointer">
+                <input type="radio" [id]="shippingOption.valor" name="shippingOption" 
+                  formControlName="shippingOption" [value]="shippingOption" class="w-5 h-5 accent-red-600 cursor-pointer"
+                  (change)="onChangeShippingOption(shippingOption)"  
+                >
+                <img [src]="'http://localhost:8080/images/' + shippingOption.imagen" class="w-12">
+                {{ shippingOption.descripcion }}
+              </label>
+              @if(shippingOption.coste) {
+                <div>{{ shippingOption.coste | currency:'EUR' }}</div>
+              } @else {
+                <div class="text-green-400">Gratis</div>
+              }
+            </div>
+          </div>
+        }
+      }
+  
+      @if(selectionFormIsValid()) {
+        <button class="self-end border py-2 px-5 rounded-md bg-red-600 
+        text-white transition-transform active:scale-95 shadow-sm hover:bg-red-700"
+          type="button"
+          routerLink="payment-data"
+        >
+          Continuar
+        </button>
+      }
+      
+    </form>
+  </div>
+  
+  <div class="bg-gray-200 w-[40%] py-10 px-10">
+    <h1 class="mb-5 text-xl">Resumen del pedido</h1>
+  
+    <hr class="w-full border border-gray-300 mb-5">
+  
+    <h2 class="text-xl">Artículos</h2>
+    <p class="mb-3">{{ cartProducts.length }} artículos</p>
+    <div class="flex flex-col gap-5 mb-5">
+      @for (item of cartProducts; track item.id) {
+        <div class="grid grid-cols-5 gap-4">
+          <img 
+            [src]="'http://localhost:8080/images/' + item.image" 
+            alt="Imagen producto"
+            class="w-full"
+          >
+          <div class="col-span-3 flex flex-col justify-between">
+            <p>{{ item.name }}</p>
+            <div class="text-sm">
+              <p class="text-neutral-400">{{ item.category }}</p>
+              <p class="text-neutral-400">{{ item.units }} ud.</p>
+            </div>
+          </div>
+          <div class="text-end">
+            @if(item.discount) {
+              {{ item.price * item.units * (100 - item.discount) / 100 | currency:'EUR' }}
+            } @else {
+              {{ item.price * item.units | currency:'EUR' }}
+            }
+          </div>
+        </div>
+      }
+    </div>
+  
+    <hr class="w-full border border-gray-300 mb-5">
+  
+    <div class="flex flex-col gap-5 mb-5">
+      <div class="flex justify-between">
+        <p>Precio de los productos</p>
+        <p class="font-medium">{{ getCartTotal() | currency:'EUR' }}</p>
+      </div>
+      <div class="flex justify-between">
+        <p>Gastos de envío</p>
+        @if(shippingOptionIsSelected()) {
+          <p class="font-medium">{{ getShippingOptionCost() | currency:'EUR' }}</p>
+        } @else if(shippingMethodIsShopPickUp()) {
+          <p class="font-medium">0,00 €</p>
+        } @else {
+          <p class="font-medium">Por calcular</p>
+        }
+      </div>
+    </div>
+  
+    <hr class="w-full border border-gray-300 mb-5">
+  
+    <div class="flex justify-between mb-5 text-xl font-medium">
+      <p>Total (IVA incluido)</p>
+      <p>{{ getTotalWithTax() | currency:'EUR' }}</p>
+    </div>
+  
+    <div class="flex flex-col gap-5">
+      <p class="text-xl">Envío</p>
+      <div>
+        <p class="text-neutral-400">Método de envío</p>
+        <p>{{ getShippingMethodDescription() }}</p>
+      </div>
+      <div>
+        <p class="text-neutral-400">Opción de envío</p>
+        <p>{{ getShippingOptionDescription() }}</p>
+      </div>
+      <div>
+        <p class="text-neutral-400">Dirección de facturación</p>
+        <div>
+          <p class="font-medium">{{ getAddressName() }}</p>
+          <p>{{ getAddressDescription() }}</p>
+        </div>
+      </div>
+    </div>
+  
+  </div>
+</div>

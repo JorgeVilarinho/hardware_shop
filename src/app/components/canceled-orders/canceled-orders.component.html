@@ -1,6 +1,9 @@
 <div class="flex flex-col gap-3">
   @for(canceledOrder of canceledOrders; track canceledOrder.id) {
-    <div class="flex items-center justify-between p-3 shadow-md bg-white rounded-lg cursor-pointer" (click)="openOrder(canceledOrder)">
+    <div 
+      class="flex items-center justify-between p-3 shadow-md bg-white rounded-lg cursor-pointer transition-shadow hover:shadow-lg" 
+      (click)="openOrder(canceledOrder)"
+    >
       <div class="flex items-center gap-14">
         <div class="flex item items-center gap-5">
           <img 

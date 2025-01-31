@@ -1,14 +1,12 @@
 import { ShippingMethod } from './../../models/shippingMethod.model';
 import { CheckoutService } from './../../services/checkout.service';
 import { Component, inject, OnInit } from '@angular/core';
-import { MatIcon } from '@angular/material/icon';
 import { CheckoutSteps } from '../../models/checkout-steps.model';
-import { RouterLink } from '@angular/router';
+import { RouterOutlet } from '@angular/router';
 import { Address } from '../../models/address.model';
 import { UserService } from '../../services/user.service';
 import { Product } from '../../models/product.model';
 import { CartService } from '../../services/cart.service';
-import { CurrencyPipe } from '@angular/common';
 import { FormBuilder, FormControl, ReactiveFormsModule, Validators } from '@angular/forms';
 import { ShippingOption } from '../../models/shippingOption.model';
 import { PaymentOption } from '../../models/paymentOption.model';
@@ -16,31 +14,41 @@ import { MatDialog } from '@angular/material/dialog';
 import { AdditionalInfoDialogComponent } from '../../components/additional-info-dialog/additional-info-dialog.component';
 import { ShippingMethodValue } from '../../models/shippingMethodValue.model';
 import { PaymentOptionValue } from '../../models/paymentOptionValue.models';
-import {MatProgressSpinnerModule} from '@angular/material/progress-spinner';
+import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
 import { OrderRepository } from '../../models/orderRepository.model';
+import { OrdersService } from '../../services/orders.service';
+import { PaymentDialogComponent } from '../../components/payment-dialog/payment-dialog.component';
+import { MatSnackBar } from '@angular/material/snack-bar';
 
 @Component({
   selector: 'app-checkout',
-  imports: [ MatIcon, RouterLink, CurrencyPipe, ReactiveFormsModule, MatIcon, MatProgressSpinnerModule ],
+  imports: [ReactiveFormsModule, MatProgressSpinnerModule, RouterOutlet],
   templateUrl: './checkout.component.html',
   styleUrl: './checkout.component.css'
 })
 export class CheckoutComponent implements OnInit {
+  cardNumberRegex = /[0-9]{12}/i
+  expireDateRegex = /^(0[1-9]|1[0-2])\/([0-9]{2})$/i
+  securityCodeRegex = /^[0-9]{3}$/i
+
   checkoutSteps: CheckoutSteps
   addresses: Address[] = []
   cartProducts: Product[] = []
   shippingMethods: ShippingMethod[] = []
   shippingOptions: ShippingOption[] = []
   paymentOptions: PaymentOption[] = []
-  order: OrderRepository | undefined
+  order: OrderRepository | null = null
   isLoading = false
+  checkOutFormSubmitted = false
   total = 0
 
   userService = inject(UserService)
   cartService = inject(CartService)
   checkoutService = inject(CheckoutService)
+  ordersService = inject(OrdersService)
   formBuilder = inject(FormBuilder)
   dialog = inject(MatDialog)
+  snackBar = inject(MatSnackBar)
 
   selectionForm = this.formBuilder.group({
     shippingMethod: new FormControl<ShippingMethod | null>(null, Validators.required),
@@ -50,6 +58,13 @@ export class CheckoutComponent implements OnInit {
 
   paymentForm = this.formBuilder.group({
     paymentOption: new FormControl<PaymentOption | null>(null, Validators.required)
+  })
+
+  checkOutForm = this.formBuilder.group({
+    cardHolder: ['', Validators.required],
+    cardNumber: ['', [ Validators.required, Validators.pattern(this.cardNumberRegex) ]],
+    expireDate: ['', [ Validators.required, Validators.pattern(this.expireDateRegex) ]],
+    securityCode: ['', [ Validators.required, Validators.pattern(this.securityCodeRegex) ]]
   })
 
   constructor() {
@@ -203,4 +218,95 @@ export class CheckoutComponent implements OnInit {
     const dialogRef = this.dialog.open(AdditionalInfoDialogComponent);
     dialogRef.componentInstance.paymentOption = paymentOption;
   }
+
+  public invalidCardHolder(): boolean {
+    return this.checkOutForm.get('cardHolder')!.invalid && 
+    (this.checkOutForm.get('cardHolder')!.dirty || this.checkOutForm.get('cardHolder')!.touched || this.checkOutFormSubmitted)
+  }
+
+  public invalidCardNumber(): boolean {
+    return this.checkOutForm.get('cardNumber')!.invalid && 
+    (this.checkOutForm.get('cardNumber')!.dirty || this.checkOutForm.get('cardNumber')!.touched || this.checkOutFormSubmitted)
+  }
+
+  public invalidExpireDate(): boolean {
+    return this.checkOutForm.get('expireDate')!.invalid && 
+    (this.checkOutForm.get('expireDate')!.dirty || this.checkOutForm.get('expireDate')!.touched || this.checkOutFormSubmitted)
+  }
+
+  public invalidSecurityCode(): boolean {
+    return this.checkOutForm.get('securityCode')!.invalid && 
+    (this.checkOutForm.get('securityCode')!.dirty || this.checkOutForm.get('securityCode')!.touched || this.checkOutFormSubmitted)
+  }
+
+  public cardHolderHasRequiredError(): boolean {
+    return this.checkOutForm.get('cardHolder')!.hasError('required') && (this.checkOutForm.get('cardHolder')!.dirty
+    || this.checkOutForm.get('cardHolder')!.touched || this.checkOutFormSubmitted);
+  }
+
+  public cardNumberHasRequiredError(): boolean {
+    return this.checkOutForm.get('cardNumber')!.hasError('required') && (this.checkOutForm.get('cardNumber')!.dirty
+    || this.checkOutForm.get('cardNumber')!.touched || this.checkOutFormSubmitted);
+  }
+
+  public cardNumberHasPatternError(): boolean {
+    return this.checkOutForm.get('cardNumber')!.hasError('pattern') && (this.checkOutForm.get('cardNumber')!.dirty
+    || this.checkOutForm.get('cardNumber')!.touched || this.checkOutFormSubmitted);
+  }
+
+  public expireDateHasRequiredError(): boolean {
+    return this.checkOutForm.get('expireDate')!.hasError('required') && (this.checkOutForm.get('expireDate')!.dirty
+    || this.checkOutForm.get('expireDate')!.touched || this.checkOutFormSubmitted);
+  }
+
+  public expireDateHasPatternError(): boolean {
+    return this.checkOutForm.get('expireDate')!.hasError('pattern') && (this.checkOutForm.get('expireDate')!.dirty
+    || this.checkOutForm.get('expireDate')!.touched || this.checkOutFormSubmitted);
+  }
+
+  public expireDateHasValueError(): boolean {
+    if(!this.expireDateHasPatternError()) {
+      let splitValues = this.checkOutForm.get('expireDate')!.value!.split('/')
+      let month = +splitValues[0]
+      let year = +splitValues[1]
+
+      const date = new Date()
+      const currentYear = +date.getFullYear().toString().slice(-2)
+      if(year < currentYear) return true
+      if(year == currentYear && month - 1 <= date.getMonth()) return true
+      return false
+    }
+
+    return false
+  }
+
+  public securityCodeHasRequiredError(): boolean {
+    return this.checkOutForm.get('securityCode')!.hasError('required') && (this.checkOutForm.get('securityCode')!.dirty
+    || this.checkOutForm.get('securityCode')!.touched || this.checkOutFormSubmitted);
+  }
+
+  public securityCodeHasPatternError(): boolean {
+    return this.checkOutForm.get('securityCode')!.hasError('pattern') && (this.checkOutForm.get('securityCode')!.dirty
+    || this.checkOutForm.get('securityCode')!.touched || this.checkOutFormSubmitted);
+  }
+
+  public async onSubmit(): Promise<void> {
+      if(this.paymentForm.valid) {
+        let order = await this.ordersService.processOrderPayment(this.order!.id)
+  
+        if(order) {
+          const dialogRef = this.dialog.open(PaymentDialogComponent)
+          dialogRef.componentInstance.order = order
+          dialogRef.componentInstance.orderId = this.order!.id
+          return
+        }
+  
+        const dialogRef = this.dialog.open(PaymentDialogComponent)
+        dialogRef.componentInstance.orderId = this.order!.id
+      } else {
+        this.snackBar.open('Los campos introducidos son inválidos', 'Ok', { duration: 3000 })
+      }
+  
+      this.checkOutFormSubmitted = true
+    }
 }

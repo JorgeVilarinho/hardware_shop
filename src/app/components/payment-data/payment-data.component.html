@@ -1,0 +1,132 @@
+<div class="flex fix-height">
+  <div class="w-[60%] fix-height py-10 pl-20">
+    <div>
+      <div class="flex items-center gap-1 text-lg">
+        <p class="flex items-center justify-center gap-1 text-xl">
+          <span>Envío</span> 
+          <mat-icon fontIcon="arrow_forward_ios" class="!text-xs !flex !items-center !justify-center" />
+          <span class="text-red-500">Pago</span>
+        </p>
+      </div>
+    </div>
+    
+    <form class="py-10 w-[95%] flex flex-col" [formGroup]="paymentForm">
+      <p class="font-medium text-base mb-5">Seleccione una opción de pago</p>
+      <div class="flex flex-col gap-4 mb-10">
+        @for (paymentOption of paymentOptions; track paymentOption.id) {
+          <div class="border rounded-md px-4 py-3 flex justify-between items-center">
+            <div>
+              <label [for]="paymentOption.valor" class="flex items-center gap-5 cursor-pointer">
+                <input 
+                  type="radio" [id]="paymentOption.valor" name="paymentOption" formControlName="paymentOption" 
+                  [value]="paymentOption" class="w-5 h-5 accent-red-600 cursor-pointer"
+                  (change)="onChangePaymentOption(paymentOption)"
+                >
+                <img [src]="'http://localhost:8080/images/' + paymentOption.imagen" class="w-12">
+                {{ paymentOption.descripcion }}
+              </label>
+            </div>
+            <button 
+              class="flex items-center justify-center" 
+              type="button" 
+              (click)="openAddtionalInfoPopUp(paymentOption)"
+            >
+              <mat-icon fontIcon="info"></mat-icon>
+            </button>
+          </div>
+        }
+      </div>
+
+      @if(paymentOptionIsSelected()) {
+        <button 
+          class="self-end border py-2 px-3 rounded-md bg-red-600 
+        text-white transition-transform active:scale-95 shadow-sm hover:bg-red-700
+          flex justify-center items-center gap-3"
+          type="button"
+          (click)="processOrderAndChangeToProcessOrderStep()"
+        >
+          @if(isLoading) {
+            <mat-progress-spinner mode="indeterminate" diameter="25"></mat-progress-spinner>
+          }
+          <span>Continuar</span>
+        </button>
+      }
+    </form>
+  </div>
+  
+  <div class="bg-gray-200 w-[40%] py-10 px-10">
+    <h1 class="mb-5 text-xl">Resumen del pedido</h1>
+    <hr class="w-full border border-gray-300 mb-5">
+
+    <h2 class="text-xl">Artículos</h2>
+      <p class="mb-3">{{ cartProducts.length }} artículos</p>
+      <div class="flex flex-col gap-5 mb-5">
+        @for (item of cartProducts; track item.id) {
+          <div class="grid grid-cols-5 gap-4">
+            <img 
+              [src]="'http://localhost:8080/images/' + item.image" 
+              alt="Imagen producto"
+              class="w-full"
+            >
+            <div class="col-span-3 flex flex-col justify-between">
+              <p>{{ item.name }}</p>
+              <div class="text-sm">
+                <p class="text-neutral-400">{{ item.category }}</p>
+                <p class="text-neutral-400">{{ item.units }} ud.</p>
+              </div>
+            </div>
+            <div class="text-end">
+              @if(item.discount) {
+                {{ item.price * item.units * (100 - item.discount) / 100 | currency:'EUR' }}
+              } @else {
+                {{ item.price * item.units | currency:'EUR' }}
+              }
+            </div>
+          </div>
+        }
+      </div>
+
+      <hr class="w-full border border-gray-300 mb-5">
+      <div class="flex flex-col gap-5 mb-5">
+        <div class="flex justify-between">
+          <p>Precio de los productos</p>
+          <p class="font-medium">{{ getCartTotal() | currency:'EUR' }}</p>
+        </div>
+        <div class="flex justify-between">
+          <p>Gastos de envío</p>
+          @if(shippingOptionIsSelected()) {
+            <p class="font-medium">{{ getShippingOptionCost() | currency:'EUR' }}</p>
+          } @else if(shippingMethodIsShopPickUp()) {
+            <p class="font-medium">0,00 €</p>
+          } @else {
+            <p class="font-medium">Por calcular</p>
+          }
+        </div>
+      </div>
+
+      <hr class="w-full border border-gray-300 mb-5">
+      <div class="flex justify-between mb-5 text-xl font-medium">
+        <p>Total (IVA incluido)</p>
+        <p>{{ getTotalWithTax() | currency:'EUR' }}</p>
+      </div>
+
+      <div class="flex flex-col gap-5">
+        <p class="text-xl">Envío</p>
+        <div>
+          <p class="text-neutral-400">Método de envío</p>
+          <p>{{ this.getShippingMethodDescription() }}</p>
+        </div>
+        <div>
+          <p class="text-neutral-400">Opción de envío</p>
+          <p>{{ this.getShippingOptionDescription() }}</p>
+        </div>
+        <div>
+          <p class="text-neutral-400">Dirección de facturación</p>
+          <div>
+            <p class="font-medium">{{ this.getAddressName() }}</p>
+            <p>{{ this.getAddressDescription() }}</p>
+          </div>
+        </div>
+      </div>
+  </div>
+</div>

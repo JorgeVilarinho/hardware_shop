@@ -13,6 +13,9 @@ import { ProductComponent } from './pages/product/product.component';
 import { CheckoutComponent } from './pages/checkout/checkout.component';
 import { OrderComponent } from './components/order/order.component';
 import { PaymentComponent } from './pages/payment/payment.component';
+import { PaymentDataComponent } from './components/payment-data/payment-data.component';
+import { ShippingDataComponent } from './components/shipping-data/shipping-data.component';
+import { ProcessOrderComponent } from './components/process-order/process-order.component';
 
 export const routes: Routes = [
   {
@@ -54,7 +57,17 @@ export const routes: Routes = [
     path: 'product', component: ProductComponent
   },
   {
-    path: 'checkout', component: CheckoutComponent
+    path: 'checkout', component: CheckoutComponent, children: [
+      {
+        path: '', component: ShippingDataComponent
+      },
+      {
+        path: 'payment-data', component: PaymentDataComponent
+      },
+      {
+        path: 'process-order', component: ProcessOrderComponent
+      }
+    ]
   },
   {
     path: 'payment', component: PaymentComponent

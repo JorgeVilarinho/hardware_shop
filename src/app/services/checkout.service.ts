@@ -4,7 +4,7 @@ import { ShippingOption } from './../models/shippingOption.model';
 import { ShippingMethod } from './../models/shippingMethod.model';
 import { HttpClient } from '@angular/common/http';
 import { inject, Injectable } from '@angular/core';
-import { firstValueFrom } from 'rxjs';
+import { BehaviorSubject, firstValueFrom } from 'rxjs';
 import { environment } from '../../environments/environment.development';
 import { Product } from '../models/product.model';
 import { OrderRepository } from '../models/orderRepository.model';
@@ -15,6 +15,20 @@ import { Address } from '../models/address.model';
 })
 export class CheckoutService {
   httpClient = inject(HttpClient)
+
+  changeShippingOptionSubject = new BehaviorSubject<ShippingOption | null>(null)
+  changeShippingMethodSubject = new BehaviorSubject<ShippingMethod | null>(null)
+  changeAddressSubject = new BehaviorSubject<Address | null>(null)
+  changePaymentOptionSubject = new BehaviorSubject<PaymentOption | null>(null)
+  changeTotalWithTaxSubject = new BehaviorSubject<number>(0)
+  createOrderSubject = new BehaviorSubject<OrderRepository | null>(null)
+  
+  changeShippingOption$ = this.changeShippingOptionSubject.asObservable()
+  changeShippingMethod$ = this.changeShippingMethodSubject.asObservable()
+  changeAddress$ = this.changeAddressSubject.asObservable()
+  changePaymentOption$ = this.changePaymentOptionSubject.asObservable()
+  changeTotalWithTax$ = this.changeTotalWithTaxSubject.asObservable()
+  createOrder$ = this.createOrderSubject.asObservable()
 
   constructor() { }
 
@@ -65,7 +79,7 @@ export class CheckoutService {
 
   public async createOrder(products: Product[], shippingMethod: ShippingMethod, 
     shippingOption: ShippingOption, paymentOption: PaymentOption, 
-    total: number, address: Address): Promise<OrderRepository | undefined> {
+    total: number, address: Address): Promise<OrderRepository | null> {
     const response = await firstValueFrom(
       this.httpClient.post<CreateOrderResponse>(
         `${environment.apiBaseUrl}checkout`, 
@@ -82,9 +96,9 @@ export class CheckoutService {
     )
 
     if(response.ok) {
-      return response.body?.order
+      return response.body?.order ?? null
     }
 
-    return undefined
+    return null
   }
 }
