@@ -16,8 +16,8 @@ export class CancelOrderDialogComponent implements OnInit {
   router = inject(Router)
 
   async ngOnInit(): Promise<void> {
+    this.router.navigate(['/account/orders/canceled'])
     await new Promise(resolve => setTimeout(resolve, 3000))
     this.refDialog.close()
-    this.router.navigate(['/account/orders/canceled'])
   }
 }

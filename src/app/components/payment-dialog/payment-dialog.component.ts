@@ -24,8 +24,8 @@ export class PaymentDialogComponent implements OnInit {
       await this.ordersService.cancelOrder(this.orderId!)
     }
 
+    this.router.navigate(['/account/orders/active'])
     await new Promise(resolve => setTimeout(resolve, 3000))
     this.refDialog.close()
-    this.router.navigate(['/account/orders/active'])
   }
 }
