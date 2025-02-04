@@ -1,48 +1,101 @@
-<div class="p-5 bg-white">
+<div class="p-5 h-full flex flex-col gap-8 bg-white">
   <div class="flex items-center">
     <button mat-icon-button class="mr-8" (click)="changeOpenedState()">
       <mat-icon>close</mat-icon>
     </button>
     <img src="/img/byteShopLogo.png" alt="Logo de la tienda" class="w-[150px]">
   </div>
-  <div class="my-5">
-    <mat-action-list>
-      <mat-list-item class="!mb-1">
-        <img src="img/motherboard.png" class="!w-8 !h-8" alt="Icono de una placa base" matListItemIcon>
-        <span matListItemTitle>Placas base</span>
-      </mat-list-item>
-      <mat-list-item class="!mb-1">
-        <img src="img/cpu.png" class="!w-8 !h-8" alt="Icono de un procesador" matListItemIcon>
-        <span matListItemTitle>Procesadores</span>
-      </mat-list-item>
-      <mat-list-item class="!mb-1">
-        <img src="img/hdd.png" class="!w-8 !h-8" alt="Icono de un procesador" matListItemIcon>
-        <span matListItemTitle>Discos duros</span>
-      </mat-list-item>
-      <mat-list-item class="!mb-1">
-        <img src="img/ssd-card.png" class="!w-8 !h-8" alt="Icono de un procesador" matListItemIcon>
-        <span matListItemTitle>Discos SSD</span>
-      </mat-list-item>
-      <mat-list-item class="!mb-1">
-        <img src="img/graphic-card.png" class="!w-8 !h-8" alt="Icono de un procesador" matListItemIcon>
-        <span matListItemTitle>Tarjetas gráficas</span>
-      </mat-list-item>
-      <mat-list-item class="!mb-1">
-        <img src="img/ram-memory.png" class="!w-8 !h-8" alt="Icono de un procesador" matListItemIcon>
-        <span matListItemTitle>Memorias RAM</span>
-      </mat-list-item>
-      <mat-list-item class="!mb-1">
-        <img src="img/power-supply.png" class="!w-8 !h-8" alt="Icono de un procesador" matListItemIcon>
-        <span matListItemTitle>Fuentes de alimentación</span>
-      </mat-list-item>
-      <mat-list-item class="!mb-1">
-        <img src="img/computer-case.png" class="!w-8 !h-8" alt="Icono de un procesador" matListItemIcon>
-        <span matListItemTitle>Torres</span>
-      </mat-list-item>
-      <mat-list-item class="!mb-1">
-        <img src="img/fan.png" class="!w-8 !h-8" alt="Icono de un procesador" matListItemIcon>
-        <span matListItemTitle>Ventiladores</span>
-      </mat-list-item>
-     </mat-action-list>
+  <div class="flex my-5 h-full">
+    <ul class="flex flex-col justify-between w-full">
+      <div class="flex flex-col gap-3">
+        <button 
+          class="flex items-center justify-between py-3 px-2 rounded-md 
+            outline-none cursor-pointer transition hover:bg-neutral-200"
+          (click)="goToShop()"
+        >
+          <div class="flex gap-2">
+            <mat-icon fontIcon="store"></mat-icon>
+            <span>Tienda</span>
+          </div>
+          <div class="flex">
+            <mat-icon fontIcon="chevron_right"></mat-icon>
+          </div>
+        </button>
+
+        @if(isLoggedIn()) {
+          
+          @if(isEmployee()) {
+            <button 
+              class="flex items-center justify-between py-3 px-2 rounded-md
+                outline-none cursor-pointer transition hover:bg-neutral-200"
+              (click)="goToDashboard()"
+            >
+              <div class="flex gap-2">
+                <mat-icon fontIcon="space_dashboard"></mat-icon>
+                <span>Dashboard</span>
+              </div>
+              <div class="flex">
+                <mat-icon fontIcon="chevron_right"></mat-icon>
+              </div>
+            </button>
+          }
+
+          <button 
+            class="flex items-center justify-between py-3 px-2 rounded-md
+              outline-none cursor-pointer transition hover:bg-neutral-200"
+            (click)="goToAccount()"
+          >
+            <div class="flex gap-2">
+              <mat-icon fontIcon="person"></mat-icon>
+              <span>Cuenta</span>
+            </div>
+            <div class="flex">
+              <mat-icon fontIcon="chevron_right"></mat-icon>
+            </div>
+          </button>
+        }
+
+        <button 
+          class="flex items-center justify-between py-3 px-2 rounded-md
+            outline-none cursor-pointer transition hover:bg-neutral-200"
+          routerLink=""
+        >
+          <div class="flex gap-2">
+            <mat-icon fontIcon="computer"></mat-icon>
+            <span>Configura tu PC</span>
+          </div>
+          <div class="flex">
+            <mat-icon fontIcon="chevron_right"></mat-icon>
+          </div>
+        </button>
+      </div>
+
+      @if(isLoggedIn()) {
+        <button 
+          class="flex items-center justify-between py-3 px-2 rounded-md
+            outline-none cursor-pointer transition hover:bg-neutral-200
+            justify-self-end"
+          (click)="openLogOutDialog()"
+        >
+          <div class="flex gap-2">
+            <mat-icon fontIcon="person"></mat-icon>
+            <span>Cerrar sesión</span>
+          </div>
+        </button>
+      } @else {
+        <button 
+          class="flex items-center justify-between py-3 px-2 rounded-md
+            outline-none cursor-pointer transition hover:bg-neutral-200
+            justify-self-end"
+          (click)="goToLogin()"
+        >
+          <div class="flex gap-2">
+            <mat-icon fontIcon="person"></mat-icon>
+            <span>Iniciar sesión</span>
+          </div>
+        </button>
+      }
+      
+    </ul>
   </div>
 </div>

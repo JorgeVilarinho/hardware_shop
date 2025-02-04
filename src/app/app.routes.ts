@@ -16,6 +16,7 @@ import { PaymentComponent } from './pages/payment/payment.component';
 import { PaymentDataComponent } from './components/payment-data/payment-data.component';
 import { ShippingDataComponent } from './components/shipping-data/shipping-data.component';
 import { ProcessOrderComponent } from './components/process-order/process-order.component';
+import { DashboardComponent } from './pages/dashboard/dashboard.component';
 
 export const routes: Routes = [
   {
@@ -71,6 +72,9 @@ export const routes: Routes = [
   },
   {
     path: 'payment', component: PaymentComponent
+  },
+  {
+    path: 'dashboard', component: DashboardComponent
   },
   {
     path: '', redirectTo: 'home', pathMatch: 'full'

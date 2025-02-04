@@ -9,7 +9,7 @@ export class Client implements User {
   password?: string;
   address?: Address;
 
-  constructor(email: string, name: string, dni?: string, phone?: string, address?: Address, password?: string) {
+  constructor(email: string, name: string, password?: string, dni?: string, phone?: string, address?: Address) {
     this.email = email;
     this.name = name;
     this.dni = dni;

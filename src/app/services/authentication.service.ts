@@ -6,6 +6,11 @@ import { BehaviorSubject, Subject } from 'rxjs';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { Router } from '@angular/router';
 import { LocalStorageService } from './local-storage.service';
+import { LogInUserResponse } from '../responses/logInUser.response';
+import { UserType } from '../models/userType';
+import { User } from '../models/user.model';
+import { Employee } from '../models/employee.model';
+import { isAuthenticatedResponse } from '../responses/isAuthenticated.response';
 
 @Injectable({
   providedIn: 'root'
@@ -16,34 +21,48 @@ export class AuthenticationService {
   router = inject(Router);
   snackBar = inject(MatSnackBar);
 
-  loggedInUser: Client | undefined;
+  loggedInUser: User | undefined;
   userIsLoggedInSubject = new BehaviorSubject<boolean>(false);
   logOutEvent = new Subject();
 
   constructor() {}
 
   public logInUser(email: string, password: string): void {
-      this.httpClient.post<any>(`${environment.apiBaseUrl}auth/login`, {
+      this.httpClient.post<LogInUserResponse>(`${environment.apiBaseUrl}auth/login`, {
         email,
         password
       }, { observe: 'response', withCredentials: true }).
-      subscribe(result => {
-        if(result.ok) {
-         let client: Client = {
-           name:  result.body.userData.name,
-           email: result.body.userData.email,
-           dni: result.body.userData.dni,
-           phone: result.body.userData.phone,
-           password
-         }
+      subscribe(response => {
+        if(response.ok) {
+          let user: User
+
+          if(response.body?.userType == UserType.CLIENT) {
+            user = {
+              name:  response.body!.name,
+              email: response.body!.email,
+              dni: response.body!.dni,
+              phone: response.body!.phone,
+              password
+            } as Client
+          } else {
+            user = {
+              name:  response.body!.name,
+              email: response.body!.email,
+              dni: response.body!.dni,
+              phone: response.body!.phone,
+              password,
+              admin: response.body!.admin
+            } as Employee
+          }
          
-         this.loggedInUser = client;
+         this.loggedInUser = user;
          this.userIsLoggedInSubject.next(true);
-  
+         this.snackBar.open('Inicio de sesión correcto', 'Ok', { duration: 3000 });
          this.router.navigate(['/home']);
+         return
         }
         
-        this.snackBar.open(result.body.message, 'Ok', { duration: 3000 });
+        this.snackBar.open('Inicio de sesión incorrecto', 'Ok', { duration: 3000 });
      });
     }
   
@@ -82,10 +101,11 @@ export class AuthenticationService {
     }
 
     public initializeLoggedInUser(): void {
-      this.httpClient.get<any>(`${environment.apiBaseUrl}auth/isAuthenticated`, 
+      this.httpClient.get<isAuthenticatedResponse>(`${environment.apiBaseUrl}auth/isAuthenticated`, 
         { observe: 'response', withCredentials: true })
-        .subscribe(result => {
-          if(result.ok) {
+        .subscribe(response => {
+          if(response.ok) {
+            this.loggedInUser = response.body?.user
             this.userIsLoggedInSubject.next(true);
           }
         }
