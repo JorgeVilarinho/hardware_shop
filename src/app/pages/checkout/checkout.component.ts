@@ -172,8 +172,6 @@ export class CheckoutComponent implements OnInit {
   }
 
   public paymentOptionIsCreditCard(): boolean {
-    console.log(this.paymentForm.get('paymentOption')?.value?.valor)
-    console.log(PaymentOptionValue.CREDIT_CARD)
     return this.paymentForm.get('paymentOption')?.value?.valor == PaymentOptionValue.CREDIT_CARD
   }
 

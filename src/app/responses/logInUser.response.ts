@@ -6,5 +6,6 @@ export interface LogInUserResponse {
   dni?: string,
   phone?: string,
   userType: UserType,
-  admin: boolean
+  admin: boolean,
+  tipo_trabajador: string
 }

@@ -1,3 +1,24 @@
-<div class="fix-height">
-  <p>dashboard works!</p>
+<div class="fix-height flex">
+  <div class="w-full max-w-[25%] flex justify-center py-5 px-12 border-r">
+    <div class="w-full flex flex-col gap-3">
+      
+      <div 
+        class="py-2 px-4 hover:bg-gray-300 rounded-md transition-colors cursor-pointer" 
+        [ngClass]="{'selected': employeesIsActive}"
+        (click)="changeSelectedOption('employees')">
+        <p>Trabajadores</p>
+      </div>
+
+      <div 
+        class="py-2 px-4 hover:bg-gray-300 rounded-md transition-colors cursor-pointer" 
+        [ngClass]="{'selected': ordersIsActive}"
+        (click)="changeSelectedOption('orders')">
+        <p>Pedidos</p>
+      </div>
+
+    </div>
+  </div>
+  <div class="w-full max-w-[75%]">
+    <router-outlet></router-outlet>
+  </div>
 </div>

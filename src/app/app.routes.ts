@@ -17,6 +17,7 @@ import { PaymentDataComponent } from './components/payment-data/payment-data.com
 import { ShippingDataComponent } from './components/shipping-data/shipping-data.component';
 import { ProcessOrderComponent } from './components/process-order/process-order.component';
 import { DashboardComponent } from './pages/dashboard/dashboard.component';
+import { EmployeesComponent } from './components/employees/employees.component';
 
 export const routes: Routes = [
   {
@@ -74,7 +75,11 @@ export const routes: Routes = [
     path: 'payment', component: PaymentComponent
   },
   {
-    path: 'dashboard', component: DashboardComponent
+    path: 'dashboard', component: DashboardComponent, children: [
+      {
+        path: 'employees', component: EmployeesComponent
+      }
+    ]
   },
   {
     path: '', redirectTo: 'home', pathMatch: 'full'
