@@ -1,7 +1,11 @@
+import { UserType } from "./userType"
+
 export interface User {
-  email: string,
-  name: string,
-  dni?: string,
-  phone?: string,
+  user_id: number
+  kind?: UserType
+  email: string
+  name: string
+  dni?: string
+  phone?: string
   password?: string
 }

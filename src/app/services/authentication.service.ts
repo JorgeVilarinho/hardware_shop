@@ -44,6 +44,8 @@ export class AuthenticationService {
 
       if (response.body?.userType == UserType.CLIENT) {
         user = {
+          user_id: response.body!.user_id,
+          kind: response.body!.kind,
           name: response.body!.name,
           email: response.body!.email,
           dni: response.body!.dni,
@@ -52,13 +54,16 @@ export class AuthenticationService {
         } as Client;
       } else {
         user = {
+          user_id: response.body!.user_id,
+          kind: response.body!.kind,
           name: response.body!.name,
           email: response.body!.email,
           dni: response.body!.dni,
           phone: response.body!.phone,
           password,
           admin: response.body!.admin,
-          tipo_trabajador: response.body!.tipo_trabajador
+          tipo_trabajador: response.body!.tipo_trabajador,
+          tipo_trabajador_desc: response.body!.tipo_trabajador_desc
         } as Employee;
       }
 

@@ -8,6 +8,7 @@ import { Router, RouterLink } from '@angular/router';
 import { MatDialog } from '@angular/material/dialog';
 import { DialogLogoutComponent } from '../dialog-logout/dialog-logout.component';
 import { UserTypeInferenceHelper } from '../../helpers/userTypeInference.helper';
+import { Employee } from '../../models/employee.model';
 
 @Component({
   selector: 'app-sidenav-custom',
@@ -46,7 +47,12 @@ export class SidenavCustomComponent {
 
   public goToDashboard(): void {
     this.changeOpenedState()
-    this.router.navigate(['/dashboard'])
+
+    let employee = this.authenticationService.loggedInUser! as Employee
+
+    if(employee.admin) {
+      this.router.navigate(['/dashboard/employees'])
+    }
   }
   
   public openLogOutDialog(): void {

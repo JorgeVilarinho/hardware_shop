@@ -1,36 +1,44 @@
 <div class="px-10 py-5 flex flex-col justify-center gap-5">
   <div class="flex justify-between">
     <h1 class="text-2xl font-medium">Listado de trabajadores</h1>
-    <button class="flex items-center gap-2 py-2 px-3 bg-red-600 rounded-md 
-    text-white transition-transform active:scale-95 shadow-md">
+    <button 
+      class="flex items-center gap-2 py-2 px-3 bg-red-600 rounded-md 
+    text-white transition-transform active:scale-95 shadow-md"
+      routerLink="/dashboard/employees/add"
+    >
       <mat-icon fontIcon="add" />
       <span>Añadir trabajador</span>
     </button>
   </div>
-  <div class="flex">
-    
-    <div class="border border-neutral-400 rounded-md p-3 w-full flex flex-col gap-2 transition shadow-sm hover:shadow-md hover:border-red-400">
-      <div class="flex justify-between items-center font-medium">
-        <p class="text-xl">Jorge Vilariño Cagiao</p>
-        <button mat-icon-button>
-          <mat-icon fontIcon="delete"/>
-        </button>
-      </div>
-      <div class="grid grid-cols-3 gap-2">
-        <p><span>Tipo de trabajador:</span> Repartidor</p>
-        <p>Correo: jorgevilarino05&#64;gmail.com</p>
-        <p>DNI: 32738969X</p>
-        <p>Teléfono: 640843929</p>
-        <div class="flex items-center gap-2">
-          <span>Administrador</span>
-          <mat-icon fontIcon="check" class="text-green-600" />
+  <div class="flex flex-col gap-3">
+
+    @for (employee of employees; track employee.user_id) {
+      <div 
+        class="border border-neutral-400 rounded-md p-3 w-full flex flex-col gap-2 
+        transition shadow-sm hover:shadow-md hover:border-red-400 cursor-pointer"
+        (click)="goToUpdateEmployee(employee)"
+      >
+        <div class="flex justify-between items-center font-medium">
+          <p class="text-xl">{{ employee.name }}</p>
+          <button mat-icon-button (click)="deleteEmployee(employee.user_id)">
+            <mat-icon fontIcon="delete"/>
+          </button>
+        </div>
+        <div class="grid grid-cols-3 gap-2">
+          <p><span>Tipo de trabajador:</span> {{ employee.tipo_trabajador_desc }}</p>
+          <p>Correo: {{ employee.email }}</p>
+          <p>DNI: {{ employee.dni }}</p>
+          <p>Teléfono: {{ employee.phone }}</p>
+          <div class="flex items-center gap-2">
+            <span>Administrador</span>
+            @if(employee.admin) {
+              <mat-icon fontIcon="check" class="text-green-600" />
+            } @else {
+              <mat-icon fontIcon="close" class="text-red-600" />
+            }
+          </div>
         </div>
       </div>
-    </div>
-
-    <div>
-
-    </div>
-
+    }
   </div>
 </div>

@@ -18,6 +18,8 @@ import { ShippingDataComponent } from './components/shipping-data/shipping-data.
 import { ProcessOrderComponent } from './components/process-order/process-order.component';
 import { DashboardComponent } from './pages/dashboard/dashboard.component';
 import { EmployeesComponent } from './components/employees/employees.component';
+import { AddEmployeeComponent } from './components/add-employee/add-employee.component';
+import { UpdateEmployeeComponent } from './components/update-employee/update-employee.component';
 
 export const routes: Routes = [
   {
@@ -78,6 +80,12 @@ export const routes: Routes = [
     path: 'dashboard', component: DashboardComponent, children: [
       {
         path: 'employees', component: EmployeesComponent
+      },
+      {
+        path: 'employees/add', component: AddEmployeeComponent
+      },
+      {
+        path: 'employee/:id', component: UpdateEmployeeComponent
       }
     ]
   },

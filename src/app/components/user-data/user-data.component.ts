@@ -35,13 +35,13 @@ export class UserDataComponent implements OnInit {
   passwordFormIsSubmited = false;
 
   constructor() {
-    this.userService.client$
+    this.userService.getOrUpdateClientData$
       .pipe(takeUntilDestroyed())
-      .subscribe(client => {
-        this.dataForm.get('fullName')?.setValue(client?.name ?? '');
-        this.dataForm.get('dni')!.setValue(client?.dni ?? '');
-        this.dataForm.get('email')!.setValue(client?.email ?? '');
-        this.dataForm.get('phone')!.setValue(client?.phone ?? '');
+      .subscribe(data => {
+        this.dataForm.get('fullName')?.setValue(data?.name ?? '');
+        this.dataForm.get('dni')!.setValue(data?.dni ?? '');
+        this.dataForm.get('email')!.setValue(data?.email ?? '');
+        this.dataForm.get('phone')!.setValue(data?.phone ?? '');
       }
     );
   }
@@ -56,6 +56,8 @@ export class UserDataComponent implements OnInit {
     } else {
       this.snackbar.open("Los datos introducidos no son válidos", "Ok", { duration: 3000 });
     }
+
+    this.dataFormIsSubmited = true
   }
 
   public onSubmitPasswordForm(): void {
@@ -64,6 +66,8 @@ export class UserDataComponent implements OnInit {
     } else {
       this.snackbar.open("La contraseña no es válida", "Ok", { duration: 3000 });
     }
+
+    this.passwordFormIsSubmited = true
   }
 
   private changeUserData(): void {

@@ -10,6 +10,7 @@ import { HttpClient } from '@angular/common/http';
 import { environment } from '../../environments/environment.development';
 import { StateService } from './state.service';
 import { CartService } from './cart.service';
+import { GetOrUpdateDataClient } from '../models/getOrUpdateDataClient';
 
 @Injectable({
   providedIn: 'root'
@@ -26,9 +27,9 @@ export class UserService {
   addedAddressSubject = new BehaviorSubject<Address | undefined>(undefined);
   initializeAddressesSubject = new BehaviorSubject<Address[] | undefined>(undefined);
   deletedAddressSubject = new BehaviorSubject<number | undefined>(undefined);
-  getOrUpdateClientDataSubject = new BehaviorSubject<Client | undefined>(undefined);
+  getOrUpdateClientDataSubject = new BehaviorSubject<GetOrUpdateDataClient | undefined>(undefined);
   
-  client$ = this.getOrUpdateClientDataSubject.asObservable()
+  getOrUpdateClientData$ = this.getOrUpdateClientDataSubject.asObservable()
 
   constructor() { }
 
