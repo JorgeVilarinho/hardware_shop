@@ -7,6 +7,7 @@ import { environment } from '../../environments/environment.development';
 import { DeleteEmployeeResponse } from '../responses/deleteEmployee.response';
 import { EmployeeType } from '../models/employeeType.model';
 import { GetEmployeeTypesResponse } from '../responses/getEmployeeTypes.response';
+import { GetEmployeeResponse } from '../responses/getEmployee.response';
 
 @Injectable({
   providedIn: 'root',
@@ -83,5 +84,51 @@ export class EmployeeService {
     )
 
     return response
+  }
+
+  public async updateEmployee(
+    id: number,
+    userId: number,
+    fullName: string,
+    dni: string,
+    email: string,
+    phone: string,
+    password: string,
+    updatePassword: boolean,
+    admin: boolean,
+    employeeType: string
+  ): Promise<HttpResponse<any>> {
+    const response = await firstValueFrom(
+      this.httpClient.put<any>(
+        `${environment.apiBaseUrl}employee/${id}`,
+        {
+          userId,
+          fullName,
+          dni,
+          email,
+          phone,
+          password,
+          updatePassword,
+          admin,
+          employeeType,
+        },
+        { observe: 'response', withCredentials: true }
+      )
+    )
+
+    return response
+  }
+
+  public async getEmployee(employeeId: string | null): Promise<Employee | null> {
+    const response = await firstValueFrom(
+      this.httpClient.get<GetEmployeeResponse>(
+        `${environment.apiBaseUrl}employee/${employeeId}`,
+        { observe: 'response', withCredentials: true }
+      )
+    )
+
+    if(response.ok) return response.body!.employee
+
+    return null
   }
 }

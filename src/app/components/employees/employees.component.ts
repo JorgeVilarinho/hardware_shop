@@ -37,6 +37,6 @@ export class EmployeesComponent implements OnInit {
   }
 
   public goToUpdateEmployee(employee: Employee): void {
-    // this.router.navigate([employee.id], { relativeTo: this.route, state: { employee } })
+    this.router.navigate(['../employee/' + employee.id], { relativeTo: this.route })
   }
 }

@@ -9,21 +9,28 @@ import { ActivatedRoute, Router, RouterModule } from '@angular/router';
   styleUrl: './dashboard.component.css'
 })
 export class DashboardComponent {
-  employeesIsActive = true
+  myDataIsActive = true
+  employeesIsActive = false
   ordersIsActive = false
 
   router = inject(Router)
 
-  constructor(private route: ActivatedRoute) {}
-
   public changeSelectedOption(menu: string): void {
     switch(menu) {
+      case 'myData':
+        this.myDataIsActive = true
+        this.employeesIsActive = false
+        this.ordersIsActive = false
+        this.router.navigate(['/dashboard/data'])
+        break
       case 'employees': 
+        this.myDataIsActive = false
         this.employeesIsActive = true
         this.ordersIsActive = false
-        this.router.navigate(['employees'], { relativeTo: this.route })
+        this.router.navigate(['/dashboard/employees'])
         break
       case 'orders':
+        this.myDataIsActive = false
         this.employeesIsActive = false
         this.ordersIsActive = true
     }

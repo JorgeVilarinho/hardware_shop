@@ -1,6 +1,13 @@
 <div class="fix-height flex">
   <div class="w-full max-w-[25%] flex justify-center py-5 px-12 border-r">
     <div class="w-full flex flex-col gap-3">
+
+      <div 
+        class="py-2 px-4 hover:bg-gray-300 rounded-md transition-colors cursor-pointer" 
+        [ngClass]="{'selected': myDataIsActive}"
+        (click)="changeSelectedOption('myData')">
+        <p>Mis datos</p>
+      </div>
       
       <div 
         class="py-2 px-4 hover:bg-gray-300 rounded-md transition-colors cursor-pointer" 

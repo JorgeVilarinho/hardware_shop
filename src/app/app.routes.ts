@@ -20,6 +20,7 @@ import { DashboardComponent } from './pages/dashboard/dashboard.component';
 import { EmployeesComponent } from './components/employees/employees.component';
 import { AddEmployeeComponent } from './components/add-employee/add-employee.component';
 import { UpdateEmployeeComponent } from './components/update-employee/update-employee.component';
+import { UpdateMyDataEmployeeComponent } from './components/update-my-data-employee/update-my-data-employee.component';
 
 export const routes: Routes = [
   {
@@ -86,6 +87,9 @@ export const routes: Routes = [
       },
       {
         path: 'employee/:id', component: UpdateEmployeeComponent
+      },
+      {
+        path: 'data', component: UpdateMyDataEmployeeComponent 
       }
     ]
   },
