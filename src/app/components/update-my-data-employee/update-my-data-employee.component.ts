@@ -24,7 +24,7 @@ export class UpdateMyDataEmployeeComponent implements OnInit {
   snackBar = inject(MatSnackBar);
 
   employeeTypes: EmployeeType[] = []
-  employee: Employee
+  employee: Employee | undefined
 
   updateMyDataEmployee = this.formBuilder.group({
     fullName: new FormControl<string>('', Validators.required),
@@ -46,10 +46,6 @@ export class UpdateMyDataEmployeeComponent implements OnInit {
     employeeType: new FormControl<string | null>(null, Validators.required),
   });
   isSubmitted = false
-
-  constructor() {
-    this.employee = this.authenticationService.loggedInUser as Employee
-  }
 
   async ngOnInit(): Promise<void> {
     this.employeeTypes = await this.employeeService.getEmployeeTypes()
@@ -124,7 +120,6 @@ export class UpdateMyDataEmployeeComponent implements OnInit {
 
       if(response.ok) {
         this.snackBar.open('Se ha actualizado los datos del trabajador correctamente', 'Ok', { duration: 3000 })
-        this.router.navigate(['dashboard/employees'])
       }
     } else {
       this.snackBar.open('Los datos no son válidos', 'Ok', { duration: 3000 });
