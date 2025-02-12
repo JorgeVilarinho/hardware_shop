@@ -24,7 +24,7 @@ export class ActiveOrdersComponent implements OnInit {
   constructor() {}
   
   async ngOnInit(): Promise<void> {
-    this.activeOrders = await this.ordersService.getActiveOrders()
+    this.activeOrders = await this.ordersService.getClientActiveOrders()
   }
 
   public getFormattedDate(createDate: string): string {

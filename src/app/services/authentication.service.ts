@@ -11,6 +11,7 @@ import { UserType } from '../models/userType';
 import { User } from '../models/user.model';
 import { Employee } from '../models/employee.model';
 import { isAuthenticatedResponse } from '../responses/isAuthenticated.response';
+import { UserTypeInferenceHelper } from '../helpers/userTypeInference.helper';
 
 @Injectable({
   providedIn: 'root',
@@ -118,21 +119,55 @@ export class AuthenticationService {
       });
   }
 
-  public initializeLoggedInUser(): void {
-    this.httpClient
-      .get<isAuthenticatedResponse>(
+  public async initializeLoggedInUser(): Promise<void> {
+    const response = await firstValueFrom(
+      this.httpClient.get<isAuthenticatedResponse>(
         `${environment.apiBaseUrl}auth/isAuthenticated`,
         { observe: 'response', withCredentials: true }
       )
-      .subscribe((response) => {
-        if (response.ok) {
-          this.loggedInUser = response.body?.user;
-          this.userIsLoggedInSubject.next(true);
-        }
-      });
+    );
+
+    if(response.ok) {
+      this.loggedInUser = response.body?.user;
+      this.userIsLoggedInSubject.next(true);
+    }
   }
 
   public isLoggedIn(): boolean {
     return this.userIsLoggedInSubject.value;
+  }
+
+  public isEmployee(): boolean {
+    let user = this.loggedInUser
+
+    if(!user) return false
+  
+    let employee = UserTypeInferenceHelper.isEmployee(user)
+  
+    if(employee) return true
+  
+    return false
+  }
+
+  public isEmployeeAndAdmin(): boolean {
+    let user = this.loggedInUser
+
+    if(!user) return false
+
+    let employee = UserTypeInferenceHelper.isEmployee(user)
+  
+    if(employee && employee.admin) return true
+  
+    return false
+  }
+
+  public isClient(): boolean {
+    let user = this.loggedInUser!
+
+    let client = UserTypeInferenceHelper.isClient(user)
+
+    if(client) return true
+
+    return false
   }
 }

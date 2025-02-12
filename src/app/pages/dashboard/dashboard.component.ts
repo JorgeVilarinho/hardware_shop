@@ -1,6 +1,7 @@
+import { AuthenticationService } from './../../services/authentication.service';
 import { NgClass } from '@angular/common';
 import { Component, inject } from '@angular/core';
-import { ActivatedRoute, Router, RouterModule } from '@angular/router';
+import { Router, RouterModule } from '@angular/router';
 
 @Component({
   selector: 'app-dashboard',
@@ -13,6 +14,7 @@ export class DashboardComponent {
   employeesIsActive = false
   ordersIsActive = false
 
+  authenticationService = inject(AuthenticationService)
   router = inject(Router)
 
   public changeSelectedOption(menu: string): void {
@@ -33,6 +35,15 @@ export class DashboardComponent {
         this.myDataIsActive = false
         this.employeesIsActive = false
         this.ordersIsActive = true
+        this.router.navigate(['/dashboard/orders'])
     }
+  }
+
+  public isLoggedIn(): boolean {
+    return this.authenticationService.isLoggedIn()
+  }
+
+  public isEmployeeAndAdmin(): boolean {
+    return this.authenticationService.isEmployeeAndAdmin()
   }
 }

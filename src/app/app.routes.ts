@@ -21,6 +21,8 @@ import { EmployeesComponent } from './components/employees/employees.component';
 import { AddEmployeeComponent } from './components/add-employee/add-employee.component';
 import { UpdateEmployeeComponent } from './components/update-employee/update-employee.component';
 import { UpdateMyDataEmployeeComponent } from './components/update-my-data-employee/update-my-data-employee.component';
+import { OrdersAssignmentComponent } from './components/orders-assignment/orders-assignment.component';
+import { AssignOrderComponent } from './components/assign-order/assign-order.component';
 
 export const routes: Routes = [
   {
@@ -90,6 +92,12 @@ export const routes: Routes = [
       },
       {
         path: 'data', component: UpdateMyDataEmployeeComponent 
+      },
+      {
+        path: 'orders', component: OrdersAssignmentComponent
+      },
+      {
+        path: 'orders/:orderId/assign', component: AssignOrderComponent
       }
     ]
   },

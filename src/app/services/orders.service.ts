@@ -10,6 +10,7 @@ import { GetShippingOptionCostResponse } from '../responses/getShippingOptionCos
 import { ProcessOrderPaymentResponse } from '../responses/processOrderPayment.response';
 import { CancelOrderResponse } from '../responses/cancelOrder.response';
 import { GetCanceledOrdersResponse } from '../responses/getCanceledOrders.response';
+import { GetUnassignedOrdersResponse } from '../responses/getUnassignedOrders.response';
 
 @Injectable({
   providedIn: 'root'
@@ -19,7 +20,7 @@ export class OrdersService {
 
   constructor() { }
 
-  public async getActiveOrders(): Promise<Order[]> {
+  public async getClientActiveOrders(): Promise<Order[]> {
     const response = await firstValueFrom(
       this.httpClient.get<GetActiveOrdersResponse>(`${environment.apiBaseUrl}orders/active`, 
       { observe: 'response', withCredentials: true })
@@ -32,7 +33,7 @@ export class OrdersService {
     return []
   }
 
-  public async getCanceledOrders(): Promise<Order[]> {
+  public async getClientCanceledOrders(): Promise<Order[]> {
     const response = await firstValueFrom(
       this.httpClient.get<GetCanceledOrdersResponse>(`${environment.apiBaseUrl}orders/canceled`, 
       { observe: 'response', withCredentials: true })
@@ -97,5 +98,18 @@ export class OrdersService {
     )
 
     return response
+  }
+
+  public async getUnassignedOrders() {
+    const response = await firstValueFrom(
+      this.httpClient.get<GetUnassignedOrdersResponse>(
+        `${environment.apiBaseUrl}orders/unassigned`,
+        { observe: 'response', withCredentials: true }
+      )
+    )
+
+    if(response.ok) return response.body!.orders
+
+    return []
   }
 }

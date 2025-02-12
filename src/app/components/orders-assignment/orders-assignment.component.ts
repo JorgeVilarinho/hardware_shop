@@ -1,4 +1,4 @@
-import { Component, inject, OnInit } from '@angular/core';
+import { Component, inject } from '@angular/core';
 import { Order } from '../../models/order.model';
 import { OrderStatusValue } from '../../models/orderStatusValue.model';
 import { OrdersService } from '../../services/orders.service';
@@ -6,27 +6,32 @@ import { CurrencyPipe } from '@angular/common';
 import { Router } from '@angular/router';
 
 @Component({
-  selector: 'app-canceled-orders',
+  selector: 'app-orders-assignment',
   imports: [ CurrencyPipe ],
-  templateUrl: './canceled-orders.component.html',
-  styleUrl: './canceled-orders.component.css'
+  templateUrl: './orders-assignment.component.html',
+  styleUrl: './orders-assignment.component.css'
 })
-export class CanceledOrdersComponent implements OnInit {
-  canceledOrders: Order[] = []
+export class OrdersAssignmentComponent {
+  unassignedOrders: Order[] = []
+  
+  pendingPayment = OrderStatusValue.PENDING_PAYMENT
+  paid = OrderStatusValue.PAID
   canceled = OrderStatusValue.CANCELED
   
   ordersService = inject(OrdersService)
   router = inject(Router)
 
+  constructor() {}
+  
   async ngOnInit(): Promise<void> {
-    this.canceledOrders = await this.ordersService.getClientCanceledOrders()
+    this.unassignedOrders = await this.ordersService.getUnassignedOrders()
   }
 
   public getFormattedDate(createDate: string): string {
     return new Date(createDate).toLocaleDateString()
   }
 
-  public openOrder(activeOrder: Order): void {
-    this.router.navigate(['/account/orders/' + activeOrder.id], { state: { 'order': activeOrder } });
+  public goToSelectEmployee(orderId: number): void {
+    this.router.navigate([`/dashboard/orders/${orderId}/assign`])
   }
 }

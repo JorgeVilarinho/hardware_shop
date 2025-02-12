@@ -1,0 +1,32 @@
+<div class="px-10 py-5 flex flex-col justify-center gap-5">
+  <div class="flex flex-col gap-3">
+    <h1 class="text-2xl font-medium">Asignación de pedidos</h1>
+    <p class="text-xl">Selecciona un pedido para asignarlo a un trabajador</p>
+    <p class="text-lg">Los pedidos están ordenados de mayor a menor en relación a su fecha de creación</p>
+  </div>
+
+  <div class="flex flex-col gap-3">
+    @for (unassignedOrder of unassignedOrders; track unassignedOrder.id) {
+      <div 
+        class="flex items-center justify-between p-3 shadow-md bg-white rounded-lg cursor-pointer transition-shadow hover:shadow-lg" 
+        (click)="goToSelectEmployee(unassignedOrder.id)"
+      >
+        <div class="flex items-center gap-14">
+          <div class="flex item items-center gap-5">
+            <img 
+            [src]="'http://localhost:8080/images/' + unassignedOrder.imagen" 
+            alt="Imagen producto pedido"
+            class="w-20 border"
+            >
+            <p class="text-black">Nº Pedido {{ unassignedOrder.id }}</p>
+          </div>
+          <p class="text-neutral-500">{{ getFormattedDate(unassignedOrder.fecha_creacion) }}</p>
+        </div>
+        <p class="text-black font-medium">{{ unassignedOrder.total | currency:'EUR' }}</p>
+      </div>
+    } @empty {
+      <p>No hay pedidos que falten por ser asignados</p>
+    }
+  </div>
+  
+</div>

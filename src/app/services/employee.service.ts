@@ -8,6 +8,8 @@ import { DeleteEmployeeResponse } from '../responses/deleteEmployee.response';
 import { EmployeeType } from '../models/employeeType.model';
 import { GetEmployeeTypesResponse } from '../responses/getEmployeeTypes.response';
 import { GetEmployeeResponse } from '../responses/getEmployee.response';
+import { GetEmployeesOrderedByLessAssignedOrdersResponse } from '../responses/getEmployeesOrderedByLessAssignedOrders.response';
+import { EmployeesOrderBy } from '../models/employeesOrderBy';
 
 @Injectable({
   providedIn: 'root',
@@ -21,6 +23,21 @@ export class EmployeeService {
     const response = await firstValueFrom(
       this.httpClient.get<GetAllEmployeesResponse>(
         `${environment.apiBaseUrl}employees`,
+        { observe: 'response', withCredentials: true }
+      )
+    );
+
+    if (response.ok) {
+      return response!.body!.employees;
+    }
+
+    return [];
+  }
+
+  public async getEmployeesOrderedByLessAssignedOrders(): Promise<Employee[]> {
+    const response = await firstValueFrom(
+      this.httpClient.get<GetEmployeesOrderedByLessAssignedOrdersResponse>(
+        `${environment.apiBaseUrl}employees?orderBy=${EmployeesOrderBy.LESS_ASSIGNED}`,
         { observe: 'response', withCredentials: true }
       )
     );
@@ -130,5 +147,17 @@ export class EmployeeService {
     if(response.ok) return response.body!.employee
 
     return null
+  }
+
+  public async assignEmployeeToOrder(orderId: number, employeeId: number): Promise<HttpResponse<any>> {
+    const response = await firstValueFrom(
+      this.httpClient.post<any>(
+        `${environment.apiBaseUrl}employee/assign`,
+        { orderId, employeeId },
+        { observe: 'response', withCredentials: true }
+      )
+    )
+
+    return response
   }
 }

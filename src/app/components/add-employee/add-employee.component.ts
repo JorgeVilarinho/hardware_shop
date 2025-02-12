@@ -91,7 +91,6 @@ export class AddEmployeeComponent implements OnInit {
   }
 
   public async onSubmit(): Promise<void> {
-    console.log(this.addEmployeeForm.get('employeeType')!.value)
     if(this.addEmployeeForm.valid) {
       const response = await this.employeeService.createEmployee(
         this.addEmployeeForm.get('fullName')!.value!,

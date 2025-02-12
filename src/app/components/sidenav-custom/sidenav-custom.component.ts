@@ -7,7 +7,6 @@ import { MatListModule } from '@angular/material/list';
 import { Router, RouterLink } from '@angular/router';
 import { MatDialog } from '@angular/material/dialog';
 import { DialogLogoutComponent } from '../dialog-logout/dialog-logout.component';
-import { UserTypeInferenceHelper } from '../../helpers/userTypeInference.helper';
 import { Employee } from '../../models/employee.model';
 
 @Component({
@@ -61,12 +60,6 @@ export class SidenavCustomComponent {
   }
 
   public isEmployee(): boolean {
-    let user = this.authenticationService.loggedInUser!
-
-    let employee = UserTypeInferenceHelper.isEmployee(user)
-
-    if(employee) return true
-
-    return false
+    return this.authenticationService.isEmployee()
   }
 }

@@ -1,5 +1,5 @@
 import { AuthenticationService } from './services/authentication.service';
-import { Component, inject } from '@angular/core';
+import { Component, inject, OnInit } from '@angular/core';
 import { RouterOutlet } from '@angular/router';
 import { HeaderComponent } from './components/header/header.component';
 import {MatSidenavModule} from '@angular/material/sidenav';
@@ -14,16 +14,19 @@ import { FiltersSidenavComponent } from './components/filters-sidenav/filters-si
   templateUrl: './app.component.html',
   styleUrl: './app.component.css'
 })
-export class AppComponent {
+export class AppComponent implements OnInit {
   stateService = inject(StateService);
   authenticationService = inject(AuthenticationService);
   menuOpenedState = false;
   filtersMenuOpenedState = false;
 
   constructor() {
-    this.authenticationService.initializeLoggedInUser();
     this.listenToMenuOpened();
     this.listenToFiltersMenuOpened();
+  }
+
+  async ngOnInit(): Promise<void> {
+    await this.authenticationService.initializeLoggedInUser();
   }
 
   private listenToMenuOpened(): void {
