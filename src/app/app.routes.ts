@@ -23,6 +23,8 @@ import { UpdateEmployeeComponent } from './components/update-employee/update-emp
 import { UpdateMyDataEmployeeComponent } from './components/update-my-data-employee/update-my-data-employee.component';
 import { OrdersAssignmentComponent } from './components/orders-assignment/orders-assignment.component';
 import { AssignOrderComponent } from './components/assign-order/assign-order.component';
+import { OrdersAssignedToEmployeeComponent } from './components/orders-assigned-to-employee/orders-assigned-to-employee.component';
+import { OrdersInShippingComponent } from './components/orders-in-shipping/orders-in-shipping.component';
 
 export const routes: Routes = [
   {
@@ -91,6 +93,9 @@ export const routes: Routes = [
         path: 'employee/:id', component: UpdateEmployeeComponent
       },
       {
+        path: 'employee/:id/orders', component: OrdersAssignedToEmployeeComponent
+      },
+      {
         path: 'data', component: UpdateMyDataEmployeeComponent 
       },
       {
@@ -98,6 +103,9 @@ export const routes: Routes = [
       },
       {
         path: 'orders/:orderId/assign', component: AssignOrderComponent
+      },
+      {
+        path: 'employee/:id/orders/in-shipping', component: OrdersInShippingComponent
       }
     ]
   },

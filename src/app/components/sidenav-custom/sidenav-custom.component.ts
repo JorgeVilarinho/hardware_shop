@@ -49,7 +49,7 @@ export class SidenavCustomComponent {
 
     let employee = this.authenticationService.loggedInUser! as Employee
 
-    if(employee.admin) {
+    if(employee) {
       this.router.navigate(['/dashboard/data'])
     }
   }

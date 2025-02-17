@@ -12,6 +12,7 @@ import { User } from '../models/user.model';
 import { Employee } from '../models/employee.model';
 import { isAuthenticatedResponse } from '../responses/isAuthenticated.response';
 import { UserTypeInferenceHelper } from '../helpers/userTypeInference.helper';
+import { EmployeeTypeValue } from '../models/employeeTypeValue';
 
 @Injectable({
   providedIn: 'root',
@@ -157,6 +158,18 @@ export class AuthenticationService {
     let employee = UserTypeInferenceHelper.isEmployee(user)
   
     if(employee && employee.admin) return true
+  
+    return false
+  }
+
+  public isEmployeeAndDelivery(): boolean {
+    let user = this.loggedInUser
+
+    if(!user) return false
+
+    let employee = UserTypeInferenceHelper.isEmployee(user)
+  
+    if(employee && employee.tipo_trabajador == EmployeeTypeValue.DELIVERY) return true
   
     return false
   }

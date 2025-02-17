@@ -1,6 +1,6 @@
 import { HttpClient, HttpResponse } from '@angular/common/http';
 import { inject, Injectable } from '@angular/core';
-import { firstValueFrom } from 'rxjs';
+import { BehaviorSubject, firstValueFrom } from 'rxjs';
 import { environment } from '../../environments/environment.development';
 import { GetActiveOrdersResponse } from '../responses/getActiveOrders.response';
 import { Order } from '../models/order.model';
@@ -11,11 +11,16 @@ import { ProcessOrderPaymentResponse } from '../responses/processOrderPayment.re
 import { CancelOrderResponse } from '../responses/cancelOrder.response';
 import { GetCanceledOrdersResponse } from '../responses/getCanceledOrders.response';
 import { GetUnassignedOrdersResponse } from '../responses/getUnassignedOrders.response';
+import { GetAssignedOrdersResponse } from '../responses/getAssignedOrders.response';
 
 @Injectable({
   providedIn: 'root'
 })
 export class OrdersService {
+  private updatedOrderStatusSubject = new BehaviorSubject<number | null>(null)
+
+  updatedOrderStatus$ = this.updatedOrderStatusSubject.asObservable()
+
   httpClient = inject(HttpClient)
 
   constructor() { }
@@ -111,5 +116,43 @@ export class OrdersService {
     if(response.ok) return response.body!.orders
 
     return []
+  }
+
+  public async getAssignedOrders(employeeId: string | null) {
+    if(!employeeId) return []
+
+    const response = await firstValueFrom(
+      this.httpClient.get<GetAssignedOrdersResponse>(
+        `${environment.apiBaseUrl}orders/employee/${employeeId}/assigned`,
+        { observe: 'response', withCredentials: true }
+      )
+    )
+
+    if(response.ok) {
+      console.log(response.body!.orders)
+      return response.body!.orders
+    } 
+
+    return []
+  }
+
+  public async updateOrderStatusByEmployee(orderId: number, employeeId: string) {
+    const response = await firstValueFrom(
+      this.httpClient.put<any>(
+        `${environment.apiBaseUrl}orders/${orderId}/employee/${employeeId}/changeStatus`, 
+        null,
+        { observe: 'response', withCredentials: true }
+      )
+    )
+
+    return response
+  }
+
+  public async getOrdersInShipping(employeeId: string) {
+    
+  }
+
+  public fireUpdatedOrderStatusEvent(orderId: number) {
+    this.updatedOrderStatusSubject.next(orderId);
   }
 }
