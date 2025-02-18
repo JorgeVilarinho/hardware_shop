@@ -45,6 +45,8 @@ export class OrdersAssignedToEmployeeComponent implements OnInit {
     .subscribe(orderId => {
       const orderIndex = this.assignedOrders.findIndex(x => x.id == orderId)
 
+      if(orderIndex == -1) return
+
       this.assignedOrders.splice(orderIndex, 1)
     })
   }

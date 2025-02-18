@@ -12,6 +12,7 @@ import { CancelOrderResponse } from '../responses/cancelOrder.response';
 import { GetCanceledOrdersResponse } from '../responses/getCanceledOrders.response';
 import { GetUnassignedOrdersResponse } from '../responses/getUnassignedOrders.response';
 import { GetAssignedOrdersResponse } from '../responses/getAssignedOrders.response';
+import { GetInShippingOrdersResponse } from '../responses/getInShippingOrders.response';
 
 @Injectable({
   providedIn: 'root'
@@ -149,7 +150,16 @@ export class OrdersService {
   }
 
   public async getOrdersInShipping(employeeId: string) {
-    
+    const response = await firstValueFrom(
+      this.httpClient.get<GetInShippingOrdersResponse>(
+        `${environment.apiBaseUrl}orders/employee/${employeeId}/in-shipping`,
+        { observe: 'response', withCredentials: true }
+      )
+    )
+
+    if(response.ok) return response.body!.orders
+
+    return []
   }
 
   public fireUpdatedOrderStatusEvent(orderId: number) {

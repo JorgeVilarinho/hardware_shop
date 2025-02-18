@@ -2,6 +2,7 @@ import { UserType } from "../models/userType";
 
 export interface LogInUserResponse {
   user_id: number,
+  id: number,
   kind: UserType,
   name: string,
   email: string,

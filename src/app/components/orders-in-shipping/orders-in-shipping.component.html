@@ -10,7 +10,7 @@
     @for (orderInShipping of ordersInShipping; track orderInShipping.id) {
       <div 
         class="flex items-center justify-between p-3 shadow-md bg-white rounded-lg cursor-pointer transition-shadow hover:shadow-lg" 
-        
+        (click)="openDialog(orderInShipping.id)"
       >
         <div class="flex items-center gap-14">
           <div class="flex item items-center gap-5">

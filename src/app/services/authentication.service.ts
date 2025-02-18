@@ -47,6 +47,7 @@ export class AuthenticationService {
       if (response.body?.userType == UserType.CLIENT) {
         user = {
           user_id: response.body!.user_id,
+          id: response.body!.id,
           kind: response.body!.kind,
           name: response.body!.name,
           email: response.body!.email,
@@ -57,6 +58,7 @@ export class AuthenticationService {
       } else {
         user = {
           user_id: response.body!.user_id,
+          id: response.body!.id,
           kind: response.body!.kind,
           name: response.body!.name,
           email: response.body!.email,
