@@ -25,6 +25,7 @@ import { OrdersAssignmentComponent } from './components/orders-assignment/orders
 import { AssignOrderComponent } from './components/assign-order/assign-order.component';
 import { OrdersAssignedToEmployeeComponent } from './components/orders-assigned-to-employee/orders-assigned-to-employee.component';
 import { OrdersInShippingComponent } from './components/orders-in-shipping/orders-in-shipping.component';
+import { OrdersInShopComponent } from './components/orders-in-shop/orders-in-shop.component';
 
 export const routes: Routes = [
   {
@@ -103,6 +104,9 @@ export const routes: Routes = [
       },
       {
         path: 'orders/:orderId/assign', component: AssignOrderComponent
+      },
+      {
+        path: 'orders/in-shop', component: OrdersInShopComponent
       },
       {
         path: 'employee/:id/orders/in-shipping', component: OrdersInShippingComponent

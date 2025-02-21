@@ -112,8 +112,8 @@ export class EmployeeService {
     phone: string,
     password: string,
     updatePassword: boolean,
-    admin: boolean,
-    employeeType: string
+    admin: boolean | undefined,
+    employeeType: string | undefined
   ): Promise<HttpResponse<any>> {
     const response = await firstValueFrom(
       this.httpClient.put<any>(

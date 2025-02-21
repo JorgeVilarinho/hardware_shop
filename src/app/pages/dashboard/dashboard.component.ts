@@ -13,6 +13,7 @@ import { Employee } from '../../models/employee.model';
 export class DashboardComponent {
   myDataIsActive = true
   ordersAssignedToMeIsActive = false
+  ordersInShopIsActive = false
   ordersInShippingIsActive = false
   employeesIsActive = false
   ordersIsActive = false
@@ -33,7 +34,8 @@ export class DashboardComponent {
     switch(menu) {
       case 'myData':
         this.myDataIsActive = true
-        this.ordersAssignedToMeIsActive = false
+        this.ordersAssignedToMeIsActive = false        
+        this.ordersInShopIsActive = false
         this.ordersInShippingIsActive = false
         this.employeesIsActive = false
         this.ordersIsActive = false
@@ -42,14 +44,25 @@ export class DashboardComponent {
       case 'ordersAssignedToMe':
         this.myDataIsActive = false
         this.ordersAssignedToMeIsActive = true
+        this.ordersInShopIsActive = false
         this.ordersInShippingIsActive = false
         this.employeesIsActive = false
         this.ordersIsActive = false
         this.router.navigate([`/dashboard/employee/${this.getEmployeeId()}/orders`])
         break
+      case 'ordersInShop':
+        this.myDataIsActive = false
+        this.ordersAssignedToMeIsActive = false
+        this.ordersInShopIsActive = true
+        this.ordersInShippingIsActive = false
+        this.employeesIsActive = false
+        this.ordersIsActive = false
+        this.router.navigate([`/dashboard/orders/in-shop`])
+        break
       case 'ordersInShipping':
         this.myDataIsActive = false
         this.ordersAssignedToMeIsActive = false
+        this.ordersInShopIsActive = false
         this.ordersInShippingIsActive = true
         this.employeesIsActive = false
         this.ordersIsActive = false
@@ -58,6 +71,7 @@ export class DashboardComponent {
       case 'employees': 
         this.myDataIsActive = false
         this.ordersAssignedToMeIsActive = false
+        this.ordersInShopIsActive = false
         this.ordersInShippingIsActive = false
         this.employeesIsActive = true
         this.ordersIsActive = false
@@ -66,6 +80,7 @@ export class DashboardComponent {
       case 'orders':
         this.myDataIsActive = false
         this.ordersAssignedToMeIsActive = false
+        this.ordersInShopIsActive = false
         this.ordersInShippingIsActive = false
         this.employeesIsActive = false
         this.ordersIsActive = true
@@ -77,12 +92,20 @@ export class DashboardComponent {
     return this.authenticationService.isLoggedIn()
   }
 
-  public isEmployeeAndAdmin(): boolean {
-    return this.authenticationService.isEmployeeAndAdmin()
+  public isAdminEmployee(): boolean {
+    return this.authenticationService.isAdminEmployee()
   }
 
-  public isEmployeeAndDelivery(): boolean {
-    return this.authenticationService.isEmployeeAndDelivery()
+  public isAdminAndDeliveryEmployee(): boolean {
+    return this.authenticationService.isAdminAndDeliveryEmployee()
+  }
+
+  public isNotAdminAndDeliveryEmployee(): boolean {
+    return this.authenticationService.isNotAdminAndDeliveryEmployee()
+  }
+
+  public isNotAdminAndShopClerkEmployee(): boolean {
+    return this.authenticationService.isNotAdminAndShopClerkEmployee()
   }
 
   public getEmployeeId(): number {

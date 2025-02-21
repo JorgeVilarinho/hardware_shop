@@ -77,4 +77,12 @@ export class HeaderComponent {
 
     this.router.navigate(['checkout']);
   }
+
+  public isClient(): boolean {
+    return this.authenticationService.isClient()
+  }
+
+  public isEmployee(): boolean {
+    return this.authenticationService.isEmployee()
+  }
 }

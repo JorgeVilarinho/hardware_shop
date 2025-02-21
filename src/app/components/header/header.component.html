@@ -9,14 +9,24 @@
   </div>
   <div>
     <div class="flex items-center">
-      @if(isLoggedIn) {
+      @if(isLoggedIn && isClient()) {
         <button
         mat-button
         disableRipple="true"
         routerLink="account/orders/active">
           <div class="flex items-center mr-3">
-            <mat-icon class="mr-2">person</mat-icon>
+            <mat-icon fontIcon="person" class="mr-2"></mat-icon>
             <p class="text-base">Mi cuenta</p>
+          </div>
+        </button>
+      } @else if(isLoggedIn && isEmployee()) {
+        <button
+        mat-button
+        disableRipple="true"
+        routerLink="dashboard">
+          <div class="flex items-center mr-3">
+            <mat-icon fontIcon="space_dashboard" class="mr-2"></mat-icon>
+            <p class="text-base">Dashboard</p>
           </div>
         </button>
       } @else {
@@ -25,7 +35,7 @@
         disableRipple="true"
         routerLink="login">
           <div class="flex items-center mr-3">
-            <mat-icon class="mr-2">person</mat-icon>
+            <mat-icon fontIcon="login" class="mr-2"></mat-icon>
             <p class="text-base">Iniciar sesión</p>
           </div>
         </button>

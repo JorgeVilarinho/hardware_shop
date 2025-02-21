@@ -22,8 +22,7 @@ export class UpdateMyDataEmployeeComponent implements OnInit {
   formBuilder = inject(FormBuilder);
   router = inject(Router);
   snackBar = inject(MatSnackBar);
-
-  employeeTypes: EmployeeType[] = []
+  
   employee: Employee | undefined
 
   updateMyDataEmployee = this.formBuilder.group({
@@ -41,14 +40,11 @@ export class UpdateMyDataEmployeeComponent implements OnInit {
       Validators.required,
       Validators.minLength(6),
     ]),
-    updatePassword: new FormControl<boolean>(false, Validators.required),
-    admin: new FormControl<boolean>(false, Validators.required),
-    employeeType: new FormControl<string | null>(null, Validators.required),
+    updatePassword: new FormControl<boolean>(false, Validators.required)
   });
   isSubmitted = false
 
   async ngOnInit(): Promise<void> {
-    this.employeeTypes = await this.employeeService.getEmployeeTypes()
     this.employee = this.authenticationService.loggedInUser as Employee
     this.loadEmployeeData()
   }
@@ -88,11 +84,6 @@ export class UpdateMyDataEmployeeComponent implements OnInit {
     || this.updateMyDataEmployee.get('phone')?.touched || this.isSubmitted);
   }
 
-  public employeeTypeHasRequiredError(): boolean | undefined {
-    return this.updateMyDataEmployee.get('employeeType')?.hasError('required') && (this.updateMyDataEmployee.get('employeeType')?.dirty
-    || this.updateMyDataEmployee.get('employeeType')?.touched || this.isSubmitted);
-  }
-
   public passwordHasRequiredError(): boolean | undefined {
     return this.updateMyDataEmployee.get('password')?.hasError('required') && (this.updateMyDataEmployee.get('password')?.dirty
     || this.updateMyDataEmployee.get('password')?.touched || this.isSubmitted);
@@ -114,8 +105,8 @@ export class UpdateMyDataEmployeeComponent implements OnInit {
         this.updateMyDataEmployee.get('phone')!.value!,
         this.updateMyDataEmployee.get('password')!.value!,
         this.updateMyDataEmployee.get('updatePassword')!.value!,
-        this.updateMyDataEmployee.get('admin')!.value!,
-        this.updateMyDataEmployee.get('employeeType')!.value!
+        undefined,
+        undefined
       )
 
       if(response.ok) {
@@ -141,7 +132,5 @@ export class UpdateMyDataEmployeeComponent implements OnInit {
     this.updateMyDataEmployee.get('dni')!.setValue(this.employee?.dni ?? '')
     this.updateMyDataEmployee.get('email')!.setValue(this.employee?.email ?? '')
     this.updateMyDataEmployee.get('phone')!.setValue(this.employee?.phone ?? '')
-    this.updateMyDataEmployee.get('admin')!.setValue(this.employee?.admin ?? false)
-    this.updateMyDataEmployee.get('employeeType')!.setValue(this.employee?.tipo_trabajador ?? null)
   }
 }

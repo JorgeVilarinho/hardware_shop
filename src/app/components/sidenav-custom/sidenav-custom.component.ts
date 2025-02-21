@@ -62,4 +62,8 @@ export class SidenavCustomComponent {
   public isEmployee(): boolean {
     return this.authenticationService.isEmployee()
   }
+
+  public isClient(): boolean {
+    return this.authenticationService.isClient()
+  }
 }

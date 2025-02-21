@@ -71,26 +71,7 @@
           >
         </div>
       </div>
-
-      <div class="flex flex-col gap-1">
-        <label for="employeeType">Tipo de trabajador</label>
-        <select name="employeeType" formControlName="employeeType"
-          class="rounded-md w-full p-3 border border-gray-400 focus:border-amber-500 outline-none">
-          @for (employeeType of employeeTypes; track employeeType.id) {
-            <option [value]="employeeType.valor">{{ employeeType.descripcion }}</option>
-          }
-        </select>
-        @if(employeeTypeHasRequiredError()) {
-          <span class="text-red-600">Este campo es obligatorio</span>
-        }
-      </div>
-
-      <div class="flex items-center gap-3">
-        <label for="admin">Administrador</label>
-        <input type="checkbox" name="admin" formControlName="admin"
-          class="w-5 h-5 rounded-md border border-gray-400 focus:border-amber-500 outline-none accent-red-600 cursor-pointer"
-        >
-      </div>
+      
       <button class="bg-amber-500 rounded-md w-full p-2 text-white mb-5" type="submit">Actualizar mis datos</button>
     </div>
   </form>

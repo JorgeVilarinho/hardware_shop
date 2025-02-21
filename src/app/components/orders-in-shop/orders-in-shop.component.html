@@ -1,0 +1,32 @@
+<div class="px-10 py-5 flex flex-col justify-center gap-5">
+
+  <div class="flex flex-col gap-3">
+    <h1 class="text-2xl font-medium">Pedidos en tienda</h1>
+    <p class="text-lg">Selecciona el pedido en tienda a ser entregado a su cliente</p>
+  </div>
+
+  <div class="flex flex-col gap-3">
+    @for (orderInShop of ordersInShop; track orderInShop.id) {
+      <div 
+        class="flex items-center justify-between p-3 shadow-md bg-white rounded-lg cursor-pointer transition-shadow hover:shadow-lg" 
+        (click)="openDialog(orderInShop.id)"
+      >
+        <div class="flex items-center gap-14">
+          <div class="flex item items-center gap-5">
+            <img 
+            [src]="'http://localhost:8080/images/' + orderInShop.imagen" 
+            alt="Imagen producto pedido"
+            class="w-20 border"
+            >
+            <p class="text-black">Nº Pedido {{ orderInShop.id }}</p>
+          </div>
+          <p class="text-neutral-500">{{ getFormattedDate(orderInShop.fecha_creacion) }}</p>
+        </div>
+        <p class="text-black font-medium">{{ orderInShop.total | currency:'EUR' }}</p>
+      </div>
+    } @empty {
+      <p class="text-xl">No tiene ningún pedido en proceso de envío en este momento</p>
+    }
+  </div>
+
+</div>

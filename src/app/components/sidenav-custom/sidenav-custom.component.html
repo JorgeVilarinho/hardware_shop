@@ -40,19 +40,21 @@
             </button>
           }
 
-          <button 
-            class="flex items-center justify-between py-3 px-2 rounded-md
-              outline-none cursor-pointer transition hover:bg-neutral-200"
-            (click)="goToAccount()"
-          >
-            <div class="flex gap-2">
-              <mat-icon fontIcon="person"></mat-icon>
-              <span>Cuenta</span>
-            </div>
-            <div class="flex">
-              <mat-icon fontIcon="chevron_right"></mat-icon>
-            </div>
-          </button>
+          @if(isClient()) {
+            <button 
+              class="flex items-center justify-between py-3 px-2 rounded-md
+                outline-none cursor-pointer transition hover:bg-neutral-200"
+              (click)="goToAccount()"
+            >
+              <div class="flex gap-2">
+                <mat-icon fontIcon="person"></mat-icon>
+                <span>Cuenta</span>
+              </div>
+              <div class="flex">
+                <mat-icon fontIcon="chevron_right"></mat-icon>
+              </div>
+            </button>
+          }
         }
 
         <button 
@@ -78,7 +80,7 @@
           (click)="openLogOutDialog()"
         >
           <div class="flex gap-2">
-            <mat-icon fontIcon="person"></mat-icon>
+            <mat-icon fontIcon="logout"></mat-icon>
             <span>Cerrar sesión</span>
           </div>
         </button>
@@ -90,7 +92,7 @@
           (click)="goToLogin()"
         >
           <div class="flex gap-2">
-            <mat-icon fontIcon="person"></mat-icon>
+            <mat-icon fontIcon="login"></mat-icon>
             <span>Iniciar sesión</span>
           </div>
         </button>

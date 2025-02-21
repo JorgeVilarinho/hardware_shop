@@ -152,7 +152,7 @@ export class AuthenticationService {
     return false
   }
 
-  public isEmployeeAndAdmin(): boolean {
+  public isAdminEmployee(): boolean {
     let user = this.loggedInUser
 
     if(!user) return false
@@ -164,14 +164,38 @@ export class AuthenticationService {
     return false
   }
 
-  public isEmployeeAndDelivery(): boolean {
+  public isAdminAndDeliveryEmployee(): boolean {
     let user = this.loggedInUser
 
     if(!user) return false
 
     let employee = UserTypeInferenceHelper.isEmployee(user)
   
-    if(employee && employee.tipo_trabajador == EmployeeTypeValue.DELIVERY) return true
+    if(employee && employee.admin && employee.tipo_trabajador == EmployeeTypeValue.DELIVERY) return true
+  
+    return false
+  }
+
+  public isNotAdminAndShopClerkEmployee(): boolean {
+    let user = this.loggedInUser
+
+    if(!user) return false
+
+    let employee = UserTypeInferenceHelper.isEmployee(user)
+  
+    if(employee && !employee.admin && employee.tipo_trabajador == EmployeeTypeValue.SHOP_CLERK) return true
+  
+    return false
+  }
+
+  public isNotAdminAndDeliveryEmployee(): boolean {
+    let user = this.loggedInUser
+
+    if(!user) return false
+
+    let employee = UserTypeInferenceHelper.isEmployee(user)
+  
+    if(employee && !employee.admin && employee.tipo_trabajador == EmployeeTypeValue.DELIVERY) return true
   
     return false
   }
@@ -184,5 +208,13 @@ export class AuthenticationService {
     if(client) return true
 
     return false
+  }
+
+  public getEmployeeId(): number {
+    let user = this.loggedInUser!
+
+    let employee = UserTypeInferenceHelper.isEmployee(user)
+
+    return employee!.id
   }
 }
