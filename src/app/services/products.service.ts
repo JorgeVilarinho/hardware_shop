@@ -5,6 +5,7 @@ import { BehaviorSubject, firstValueFrom } from 'rxjs';
 import { Product } from '../models/product.model';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { Filters } from '../models/filters.model';
+import { GetProductByIdResponse } from '../responses/getProductById.response';
 
 @Injectable({
   providedIn: 'root'
@@ -34,6 +35,17 @@ export class ProductsService {
         this.snackBar.open(result.body.message);
       }
     )
+  }
+
+  public async getAllProductsAsync() {
+    const response = await firstValueFrom(
+      this.httpClient.get<any>(`${environment.apiBaseUrl}products`, 
+      { observe: 'response' })
+    )
+
+    if(response.ok) return response.body.products
+
+    return []
   }
 
   public async getMaxPrice(): Promise<number> {
@@ -83,5 +95,18 @@ export class ProductsService {
         this.snackBar.open(result.body.message);
       }
     )
+  }
+
+  public async getProductById(productId: string): Promise<Product | undefined> {
+    const response = await firstValueFrom(
+      this.httpClient.get<GetProductByIdResponse>(
+        `${environment.apiBaseUrl}products/${productId}`, 
+        { observe: 'response' }
+      )
+    )
+
+    if(response.ok) return response.body!.product
+
+    return undefined
   }
 }

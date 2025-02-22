@@ -1,0 +1,140 @@
+<div class="px-10 py-5 flex flex-col justify-center gap-5">
+  <div class="flex items-center gap-5 text-2xl font-medium">
+    <button class="flex items-center" routerLink="/dashboard/products">
+      <mat-icon fontIcon="arrow_back" />
+    </button>
+    <h1>Datos del producto</h1>
+  </div>
+
+  <div>
+    <form [formGroup]="updateProductForm" (ngSubmit)="onSubmit()">
+      <div class="flex flex-col gap-5">
+        <div class="flex gap-5 w-full">
+
+          <div class="flex flex-col gap-1">
+            <img 
+              [src]="'http://localhost:8080/images/' + product?.image" 
+              id="productImage"
+              alt="Imagen del producto"
+              class="w-[250px] h-[200px] border-2 border-neutral-300 rounded-md mb-2"
+            >
+            <label 
+              for="image" 
+              class="bg-amber-500 rounded-md w-full p-2 text-center text-white cursor-pointer"
+            >
+              <input 
+                type="file" 
+                name="image" 
+                id="image" 
+                class="hidden" 
+                multiple="false"
+                accept=".jpg"
+                (change)="onImageSelected($event)">
+              Cambiar imagen
+            </label>
+          </div>
+
+          <div class="flex flex-col gap-5 w-full">
+            <div class="flex flex-col gap-1">
+              <label for="name">Nombre del producto</label>
+              <input type="text" name="name" formControlName="name"
+                class="rounded-md w-full p-3 border border-gray-400 focus:border-amber-500 outline-none"
+              >
+              @if(nameHasRequiredError()) {
+                <span class="text-red-600">Este campo es obligatorio</span>
+              }
+            </div>
+  
+            <div class="flex flex-col gap-1 flex-grow">
+              <label for="description">Descripción</label>
+              <textarea name="description" formControlName="description"
+                class="rounded-md w-full p-2 border flex-grow border-gray-400 focus:border-amber-500 outline-none resize-none"
+              ></textarea>
+              @if(descriptionHasRequiredError()) {
+                <span class="text-red-600">Este campo es obligatorio</span>
+              }
+              @if(descriptionHasMaxLengthError()) {
+                <span class="text-red-600">Este campo debe contener un máximo de 800 caracteres</span>
+              }
+            </div>
+          </div>
+        </div>
+        
+        <div class="flex flex-col gap-1">
+          <label for="price">Precio</label>
+          <input type="number" name="price" formControlName="price" min="0"
+            class="rounded-md w-full p-3 border border-gray-400 focus:border-amber-500 outline-none"
+          >
+          @if(priceHasRequiredError()) {
+            <span class="text-red-600">Este campo es obligatorio</span>
+          }
+          @if(priceHasMinError()) {
+            <span class="text-red-600">Este campo debe de tener un precio positivo</span>
+          }
+        </div>
+        
+        <div class="flex flex-col gap-1">
+          <label for="units">Unidades</label>
+          <input type="number" name="units" formControlName="units" min="0"
+            class="rounded-md w-full p-3 border border-gray-400 focus:border-amber-500 outline-none"
+          >
+          @if(unitsHasRequiredError()) {
+            <span class="text-red-600">Este campo es obligatorio</span>
+          }
+          @if(unitsHasMinError()) {
+            <span class="text-red-600">Este campo debe tener valores positivos</span>
+          }
+        </div>
+
+        <div class="flex flex-col gap-1">
+          <label for="discount">Descuento</label>
+          <input type="number" name="discount" formControlName="discount" min="0"
+            class="rounded-md w-full p-3 border border-gray-400 focus:border-amber-500 outline-none"
+          >
+          @if(discountHasRequiredError()) {
+            <span class="text-red-600">Este campo es obligatorio</span>
+          }
+          @if(discountHasMinError()) {
+            <span class="text-red-600">Este campo debe tener números positivos</span>
+          }
+          @if(discountHasMaxError()) {
+            <span class="text-red-600">Este campo no puede tener un descuento mayor al 100%</span>
+          }
+        </div>
+
+        <div class="flex flex-col gap-1">
+          <label for="category">Categoría</label>
+          <select name="category" formControlName="category"
+            class="rounded-md w-full p-3 border border-gray-400 focus:border-amber-500 outline-none">
+            @for (category of categories; track category.id) {
+              <option [value]="category.id">{{ category.nombre }}</option>
+            }
+          </select>
+          @if(categoryHasRequiredError()) {
+            <span class="text-red-600">Este campo es obligatorio</span>
+          }
+        </div>
+
+        <div class="flex flex-col gap-1">
+          <label for="brand">Marca</label>
+          <select name="brand" formControlName="brand"
+            class="rounded-md w-full p-3 border border-gray-400 focus:border-amber-500 outline-none">
+            @for (brand of brands; track brand.id) {
+              <option [value]="brand.id">{{ brand.nombre }}</option>
+            }
+          </select>
+          @if(brandHasRequiredError()) {
+            <span class="text-red-600">Este campo es obligatorio</span>
+          }
+        </div>
+
+        <button 
+          class="bg-amber-500 rounded-md w-full p-2 text-white mb-5" 
+          type="submit"
+        >
+          Actualizar datos
+        </button>
+      </div>
+    </form>
+  </div>
+</div>

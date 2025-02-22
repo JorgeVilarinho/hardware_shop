@@ -16,6 +16,7 @@ export class DashboardComponent {
   ordersInShopIsActive = false
   ordersInShippingIsActive = false
   employeesIsActive = false
+  productsIsActive = false
   ordersIsActive = false
 
   authenticationService = inject(AuthenticationService)
@@ -38,6 +39,7 @@ export class DashboardComponent {
         this.ordersInShopIsActive = false
         this.ordersInShippingIsActive = false
         this.employeesIsActive = false
+        this.productsIsActive = false
         this.ordersIsActive = false
         this.router.navigate(['/dashboard/data'])
         break
@@ -47,6 +49,7 @@ export class DashboardComponent {
         this.ordersInShopIsActive = false
         this.ordersInShippingIsActive = false
         this.employeesIsActive = false
+        this.productsIsActive = false
         this.ordersIsActive = false
         this.router.navigate([`/dashboard/employee/${this.getEmployeeId()}/orders`])
         break
@@ -56,6 +59,7 @@ export class DashboardComponent {
         this.ordersInShopIsActive = true
         this.ordersInShippingIsActive = false
         this.employeesIsActive = false
+        this.productsIsActive = false
         this.ordersIsActive = false
         this.router.navigate([`/dashboard/orders/in-shop`])
         break
@@ -65,6 +69,7 @@ export class DashboardComponent {
         this.ordersInShopIsActive = false
         this.ordersInShippingIsActive = true
         this.employeesIsActive = false
+        this.productsIsActive = false
         this.ordersIsActive = false
         this.router.navigate([`/dashboard/employee/${this.getEmployeeId()}/orders/in-shipping`])
         break
@@ -74,8 +79,19 @@ export class DashboardComponent {
         this.ordersInShopIsActive = false
         this.ordersInShippingIsActive = false
         this.employeesIsActive = true
+        this.productsIsActive = false
         this.ordersIsActive = false
         this.router.navigate(['/dashboard/employees'])
+        break
+      case 'products':
+        this.myDataIsActive = false
+        this.ordersAssignedToMeIsActive = false
+        this.ordersInShopIsActive = false
+        this.ordersInShippingIsActive = false
+        this.employeesIsActive = false
+        this.productsIsActive = true
+        this.ordersIsActive = false
+        this.router.navigate(['/dashboard/products'])
         break
       case 'orders':
         this.myDataIsActive = false
@@ -83,6 +99,7 @@ export class DashboardComponent {
         this.ordersInShopIsActive = false
         this.ordersInShippingIsActive = false
         this.employeesIsActive = false
+        this.productsIsActive = false
         this.ordersIsActive = true
         this.router.navigate(['/dashboard/orders'])
     }

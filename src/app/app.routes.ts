@@ -26,6 +26,8 @@ import { AssignOrderComponent } from './components/assign-order/assign-order.com
 import { OrdersAssignedToEmployeeComponent } from './components/orders-assigned-to-employee/orders-assigned-to-employee.component';
 import { OrdersInShippingComponent } from './components/orders-in-shipping/orders-in-shipping.component';
 import { OrdersInShopComponent } from './components/orders-in-shop/orders-in-shop.component';
+import { ProductsDashboardComponent } from './components/products-dashboard/products-dashboard.component';
+import { UpdateProductComponent } from './components/update-product/update-product.component';
 
 export const routes: Routes = [
   {
@@ -86,6 +88,12 @@ export const routes: Routes = [
     path: 'dashboard', component: DashboardComponent, children: [
       {
         path: 'employees', component: EmployeesComponent
+      },
+      {
+        path: 'products', component: ProductsDashboardComponent
+      },
+      {
+        path: 'products/:id', component: UpdateProductComponent
       },
       {
         path: 'employees/add', component: AddEmployeeComponent
