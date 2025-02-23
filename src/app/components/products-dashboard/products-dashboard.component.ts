@@ -3,11 +3,11 @@ import { MatIcon } from '@angular/material/icon';
 import { Product } from '../../models/product.model';
 import { ProductsService } from '../../services/products.service';
 import { CurrencyPipe } from '@angular/common';
-import { Router } from '@angular/router';
+import { Router, RouterLink } from '@angular/router';
 
 @Component({
   selector: 'app-products-dashboard',
-  imports: [ MatIcon, CurrencyPipe ],
+  imports: [ MatIcon, RouterLink, CurrencyPipe ],
   templateUrl: './products-dashboard.component.html',
   styleUrl: './products-dashboard.component.css'
 })

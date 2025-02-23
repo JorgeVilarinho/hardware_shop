@@ -13,10 +13,14 @@ import { Category } from '../../models/category.model';
 import { CategoriesService } from '../../services/categories.service';
 import { Brand } from '../../models/brand.model';
 import { BrandsService } from '../../services/brands.service';
+import { MatSnackBar } from '@angular/material/snack-bar';
+import { ImagesService } from '../../services/images.service';
+import { MatDialog } from '@angular/material/dialog';
+import { DeleteProductDialogComponent } from '../delete-product-dialog/delete-product-dialog.component';
 
 @Component({
   selector: 'app-update-product',
-  imports: [MatIcon, RouterLink, ReactiveFormsModule],
+  imports: [ MatIcon, RouterLink, ReactiveFormsModule ],
   templateUrl: './update-product.component.html',
   styleUrl: './update-product.component.css',
 })
@@ -25,12 +29,15 @@ export class UpdateProductComponent implements OnInit {
   product: Product | undefined;
   categories: Category[] = []
   brands: Brand[] = []
-  selectedFile: File | null = null
+  selectedFile: Blob | null = null
 
   productsService = inject(ProductsService);
   categoriesService = inject(CategoriesService);
   brandsService = inject(BrandsService);
+  imagesService = inject(ImagesService);
   formBuilder = inject(FormBuilder);
+  snackBar = inject(MatSnackBar);
+  dialog = inject(MatDialog);
 
   updateProductForm = this.formBuilder.group({
     name: new FormControl<string>('', Validators.required),
@@ -49,7 +56,6 @@ export class UpdateProductComponent implements OnInit {
 
   async ngOnInit(): Promise<void> {
     this.categories = await this.categoriesService.getCategories()
-    this.brands = await this.brandsService.getBrands()
     this.product = await this.productsService.getProductById(this.productId!);
     await this.loadProductData()
   }
@@ -124,6 +130,7 @@ export class UpdateProductComponent implements OnInit {
 
   public async loadProductData(): Promise<void> {
     const category = await this.categoriesService.getCategoryByValue(this.product?.category!)
+    this.brands = await this.brandsService.getBrandsByCategory(category?.id!)
     const brand = await this.brandsService.getBrandByValue(this.product?.brand!)
 
     this.updateProductForm.get('name')!.setValue(this.product?.name ?? '')
@@ -135,7 +142,41 @@ export class UpdateProductComponent implements OnInit {
     this.updateProductForm.get('brand')!.setValue(brand?.id ?? 0)
   }
 
-  public onSubmit(): void {
-    // TODO: Update product data
+  public async selectCategory(event: Event): Promise<void> {
+    let input = event.target as HTMLSelectElement
+  
+    let categoryId = input.value as unknown as number;
+    this.brands = await this.brandsService.getBrandsByCategory(categoryId)
+    // Update brand value to first element in brands array to no create conflicts when updating the data
+    this.updateProductForm.get('brand')!.setValue(this.brands[0].id)
+  }
+
+  public openDeleteDialog(): void {
+    const dialog = this.dialog.open(DeleteProductDialogComponent)
+    dialog.componentInstance.productId = this.productId
+  }
+
+  public async onSubmit(): Promise<void> {
+    if(this.updateProductForm.valid) {
+      if(this.selectedFile) await this.imagesService.uploadImage(this.selectedFile)
+
+      const response = await this.productsService.updateProductById(
+        this.productId!, 
+        this.updateProductForm.get('name')!.value!,
+        this.updateProductForm.get('description')!.value!,
+        this.updateProductForm.get('price')!.value!,
+        this.updateProductForm.get('units')!.value!,
+        this.updateProductForm.get('discount')!.value!,
+        this.updateProductForm.get('category')!.value!,
+        this.updateProductForm.get('brand')!.value!,
+        this.selectedFile ? (this.selectedFile as File).name : undefined
+      )
+
+      if(response.ok) this.snackBar.open('Se ha actualizado correctamente el producto', 'Ok', { duration: 3000 })
+    } else {
+      this.snackBar.open("Los campos introducidos no son válidos", 'Ok', { duration: 3000 });
+    }
+
+    this.isSubmitted = true
   }
 }

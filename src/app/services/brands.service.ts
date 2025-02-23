@@ -43,10 +43,13 @@ export class BrandsService {
   public async getBrandsByCategory(categoryId: number): Promise<Brand[]> {
     const response = await firstValueFrom(
       this.httpClient.get<GetBrandsByCategoryResponse>(
-        `${environment.apiBaseUrl}brands/${categoryId}`, {
+        `${environment.apiBaseUrl}brands/category/${categoryId}`, {
         observe: 'response',
       })
     );
+
+    console.log(response.ok)
+    console.log(response.body)
 
     if (response.ok) return response.body!.brands;
 

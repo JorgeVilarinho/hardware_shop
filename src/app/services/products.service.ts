@@ -1,4 +1,4 @@
-import { HttpClient } from '@angular/common/http';
+import { HttpClient, HttpResponse } from '@angular/common/http';
 import { inject, Injectable } from '@angular/core';
 import { environment } from '../../environments/environment.development';
 import { BehaviorSubject, firstValueFrom } from 'rxjs';
@@ -108,5 +108,63 @@ export class ProductsService {
     if(response.ok) return response.body!.product
 
     return undefined
+  }
+
+  public async updateProductById(productId: string, name: string, 
+    description: string, price: number, units: number, discount: number, 
+    categoryId: number, brandId: number, imageName: string | undefined): Promise<HttpResponse<any>> {
+    const response = await firstValueFrom(
+      this.httpClient.put<any>(
+        `${environment.apiBaseUrl}products/${productId}`, 
+        {
+          name,
+          description,
+          price,
+          units,
+          discount,
+          categoryId,
+          brandId,
+          imageName
+        },
+        { observe: 'response', withCredentials: true }
+      )
+    )
+
+    return response
+  }
+
+
+  public async addProduct(name: string, 
+    description: string, price: number, units: number, discount: number, 
+    categoryId: number, brandId: number, imageName: string): Promise<HttpResponse<any>> {
+      const response = await firstValueFrom(
+        this.httpClient.post<any>(
+          `${environment.apiBaseUrl}products/product`, 
+          {
+            name,
+            description,
+            price,
+            units,
+            discount,
+            categoryId,
+            brandId,
+            imageName
+          },
+          { observe: 'response', withCredentials: true }
+        )
+      )
+  
+      return response
+  }
+
+  public async deleteProduct(productId: string) {
+    const response = await firstValueFrom(
+      this.httpClient.delete<any>(
+        `${environment.apiBaseUrl}products/product/${productId}`, 
+        { observe: 'response', withCredentials: true }
+      )
+    )
+
+    return response
   }
 }

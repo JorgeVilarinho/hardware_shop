@@ -1,29 +1,19 @@
 <div class="px-10 py-5 flex flex-col justify-center gap-5">
-  <div class="flex items-center justify-between">
-    <div class="flex items-center gap-5 text-2xl">
-      <button class="flex items-center font-medium" routerLink="/dashboard/products">
-        <mat-icon fontIcon="arrow_back" />
-      </button>
-      <h1 class="font-medium">Datos del producto</h1>
-    </div>
-    <button 
-      class="flex items-center gap-2 py-2 px-3 bg-red-600 rounded-md 
-    text-white transition-transform active:scale-95 shadow-md"
-      (click)="openDeleteDialog()"
-    >
-      <mat-icon fontIcon="delete" />
-      <span>Eliminar producto</span>
+  <div class="flex items-center gap-5 text-2xl font-medium">
+    <button class="flex items-center" routerLink="/dashboard/products">
+      <mat-icon fontIcon="arrow_back" />
     </button>
+    <h1>Crear nuevo producto</h1>
   </div>
 
   <div>
-    <form [formGroup]="updateProductForm" (ngSubmit)="onSubmit()" enctype="multipart/form-data">
+    <form [formGroup]="addProductForm" (ngSubmit)="onSubmit()" enctype="multipart/form-data">
       <div class="flex flex-col gap-5">
         <div class="flex gap-5 w-full">
 
           <div class="flex flex-col gap-1">
             <img 
-              [src]="'http://localhost:8080/images/' + product?.image" 
+              src="http://localhost:8080/images/placeholder.png" 
               id="productImage"
               alt="Imagen del producto"
               class="w-[250px] h-[200px] border-2 border-neutral-300 rounded-md mb-2 object-cover"
@@ -144,7 +134,7 @@
           class="bg-amber-500 rounded-md w-full p-2 text-white mb-5" 
           type="submit"
         >
-          Actualizar datos
+          Añadir producto
         </button>
       </div>
     </form>

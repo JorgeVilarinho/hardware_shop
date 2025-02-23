@@ -28,6 +28,7 @@ import { OrdersInShippingComponent } from './components/orders-in-shipping/order
 import { OrdersInShopComponent } from './components/orders-in-shop/orders-in-shop.component';
 import { ProductsDashboardComponent } from './components/products-dashboard/products-dashboard.component';
 import { UpdateProductComponent } from './components/update-product/update-product.component';
+import { AddProductComponent } from './components/add-product/add-product.component';
 
 export const routes: Routes = [
   {
@@ -91,6 +92,9 @@ export const routes: Routes = [
       },
       {
         path: 'products', component: ProductsDashboardComponent
+      },
+      {
+        path: 'products/add', component: AddProductComponent
       },
       {
         path: 'products/:id', component: UpdateProductComponent
