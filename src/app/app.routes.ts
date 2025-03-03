@@ -29,6 +29,9 @@ import { OrdersInShopComponent } from './components/orders-in-shop/orders-in-sho
 import { ProductsDashboardComponent } from './components/products-dashboard/products-dashboard.component';
 import { UpdateProductComponent } from './components/update-product/update-product.component';
 import { AddProductComponent } from './components/add-product/add-product.component';
+import { PcConfiguratorComponent } from './pages/pc-configurator/pc-configurator.component';
+import { InitialPcConfiguratorComponent } from './components/initial-pc-configurator/initial-pc-configurator.component';
+import { ProductSelectionByCategoryComponent } from './components/product-selection-by-category/product-selection-by-category.component';
 
 export const routes: Routes = [
   {
@@ -122,6 +125,16 @@ export const routes: Routes = [
       },
       {
         path: 'employee/:id/orders/in-shipping', component: OrdersInShippingComponent
+      }
+    ]
+  },
+  {
+    path: 'configurator', component: PcConfiguratorComponent, children: [
+      { 
+        path: '', component: InitialPcConfiguratorComponent
+      },
+      {
+        path: 'product-selection/:categoryValue', component: ProductSelectionByCategoryComponent
       }
     ]
   },

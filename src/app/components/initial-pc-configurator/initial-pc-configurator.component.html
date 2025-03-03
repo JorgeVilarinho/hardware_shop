@@ -1,0 +1,178 @@
+<h1 class="text-xl font-medium mb-10">CONFIGURADOR BYTESHOP</h1>
+
+    <div class="flex gap-20 mb-10">
+      <img src="http://localhost:8080/images/default_pc.png" alt="Imagen de la caja" class="pt-10 w-[500px] h-[500px]">
+      <div class="flex-grow">
+        
+        <div class="flex gap-8 font-medium text-lg mb-5">
+          <div 
+            class="flex items-center gap-2 cursor-pointer pb-1" 
+            [ngClass]="{'border-b-2 border-black': componentsTabActive, 'text-neutral-300': !componentsTabActive}"
+            (click)="changeActiveTabToComponentTab()"
+          >
+            <p>COMPONENTES</p>
+            <div 
+              class="flex items-center justify-center w-5 h-5 rounded-full text-white text-base" 
+              [ngClass]="{'bg-black': componentsTabActive, 'bg-neutral-300': !componentsTabActive}"
+            >
+              <span>0</span>
+            </div>
+          </div>
+
+          <div 
+            class="flex items-center gap-2 cursor-pointer pb-1 text-neutral-300"
+            [ngClass]="{'border-b-2 border-black': peripheralsTabActive, 'text-neutral-300': !peripheralsTabActive}"
+            (click)="changeActiveTabToPeripheralsTab()"
+          >
+            <p>PERIFÉRICOS Y ACCESSORIOS</p>
+            <div 
+              class="flex items-center justify-center w-5 h-5 rounded-full text-white text-base"
+              [ngClass]="{'bg-black': peripheralsTabActive, 'bg-neutral-300': !peripheralsTabActive}" 
+            >
+              <span>0</span>
+            </div>
+          </div>
+
+          <div 
+            class="cursor-pointer pb-1"
+            [ngClass]="{'border-b-2 border-black': assemblyTabActive, 'text-neutral-300': !assemblyTabActive}"
+            (click)="changeActiveTabToAssemblyTab()"
+          >
+            <p>MONTAJE</p>
+          </div>
+          
+        </div>
+
+        <div class="grid grid-cols-2 gap-x-5 gap-y-8">
+
+          <div 
+            class="flex flex-col bg-white rounded-md py-5 px-5 gap-3 cursor-pointer"
+            (click)="goToProductSelectionByCategory('processors')"
+          >
+            <div class="flex items-center gap-2">
+              <img src="http://localhost:8080/images/processor.svg" alt="Icono procesador" class="w-5 h-5">
+              <p class="text-sm">PROCESADOR</p>
+            </div>
+            <div class="flex text-neutral-400 gap-3">
+              <mat-icon fontIcon="add" />
+              <p>Seleccionar componente</p>
+            </div>
+          </div>
+
+          <div class="flex flex-col bg-white rounded-md py-5 px-5 gap-3 cursor-pointer">
+            <div class="flex items-center gap-2">
+              <img src="http://localhost:8080/images/motherboard.svg" alt="Icono procesador" class="w-5 h-5">
+              <p class="text-sm">PLACA BASE</p>
+            </div>
+            <div class="flex text-neutral-400 gap-3">
+              <mat-icon fontIcon="add" />
+              <p>Seleccionar componente</p>
+            </div>
+          </div>
+
+          <div class="flex flex-col bg-white rounded-md py-5 px-5 gap-3 cursor-pointer">
+            <div class="flex items-center gap-2">
+              <img src="http://localhost:8080/images/RAM.svg" alt="Icono procesador" class="w-5 h-5">
+              <p class="text-sm">RAM</p>
+            </div>
+            <div class="flex text-neutral-400 gap-3">
+              <mat-icon fontIcon="add" />
+              <p>Seleccionar componente</p>
+            </div>
+          </div>
+
+          <div class="flex flex-col bg-white rounded-md py-5 px-5 gap-3 cursor-pointer">
+            <div class="flex items-center gap-2">
+              <img src="http://localhost:8080/images/cpu_cooler.svg" alt="Icono procesador" class="w-5 h-5">
+              <p class="text-sm">DISIPADOR CPU</p>
+            </div>
+            <div class="flex text-neutral-400 gap-3">
+              <mat-icon fontIcon="add" />
+              <p>Seleccionar componente</p>
+            </div>
+          </div>
+
+          <div class="flex flex-col bg-white rounded-md py-5 px-5 gap-3 cursor-pointer">
+            <div class="flex items-center gap-2">
+              <img src="http://localhost:8080/images/graphics_card.svg" alt="Icono procesador" class="w-5 h-5">
+              <p class="text-sm">TARJETA GRÁFICA</p>
+            </div>
+            <div class="flex text-neutral-400 gap-3">
+              <mat-icon fontIcon="add" />
+              <p>Seleccionar componente</p>
+            </div>
+          </div>
+
+          <div class="flex flex-col bg-white rounded-md py-5 px-5 gap-3 cursor-pointer">
+            <div class="flex items-center gap-2">
+              <img src="http://localhost:8080/images/storage.svg" alt="Icono procesador" class="w-5 h-5">
+              <p class="text-sm">ALMACENAMIENTO</p>
+            </div>
+            <div class="flex text-neutral-400 gap-3">
+              <mat-icon fontIcon="add" />
+              <p>Seleccionar componente</p>
+            </div>
+          </div>
+
+          <div class="flex flex-col bg-white rounded-md py-5 px-5 gap-3 cursor-pointer">
+            <div class="flex items-center gap-2">
+              <img src="http://localhost:8080/images/power_supply.svg" alt="Icono procesador" class="w-5 h-5">
+              <p class="text-sm">FUENTE ALIMENTACIÓN</p>
+            </div>
+            <div class="flex text-neutral-400 gap-3">
+              <mat-icon fontIcon="add" />
+              <p>Seleccionar componente</p>
+            </div>
+          </div>
+
+          <div class="flex flex-col bg-white rounded-md py-5 px-5 gap-3 cursor-pointer">
+            <div class="flex items-center gap-2">
+              <img src="http://localhost:8080/images/box.svg" alt="Icono procesador" class="w-5 h-5">
+              <p class="text-sm">CAJA</p>
+            </div>
+            <div class="flex text-neutral-400 gap-3">
+              <mat-icon fontIcon="add" />
+              <p>Seleccionar componente</p>
+            </div>
+          </div>
+
+        </div>
+
+      </div>
+    </div>
+
+    <div class="flex justify-between bg-white rounded-md px-3 py-5">
+
+      <div class="flex items-center gap-8">
+        <button>
+          <mat-icon fontIcon="keyboard_arrow_up" class="text-3xl mr-5" />
+          Resumen
+        </button>
+  
+        <div class="flex items-center gap-3">
+          <div class="border border-neutral-300 rounded-full p-2 flex items-center">
+            <mat-icon fontIcon="local_shipping" />
+          </div>
+          <div class="text-base">
+            <p class="font-medium">Gastos de envío:</p>
+            <p>4,95 €</p>
+          </div>
+        </div>
+  
+        <div class="flex items-center gap-3">
+          <div class="border border-neutral-300 rounded-full p-2 flex items-center">
+            <mat-icon fontIcon="local_shipping" />
+          </div>
+          <div class="text-base">
+            <p class="font-medium">Tiempo de montaje y de envío:</p>
+            <p>8 - 13 días laborables</p>
+          </div>
+        </div>
+      </div>
+
+      <div class="flex items-center gap-5">
+        <p>Total: 500,85 €</p>
+        <button class="bg-amber-500 rounded-md px-3 py-2 text-white">Añadir a la cesta</button>
+      </div>
+      
+    </div>

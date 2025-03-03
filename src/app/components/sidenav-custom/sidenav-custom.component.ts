@@ -11,7 +11,7 @@ import { Employee } from '../../models/employee.model';
 
 @Component({
   selector: 'app-sidenav-custom',
-  imports: [ MatIconModule, MatIconButton, MatListModule, RouterLink ],
+  imports: [ MatIconModule, MatIconButton, MatListModule ],
   templateUrl: './sidenav-custom.component.html',
   styleUrl: './sidenav-custom.component.css'
 })
@@ -52,6 +52,11 @@ export class SidenavCustomComponent {
     if(employee) {
       this.router.navigate(['/dashboard/data'])
     }
+  }
+
+  public goToConfigureYourPC(): void {
+    this.changeOpenedState()
+    this.router.navigate(['/configurator'])
   }
   
   public openLogOutDialog(): void {

@@ -1,5 +1,5 @@
 import { Category } from "../models/category.model";
 
-export interface GetCategoryByValueResponse {
+export interface GetCategoryResponse {
   category: Category
 }

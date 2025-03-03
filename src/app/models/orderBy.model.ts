@@ -1,4 +1,5 @@
 export enum OrderBy {
+  DEFAULT = 'default',
   LOWER_PRICE = 'LOWER_PRICE',
   GREATER_PRICE = 'GREATER_PRICE',
   STOCK = 'STOCK',

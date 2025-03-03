@@ -6,6 +6,7 @@ import { Product } from '../models/product.model';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { Filters } from '../models/filters.model';
 import { GetProductByIdResponse } from '../responses/getProductById.response';
+import { GetProductsByFiltersResponse } from '../responses/getProductsByFilters.response';
 
 @Injectable({
   providedIn: 'root'
@@ -95,6 +96,43 @@ export class ProductsService {
         this.snackBar.open(result.body.message);
       }
     )
+  }
+
+  public async getProductsWithFiltersAsync(filters: Filters): Promise<Product[]> {
+    let url = `${environment.apiBaseUrl}products?`
+    let queryParams = []
+
+    if(filters.orderBy !== undefined) {
+      queryParams.push('orderBy=' + filters.orderBy);
+    }
+
+    if(filters.minPrice !== undefined) {
+      queryParams.push('minPrice=' + filters.minPrice)
+    }
+
+    if(filters.maxPrice !== undefined) {
+      queryParams.push('maxPrice=' + filters.maxPrice);
+    }
+
+    if(filters.category) {
+      queryParams.push('category=' + filters.category.id);
+    }
+
+    if(filters.brands && filters.brands.length > 0) {
+      queryParams.push('brands=' + filters.brands.map(x => x.id).join(','))
+    }
+
+    url += queryParams.join('&');
+
+    const response = await firstValueFrom(
+      this.httpClient.get<GetProductsByFiltersResponse>(
+        url, { observe: 'response' }
+      )
+    )
+
+    if(response.ok) return response.body!.products
+
+    return []
   }
 
   public async getProductById(productId: string): Promise<Product | undefined> {

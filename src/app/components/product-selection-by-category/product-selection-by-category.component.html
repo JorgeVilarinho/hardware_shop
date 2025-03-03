@@ -1,0 +1,137 @@
+<form [formGroup]="productSelectionForm" (ngSubmit)="onSubmit()">
+  <div class="flex gap-5 mb-5">
+    <div class="w-[70%]">
+      <h1 class="text-2xl font-medium mb-3">Procesador</h1>
+      <div class="flex flex-grow gap-3 mb-8">
+        <input 
+          type="search" 
+          name="searchByText" 
+          id="searchByText" 
+          placeholder="Buscar... Mínimo 3 caracteres"
+          class="px-3 py-2 rounded-sm border border-neutral-300 flex-1 outline-none focus:border-red-600"
+          formControlName="searchByText"
+          >
+        <select 
+          name="brands" 
+          id="brands" 
+          class="px-3 py-2 rounded-sm border border-neutral-300 flex-1 outline-none"
+          formControlName="brand"
+        >
+          <option value="0">Todas las marcas</option>
+          @for (brand of brands; track brand.id) {
+            <option [value]="brand.id">{{ brand.nombre }}</option>
+          }
+        </select>
+        <select 
+          name="orderBy" 
+          id="orderBy"
+          class="px-3 py-2 rounded-sm border border-neutral-300 flex-1 outline-none"  
+          orderBy="orderBy"
+        >
+          <option value="LOWER_PRICE">Precio menor</option>
+          <option value="GREATER_PRICE">Precio mayor</option>
+          <option value="STOCK">Stock</option>
+          <option value="DISCOUNT">Descuento</option>
+        </select>
+        <select 
+          name="compatibility" 
+          id="compatibility"
+          class="px-3 py-2 rounded-sm border border-neutral-300 flex-1 outline-none"
+          formControlName="compatibility"
+        >
+          <option value="ALL">Todos</option>
+          <option value="COMPATIBLE">Solo compatibles</option>
+        </select>
+      </div>
+      <p class="mb-3">{{ getNumberOfResults() }} resultados</p>
+      <div class="flex flex-col gap-3">
+  
+        @for (product of products; track product.id) {
+          <div class="rounded-md border border-neutral-300 bg-white p-5">
+            <label [for]="product.id" class="flex items-center gap-4 cursor-pointer">
+              <input 
+                type="radio" name="product" [id]="product.id" [value]="product.id" 
+                class="accent-red-600 scale-[1.2]" formControlName="product"
+                (change)="onChangeProduct(product)"
+              >
+              <img [src]="'http://localhost:8080/images/' + product.image" alt="Imagen del producto" class="w-16 h-16">
+              <div>
+                <p>{{ product.name }}</p>
+                <div class="flex gap-2">
+                  @if(product.discount > 0) {
+                    <p class="line-through">{{ product!.price | currency:"EUR" }}</p>
+                    <p>{{ (product!.price * (100 - product!.discount)) / 100 | currency:"EUR" }}</p>
+                    <div class="text-white bg-red-600 px-3 rounded-full">
+                      Dto. {{ product.discount }} %
+                    </div>
+                  } @else {
+                    <p>{{ product.price | currency:"EUR" }}<p>
+                  }
+                </div>
+              </div>
+            </label>
+          </div>
+        }
+  
+      </div>
+    </div>
+  
+    @if(productIsSelected()) {
+      <div class="w-[30%] p-4 bg-gray-200 rounded-md flex flex-col gap-5 overflow-y-auto">
+        <img [src]="'http://localhost:8080/images/' + selectedProduct!.image" alt="Imagen del producto">
+        @if(selectedProduct!.discount > 0) {
+          <div class="font-medium">
+            <p class="line-through text-neutral-500 text-lg">{{ selectedProduct!.price | currency:"EUR" }}</p>
+            <p class="text-xl">{{ (selectedProduct!.price * (100 - selectedProduct!.discount)) / 100 | currency:"EUR" }}</p>
+          </div>
+        } @else {
+          <p class="text-xl font-medium">{{ selectedProduct!.price | currency:"EUR" }}</p>
+        }
+        <p class="text-2xl font-medium">{{ selectedProduct?.name }}</p>
+        <p>{{ selectedProduct?.description }}</p>
+      </div>
+    }
+  </div>
+
+  @if(productIsSelected()) {
+    <div class="flex justify-between bg-white rounded-md px-3 py-5">
+
+      <div class="flex items-center gap-8">
+        <button>
+          <mat-icon fontIcon="keyboard_arrow_up" class="text-3xl mr-5" />
+          Resumen
+        </button>
+  
+        <div class="flex items-center gap-3">
+          <div class="border border-neutral-300 rounded-full p-2 flex items-center">
+            <mat-icon fontIcon="local_shipping" />
+          </div>
+          <div class="text-base">
+            <p class="font-medium">Gastos de envío:</p>
+            <p>4,95 €</p>
+          </div>
+        </div>
+  
+        <div class="flex items-center gap-3">
+          <div class="border border-neutral-300 rounded-full p-2 flex items-center">
+            <mat-icon fontIcon="local_shipping" />
+          </div>
+          <div class="text-base">
+            <p class="font-medium">Tiempo de montaje y de envío:</p>
+            <p>8 - 13 días laborables</p>
+          </div>
+        </div>
+      </div>
+
+      <div class="flex items-center gap-5">
+        @if(selectedProduct!.discount > 0) {
+          <p>Total: {{ (selectedProduct!.price * (100 - selectedProduct!.discount)) / 100 | currency:"EUR" }}</p>
+        } @else {
+          <p>Total: {{ selectedProduct?.price | currency:"EUR" }}</p>
+        }
+        <button class="bg-amber-500 rounded-md px-3 py-2 text-white">Añadir producto</button>
+      </div>
+      
+    </div>
+  }
+</form>

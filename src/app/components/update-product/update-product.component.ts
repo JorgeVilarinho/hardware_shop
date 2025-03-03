@@ -129,7 +129,7 @@ export class UpdateProductComponent implements OnInit {
   }
 
   public async loadProductData(): Promise<void> {
-    const category = await this.categoriesService.getCategoryByValue(this.product?.category!)
+    const category = await this.categoriesService.getCategoryByName(this.product?.category!)
     this.brands = await this.brandsService.getBrandsByCategory(category?.id!)
     const brand = await this.brandsService.getBrandByValue(this.product?.brand!)
 
