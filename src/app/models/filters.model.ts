@@ -7,5 +7,6 @@ export interface Filters {
   minPrice?: number,
   maxPrice?: number,
   category?: Category,
-  brands: Brand[]
+  brands: Brand[],
+  searchByText?: string
 }

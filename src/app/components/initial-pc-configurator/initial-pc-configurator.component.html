@@ -1,7 +1,14 @@
 <h1 class="text-xl font-medium mb-10">CONFIGURADOR BYTESHOP</h1>
 
     <div class="flex gap-20 mb-10">
-      <img src="http://localhost:8080/images/default_pc.png" alt="Imagen de la caja" class="pt-10 w-[500px] h-[500px]">
+      @if(hasBox()) {
+        <img 
+          [src]="'http://localhost:8080/images/' + this.pcConfiguratorService.getProduct('pc-towers-and-enclosures')?.image" 
+          alt="Imagen de la caja" class="pt-10 w-[500px] h-[500px]"
+        >
+      } @else {
+        <img src="http://localhost:8080/images/default_pc.png" alt="Imagen de la caja" class="pt-10 w-[500px] h-[500px]">
+      }
       <div class="flex-grow">
         
         <div class="flex gap-8 font-medium text-lg mb-5">
@@ -15,7 +22,7 @@
               class="flex items-center justify-center w-5 h-5 rounded-full text-white text-base" 
               [ngClass]="{'bg-black': componentsTabActive, 'bg-neutral-300': !componentsTabActive}"
             >
-              <span>0</span>
+              <span>{{ this.pcConfiguratorService.getTotalComponents() }}</span>
             </div>
           </div>
 
@@ -46,93 +53,210 @@
         <div class="grid grid-cols-2 gap-x-5 gap-y-8">
 
           <div 
-            class="flex flex-col bg-white rounded-md py-5 px-5 gap-3 cursor-pointer"
+            class="flex flex-col justify-around bg-white rounded-md py-5 px-5 gap-3 cursor-pointer"
             (click)="goToProductSelectionByCategory('processors')"
           >
             <div class="flex items-center gap-2">
               <img src="http://localhost:8080/images/processor.svg" alt="Icono procesador" class="w-5 h-5">
               <p class="text-sm">PROCESADOR</p>
             </div>
-            <div class="flex text-neutral-400 gap-3">
-              <mat-icon fontIcon="add" />
-              <p>Seleccionar componente</p>
+            <div class="flex items-center text-neutral-400 gap-2">
+              @if(this.pcConfiguratorService.exists('processors')) {
+                <div class="px-2">
+                  <mat-icon fontIcon="check_circle" class="text-green-600 p" />
+                </div>
+                <img 
+                  [src]="'http://localhost:8080/images/' + this.pcConfiguratorService.getProduct('processors')?.image" 
+                  alt="Imagen del producto"
+                  class="w-12 h-12"
+                >
+                <p class="text-black text-md">{{ this.pcConfiguratorService.getProduct('processors')?.name }}</p>
+              } @else {
+                <mat-icon fontIcon="add" />
+                <p>Seleccionar componente</p>
+              }
             </div>
           </div>
 
-          <div class="flex flex-col bg-white rounded-md py-5 px-5 gap-3 cursor-pointer">
+          <div 
+            class="flex flex-col justify-around bg-white rounded-md py-5 px-5 gap-3 cursor-pointer"
+            (click)="goToProductSelectionByCategory('motherboards')"
+          >
             <div class="flex items-center gap-2">
               <img src="http://localhost:8080/images/motherboard.svg" alt="Icono procesador" class="w-5 h-5">
               <p class="text-sm">PLACA BASE</p>
             </div>
-            <div class="flex text-neutral-400 gap-3">
-              <mat-icon fontIcon="add" />
-              <p>Seleccionar componente</p>
+            <div class="flex items-center text-neutral-400 gap-2">
+              @if(this.pcConfiguratorService.exists('motherboards')) {
+                <div class="px-2">
+                  <mat-icon fontIcon="check_circle" class="text-green-600 p" />
+                </div>
+                <img 
+                  [src]="'http://localhost:8080/images/' + this.pcConfiguratorService.getProduct('motherboards')?.image" 
+                  alt="Imagen del producto"
+                  class="w-12 h-12"
+                >
+                <p class="text-black text-md">{{ this.pcConfiguratorService.getProduct('motherboards')?.name }}</p>
+              } @else {
+                <mat-icon fontIcon="add" />
+                <p>Seleccionar componente</p>
+              }
             </div>
           </div>
 
-          <div class="flex flex-col bg-white rounded-md py-5 px-5 gap-3 cursor-pointer">
+          <div 
+            class="flex flex-col justify-around bg-white rounded-md py-5 px-5 gap-3 cursor-pointer"
+            (click)="goToProductSelectionByCategory('ram')"
+          >
             <div class="flex items-center gap-2">
               <img src="http://localhost:8080/images/RAM.svg" alt="Icono procesador" class="w-5 h-5">
               <p class="text-sm">RAM</p>
             </div>
-            <div class="flex text-neutral-400 gap-3">
-              <mat-icon fontIcon="add" />
-              <p>Seleccionar componente</p>
+            <div class="flex items-center text-neutral-400 gap-2">
+              @if(this.pcConfiguratorService.exists('ram')) {
+                <div class="px-2">
+                  <mat-icon fontIcon="check_circle" class="text-green-600 p" />
+                </div>
+                <img 
+                  [src]="'http://localhost:8080/images/' + this.pcConfiguratorService.getProduct('ram')?.image" 
+                  alt="Imagen del producto"
+                  class="w-12 h-12"
+                >
+                <p class="text-black text-md">{{ this.pcConfiguratorService.getProduct('ram')?.name }}</p>
+              } @else {
+                <mat-icon fontIcon="add" />
+                <p>Seleccionar componente</p>
+              }
             </div>
           </div>
 
-          <div class="flex flex-col bg-white rounded-md py-5 px-5 gap-3 cursor-pointer">
+          <div 
+            class="flex flex-col justify-around bg-white rounded-md py-5 px-5 gap-3 cursor-pointer"
+            (click)="goToProductSelectionByCategory('cpu-cooler')"
+          >
             <div class="flex items-center gap-2">
               <img src="http://localhost:8080/images/cpu_cooler.svg" alt="Icono procesador" class="w-5 h-5">
               <p class="text-sm">DISIPADOR CPU</p>
             </div>
-            <div class="flex text-neutral-400 gap-3">
-              <mat-icon fontIcon="add" />
-              <p>Seleccionar componente</p>
+            <div class="flex items-center text-neutral-400 gap-2">
+              @if(this.pcConfiguratorService.exists('cpu-cooler')) {
+                <div class="px-2">
+                  <mat-icon fontIcon="check_circle" class="text-green-600 p" />
+                </div>
+                <img 
+                  [src]="'http://localhost:8080/images/' + this.pcConfiguratorService.getProduct('cpu-cooler')?.image" 
+                  alt="Imagen del producto"
+                  class="w-12 h-12"
+                >
+                <p class="text-black text-md">{{ this.pcConfiguratorService.getProduct('cpu-cooler')?.name }}</p>
+              } @else {
+                <mat-icon fontIcon="add" />
+                <p>Seleccionar componente</p>
+              }
             </div>
           </div>
 
-          <div class="flex flex-col bg-white rounded-md py-5 px-5 gap-3 cursor-pointer">
+          <div 
+            class="flex flex-col justify-around bg-white rounded-md py-5 px-5 gap-3 cursor-pointer"
+            (click)="goToProductSelectionByCategory('graphic-cards')"  
+          >
             <div class="flex items-center gap-2">
               <img src="http://localhost:8080/images/graphics_card.svg" alt="Icono procesador" class="w-5 h-5">
               <p class="text-sm">TARJETA GRÁFICA</p>
             </div>
-            <div class="flex text-neutral-400 gap-3">
-              <mat-icon fontIcon="add" />
-              <p>Seleccionar componente</p>
+            <div class="flex items-center text-neutral-400 gap-2">
+              @if(this.pcConfiguratorService.exists('graphic-cards')) {
+                <div class="px-2">
+                  <mat-icon fontIcon="check_circle" class="text-green-600 p" />
+                </div>
+                <img 
+                  [src]="'http://localhost:8080/images/' + this.pcConfiguratorService.getProduct('graphic-cards')?.image" 
+                  alt="Imagen del producto"
+                  class="w-12 h-12"
+                >
+                <p class="text-black text-md">{{ this.pcConfiguratorService.getProduct('graphic-cards')?.name }}</p>
+              } @else {
+                <mat-icon fontIcon="add" />
+                <p>Seleccionar componente</p>
+              }
             </div>
           </div>
 
-          <div class="flex flex-col bg-white rounded-md py-5 px-5 gap-3 cursor-pointer">
+          <div 
+            class="flex flex-col justify-around bg-white rounded-md py-5 px-5 gap-3 cursor-pointer"
+            (click)="goToProductSelectionByCategory('storage')"  
+          >
             <div class="flex items-center gap-2">
               <img src="http://localhost:8080/images/storage.svg" alt="Icono procesador" class="w-5 h-5">
               <p class="text-sm">ALMACENAMIENTO</p>
             </div>
-            <div class="flex text-neutral-400 gap-3">
-              <mat-icon fontIcon="add" />
-              <p>Seleccionar componente</p>
+            <div class="flex items-center text-neutral-400 gap-2">
+              @if(this.pcConfiguratorService.exists('storage')) {
+                <div class="px-2">
+                  <mat-icon fontIcon="check_circle" class="text-green-600 p" />
+                </div>
+                <img 
+                  [src]="'http://localhost:8080/images/' + this.pcConfiguratorService.getProduct('storage')?.image" 
+                  alt="Imagen del producto"
+                  class="w-12 h-12"
+                >
+                <p class="text-black text-md">{{ this.pcConfiguratorService.getProduct('storage')?.name }}</p>
+              } @else {
+                <mat-icon fontIcon="add" />
+                <p>Seleccionar componente</p>
+              }
             </div>
           </div>
 
-          <div class="flex flex-col bg-white rounded-md py-5 px-5 gap-3 cursor-pointer">
+          <div 
+            class="flex flex-col justify-around bg-white rounded-md py-5 px-5 gap-3 cursor-pointer"
+            (click)="goToProductSelectionByCategory('power-supplies')"  
+          >
             <div class="flex items-center gap-2">
               <img src="http://localhost:8080/images/power_supply.svg" alt="Icono procesador" class="w-5 h-5">
               <p class="text-sm">FUENTE ALIMENTACIÓN</p>
             </div>
-            <div class="flex text-neutral-400 gap-3">
-              <mat-icon fontIcon="add" />
-              <p>Seleccionar componente</p>
+            <div class="flex items-center text-neutral-400 gap-2">
+              @if(this.pcConfiguratorService.exists('power-supplies')) {
+                <div class="px-2">
+                  <mat-icon fontIcon="check_circle" class="text-green-600 p" />
+                </div>
+                <img 
+                  [src]="'http://localhost:8080/images/' + this.pcConfiguratorService.getProduct('power-supplies')?.image" 
+                  alt="Imagen del producto"
+                  class="w-12 h-12"
+                >
+                <p class="text-black text-md">{{ this.pcConfiguratorService.getProduct('power-supplies')?.name }}</p>
+              } @else {
+                <mat-icon fontIcon="add" />
+                <p>Seleccionar componente</p>
+              }
             </div>
           </div>
 
-          <div class="flex flex-col bg-white rounded-md py-5 px-5 gap-3 cursor-pointer">
+          <div 
+            class="flex flex-col justify-around bg-white rounded-md py-5 px-5 gap-3 cursor-pointer"
+            (click)="goToProductSelectionByCategory('pc-towers-and-enclosures')"
+          >
             <div class="flex items-center gap-2">
               <img src="http://localhost:8080/images/box.svg" alt="Icono procesador" class="w-5 h-5">
               <p class="text-sm">CAJA</p>
             </div>
-            <div class="flex text-neutral-400 gap-3">
-              <mat-icon fontIcon="add" />
-              <p>Seleccionar componente</p>
+            <div class="flex items-center text-neutral-400 gap-2">
+              @if(this.pcConfiguratorService.exists('pc-towers-and-enclosures')) {
+                <div class="px-2">
+                  <mat-icon fontIcon="check_circle" class="text-green-600 p" />
+                </div>
+                <img 
+                  [src]="'http://localhost:8080/images/' + this.pcConfiguratorService.getProduct('pc-towers-and-enclosures')?.image" 
+                  alt="Imagen del producto"
+                  class="w-12 h-12"
+                >
+                <p class="text-black text-md">{{ this.pcConfiguratorService.getProduct('pc-towers-and-enclosures')?.name }}</p>
+              } @else {
+                <mat-icon fontIcon="add" />
+                <p>Seleccionar componente</p>
+              }
             </div>
           </div>
 
@@ -155,7 +279,7 @@
           </div>
           <div class="text-base">
             <p class="font-medium">Gastos de envío:</p>
-            <p>4,95 €</p>
+            <p>{{ getShippingCost() | currency:'EUR' }}</p>
           </div>
         </div>
   
@@ -171,8 +295,11 @@
       </div>
 
       <div class="flex items-center gap-5">
-        <p>Total: 500,85 €</p>
-        <button class="bg-amber-500 rounded-md px-3 py-2 text-white">Añadir a la cesta</button>
+        <p>Total: {{ getTotal() | currency:'EUR'}}</p>
+        <button 
+          class="bg-amber-500 rounded-md px-3 py-2 text-white" 
+          (click)="createOrder()"
+        >Añadir a la cesta</button>
       </div>
       
     </div>

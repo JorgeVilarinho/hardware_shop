@@ -4,7 +4,7 @@ import { Component, inject } from '@angular/core';
 import { MatIconModule } from '@angular/material/icon';
 import { MatIconButton } from '@angular/material/button';
 import { MatListModule } from '@angular/material/list';
-import { Router, RouterLink } from '@angular/router';
+import { Router } from '@angular/router';
 import { MatDialog } from '@angular/material/dialog';
 import { DialogLogoutComponent } from '../dialog-logout/dialog-logout.component';
 import { Employee } from '../../models/employee.model';

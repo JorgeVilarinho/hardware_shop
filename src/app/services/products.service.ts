@@ -122,6 +122,10 @@ export class ProductsService {
       queryParams.push('brands=' + filters.brands.map(x => x.id).join(','))
     }
 
+    if(filters.searchByText) {
+      queryParams.push('searchByText=' + filters.searchByText)
+    }
+
     url += queryParams.join('&');
 
     const response = await firstValueFrom(

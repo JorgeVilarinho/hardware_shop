@@ -1,7 +1,7 @@
-<form [formGroup]="productSelectionForm" (ngSubmit)="onSubmit()">
+<form [formGroup]="productSelectionForm" (ngSubmit)="onSubmit()" class="fix-height">
   <div class="flex gap-5 mb-5">
     <div class="w-[70%]">
-      <h1 class="text-2xl font-medium mb-3">Procesador</h1>
+      <h1 class="text-2xl font-medium mb-3">{{ getCategoryName() }}</h1>
       <div class="flex flex-grow gap-3 mb-8">
         <input 
           type="search" 
@@ -10,12 +10,14 @@
           placeholder="Buscar... Mínimo 3 caracteres"
           class="px-3 py-2 rounded-sm border border-neutral-300 flex-1 outline-none focus:border-red-600"
           formControlName="searchByText"
-          >
+          (input)="onInputSearchByText()"
+        >
         <select 
           name="brands" 
           id="brands" 
           class="px-3 py-2 rounded-sm border border-neutral-300 flex-1 outline-none"
           formControlName="brand"
+          (change)="onChangeBrand()"
         >
           <option value="0">Todas las marcas</option>
           @for (brand of brands; track brand.id) {
@@ -27,6 +29,7 @@
           id="orderBy"
           class="px-3 py-2 rounded-sm border border-neutral-300 flex-1 outline-none"  
           orderBy="orderBy"
+          (change)="onChangeOrderBy()"
         >
           <option value="LOWER_PRICE">Precio menor</option>
           <option value="GREATER_PRICE">Precio mayor</option>
@@ -38,6 +41,7 @@
           id="compatibility"
           class="px-3 py-2 rounded-sm border border-neutral-300 flex-1 outline-none"
           formControlName="compatibility"
+          (change)="onChangeCompatibility()"
         >
           <option value="ALL">Todos</option>
           <option value="COMPATIBLE">Solo compatibles</option>
