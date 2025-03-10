@@ -29,4 +29,8 @@ export class PcConfiguratorService {
   public getComponents(): Product[] {
     return [...this.components.values()] 
   }
+
+  public clearProduct(): void {
+    this.components.clear()
+  }
 }

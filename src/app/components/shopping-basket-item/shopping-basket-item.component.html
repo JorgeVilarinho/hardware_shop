@@ -4,16 +4,18 @@
     alt="Imagen del producto de la cesta"
     class="max-w-[160px]">
   </div>
-  <div class="flex flex-col w-full">
+  <div class="flex flex-col w-full justify-between">
     <div class="flex justify-between mb-1">
-      <p class="line-clamp-2">{{ cartItem?.name }}</p>
+      <div class="flex flex-col gap-1">
+        <p class="line-clamp-2">{{ cartItem?.name }}</p>
+        <p class="text-zinc-400">{{ cartItem?.category }}</p>
+      </div>
       @if(cartItem?.discount) {
         <p>{{ cartItem!.units * cartItem!.price * (100 - cartItem!.discount) / 100 | currency:'EUR' }}</p>
       } @else {
         <p>{{ cartItem!.units * cartItem!.price | currency:'EUR' }}</p>
       }
     </div>
-    <p class="text-zinc-400 mb-10">{{ cartItem?.category }}</p>
     <div class="flex items-end">
       <button class="flex items-center bg-slate-200 rounded-full p-1 cursor-pointer 
         active:bg-slate-300 

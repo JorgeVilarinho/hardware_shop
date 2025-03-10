@@ -1,7 +1,8 @@
+import { CategoriesService } from './../../services/categories.service';
 import { AuthenticationService } from './../../services/authentication.service';
 import { UserService } from './../../services/user.service';
 import { Cart } from './../../models/cart.model';
-import { Component, inject } from '@angular/core';
+import { Component, inject, OnInit } from '@angular/core';
 import { MatIconModule } from '@angular/material/icon';
 import { MatButtonModule } from '@angular/material/button';
 import { MatToolbarModule } from '@angular/material/toolbar';
@@ -14,6 +15,10 @@ import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import { CurrencyPipe } from '@angular/common';
 import { LogoutService } from '../../services/logout.service';
 import { StateService } from '../../services/state.service';
+import { Product } from '../../models/product.model';
+import { PcProduct } from '../../models/pcProduct.model';
+import { CategoryValue } from '../../models/categoryValue.model';
+import { Category } from '../../models/category.model';
 
 @Component({
   selector: 'app-header',
@@ -22,23 +27,30 @@ import { StateService } from '../../services/state.service';
   templateUrl: './header.component.html',
   styleUrl: './header.component.css'
 })
-export class HeaderComponent {
+export class HeaderComponent implements OnInit {
   router = inject(Router)
   authenticationService = inject(AuthenticationService);
   stateService = inject(StateService);
   cartService = inject(CartService);
   userService = inject(UserService);
   logOutService = inject(LogoutService);
+  categoriesService = inject(CategoriesService);
 
   cart: Cart = {
-    items: []
+    items: [],
+    pcs: []
   };
   isLoggedIn: boolean = false;
+  boxCategory: Category | undefined
 
   constructor() {
     this.listeToProductsInCart();
     this.listenToUserIsLoggedIn();
     this.listenToLogOut();
+  }
+
+  async ngOnInit(): Promise<void> {
+    this.boxCategory = await this.categoriesService.getCategoryByValue(CategoryValue.PC_TOWERS_AND_ENCLOSURES)
   }
 
   private listeToProductsInCart(): void {
@@ -84,5 +96,25 @@ export class HeaderComponent {
 
   public isEmployee(): boolean {
     return this.authenticationService.isEmployee()
+  }
+
+  public getBox(pcProduct: PcProduct): Product | undefined {
+    return pcProduct.components.find(x => x.category == this.boxCategory?.nombre)
+  }
+
+  public someComponentHasDiscount(pcProduct: PcProduct): boolean {
+    return pcProduct.components.some(x => x.discount > 0)
+  }
+
+  public getTotalWithoutDiscount(pcProduct: PcProduct): number {
+    return pcProduct.components
+    .map(component => component.price)
+    .reduce((previous, current) => previous + current, 0)
+  }
+
+  public getTotalWithDiscount(pcProduct: PcProduct): number {
+    return pcProduct.components
+    .map(component => component.discount ? component.price * (100 - component.discount) / 100 : component.price)
+    .reduce((previous, current) => previous + current, 0)
   }
 }

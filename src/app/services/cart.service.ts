@@ -1,5 +1,5 @@
-import { inject, Injectable } from '@angular/core';
-import { BehaviorSubject } from 'rxjs';
+import { inject, Injectable, NgModuleDecorator } from '@angular/core';
+import { BehaviorSubject, firstValueFrom } from 'rxjs';
 import { Product } from '../models/product.model';
 import { Cart } from '../models/cart.model';
 import { MatSnackBar } from '@angular/material/snack-bar';
@@ -8,6 +8,9 @@ import { HttpClient } from '@angular/common/http';
 import { environment } from '../../environments/environment.development';
 import { AuthenticationService } from './authentication.service';
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
+import { PcProduct } from '../models/pcProduct.model';
+import { PcConfiguratorService } from './pc-configurator.service';
+import { InsertPcProdctToShoppingBasketResponse } from '../responses/insertPcProductToShoppingBasket.response';
 
 @Injectable({
   providedIn: 'root'
@@ -15,11 +18,15 @@ import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 export class CartService {
   localStorageService = inject(LocalStorageService);
   authenticationService = inject(AuthenticationService);
+  pcConfiguratorService = inject(PcConfiguratorService);
   httpClient = inject(HttpClient);
-  snackBar: MatSnackBar = inject(MatSnackBar);
+  snackBar = inject(MatSnackBar);
   
   message: string | undefined;
-  productsInCart = new BehaviorSubject<Cart>({ items: this.localStorageService.getItem('items') ? JSON.parse(this.localStorageService.getItem('items')!) : [] });
+  productsInCart = new BehaviorSubject<Cart>({ 
+    items: this.localStorageService.getItem('items') ? JSON.parse(this.localStorageService.getItem('items')!) : [],
+    pcs: this.localStorageService.getItem('pcs') ? JSON.parse(this.localStorageService.getItem('pcs')!) : []
+  });
 
   constructor() {
     this.listenToLogOut();
@@ -27,6 +34,10 @@ export class CartService {
 
   public getItems(): Product[] {
     return this.productsInCart.value.items;
+  }
+
+  public getPcs(): PcProduct[] {
+    return this.productsInCart.value.pcs;
   }
 
   public addItem(item: Product | undefined): void {
@@ -59,8 +70,25 @@ export class CartService {
     }
 
     this.localStorageService.setItem('items', JSON.stringify(items))
-    this.productsInCart.next({ items });
+    this.productsInCart.next({ items, pcs: this.productsInCart.value.pcs });
     this.snackBar.open(this.message, 'Ok', { duration: 3000 });
+  }
+
+  public addPcProduct(pcProduct: PcProduct | undefined): void {
+    if(!pcProduct) {
+      this.snackBar.open("ERROR: Problema al insertar el producto", 'Ok', { duration: 3000 })
+      return
+    }
+
+    if(this.authenticationService.isLoggedIn()) this.insertPcProductToShoppingBasketDatabase(pcProduct)
+
+    let pcs = this.productsInCart.value.pcs
+    pcs.push(pcProduct)
+
+    this.localStorageService.setItem('pcs', JSON.stringify(pcs))
+    this.productsInCart.next({ items: this.productsInCart.value.items, pcs })
+    this.snackBar.open('Se ha añadido el producto correctamente', 'Ok', { duration: 3000 })
+    this.pcConfiguratorService.clearProduct()
   }
 
   public removeItem(id: number): void {
@@ -79,27 +107,65 @@ export class CartService {
       this.deleteItemToShoppingBasketDatabase(id);
     }
     this.localStorageService.setItem('items', JSON.stringify(items))
-    this.productsInCart.next({ items });
+    this.productsInCart.next({ items, pcs: this.productsInCart.value.pcs });
+    this.snackBar.open('Se ha eliminado el producto correctamente', 'Ok', { duration: 3000 });
+  }
+
+  public removePcProduct(id: string): void {
+    const pcs = [...this.productsInCart.value.pcs];
+
+    const index = pcs.findIndex(x => x.id === id);
+
+    if(index === -1) {
+      this.snackBar.open('No se ha podido eliminar el producto correctamente', 'Ok', { duration: 3000 });
+      return
+    }
+
+    pcs.splice(index, 1);
+    
+    if(this.authenticationService.isLoggedIn()) this.deletePcToShoppingBasketDatabase(id);
+
+    this.localStorageService.setItem('pcs', JSON.stringify(pcs))
+    this.productsInCart.next({ items: this.productsInCart.value.items, pcs });
     this.snackBar.open('Se ha eliminado el producto correctamente', 'Ok', { duration: 3000 });
   }
 
   public removeAllItems(): void {
     if(this.authenticationService.isLoggedIn()) {
-      this.removeAllItemsToShoppingBasketDatabase();
+      this.removeAllItemsToShoppingBasketDatabase()
+      this.removeAllPcProductsToShoppingBasketDatabase()
     }
-    this.localStorageService.removeItem('items');
-    this.productsInCart.next({ items: [] });
+    
+    this.localStorageService.removeItem('items')
+    this.localStorageService.removeItem('pcs')
+    this.productsInCart.next({ items: [], pcs: [] })
     this.snackBar.open('Se han eliminado todos los productos del carrito', 'Ok', { duration: 3000 })
   }
 
   public getCountItems(): number {
-    return this.productsInCart.value.items.length
+    return this.productsInCart.value.items.length + this.productsInCart.value.pcs.length 
   }
 
   public getTotal(): number {
-    return this.productsInCart.value.items
+    let total = this.productsInCart.value.items
     .map(_item => _item.discount ? _item.units * _item.price * (100 - _item.discount) / 100 : _item.units * _item.price)
     .reduce((previous, current) => previous + current, 0)
+
+    for(let i = 0; i < this.productsInCart.value.pcs.length; i++) {
+      let pc = this.productsInCart.value.pcs[i]
+
+      for(let j = 0; j < pc.components.length; j++) {
+        let component = pc.components[j]
+
+        if(component.discount > 0) {
+          total += (component!.price * (100 - component!.discount)) / 100
+        } else {
+          total += component.price
+        }
+      }
+    }
+
+    return total
   }
 
   public getTaxImport(): number {
@@ -125,6 +191,20 @@ export class CartService {
     );
   }
 
+  public async insertPcProductToShoppingBasketDatabase(pcProduct: PcProduct): Promise<void> {
+    const response = await firstValueFrom(
+      this.httpClient.post<InsertPcProdctToShoppingBasketResponse>(
+        `${environment.apiBaseUrl}shopping-basket/pc-product`, 
+        { pcProduct }, 
+        { observe: 'response', withCredentials: true }
+      )
+    )
+
+    if(!response.ok) {
+      this.snackBar.open('No se ha podido realizar la acción en el carrito', 'Ok', { duration: 3000 });
+    }
+  }
+
   private deleteItemToShoppingBasketDatabase(product_id: number) {
     if(!this.authenticationService.isLoggedIn()) {
       return
@@ -140,6 +220,19 @@ export class CartService {
     );
   }
 
+  private async deletePcToShoppingBasketDatabase(pcId: string) {
+    if(!this.authenticationService.isLoggedIn()) {
+      return
+    }
+
+    const response = await firstValueFrom(
+      this.httpClient.delete(`${environment.apiBaseUrl}shopping-basket/pc`, 
+      { observe: 'response', withCredentials: true, body: { pcId } })
+    )
+
+    if(!response.ok) this.snackBar.open('No se ha podido eliminar el producto del carrito', 'Ok', { duration: 3000 });
+  }
+
   private removeAllItemsToShoppingBasketDatabase() {
     if(!this.authenticationService.isLoggedIn()) {
       return
@@ -151,7 +244,23 @@ export class CartService {
         if(!result.ok) {
           this.snackBar.open('No se ha podido eliminar todos los productos del carrito', 'Ok', { duration: 3000 });
         }
-      })
+      }
+    )
+  }
+
+  private removeAllPcProductsToShoppingBasketDatabase() {
+    if(!this.authenticationService.isLoggedIn()) {
+      return
+    }
+
+    this.httpClient.delete(`${environment.apiBaseUrl}shopping-basket/pc-products`,
+      { observe: 'response', withCredentials: true })
+      .subscribe(result => {
+        if(!result.ok) {
+          this.snackBar.open('No se ha podido eliminar todos los productos del carrito', 'Ok', { duration: 3000 });
+        }
+      }
+    )
   }
 
   private listenToLogOut(): void {

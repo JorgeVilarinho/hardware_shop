@@ -11,7 +11,10 @@ import { CheckoutService } from '../../services/checkout.service';
 import { ShippingMethodValue } from '../../models/shippingMethodValue.model';
 import { RouterModule } from '@angular/router';
 import { Product } from '../../models/product.model';
-import { PaymentOption } from '../../models/paymentOption.model';
+import { PcProduct } from '../../models/pcProduct.model';
+import { Category } from '../../models/category.model';
+import { CategoriesService } from '../../services/categories.service';
+import { CategoryValue } from '../../models/categoryValue.model';
 
 @Component({
   selector: 'app-shipping-data',
@@ -24,10 +27,13 @@ export class ShippingDataComponent implements OnInit {
   shippingMethods: ShippingMethod[] = []
   shippingOptions: ShippingOption[] = []
   cartProducts: Product[] = []
+  pcs: PcProduct[] = []
+  boxCategory: Category | undefined
 
   userService = inject(UserService)
   checkoutService = inject(CheckoutService)
   cartService = inject(CartService)
+  categoriesService = inject(CategoriesService)
   formBuilder = inject(FormBuilder)
 
   selectionForm = this.formBuilder.group({
@@ -41,6 +47,8 @@ export class ShippingDataComponent implements OnInit {
     this.shippingMethods = await this.checkoutService.getShippingMethods()
     this.shippingOptions = await this.checkoutService.getShippingOptions()
     this.cartProducts = this.cartService.getItems()
+    this.pcs = this.cartService.getPcs()
+    this.boxCategory = await this.categoriesService.getCategoryByValue(CategoryValue.PC_TOWERS_AND_ENCLOSURES)
   }
 
   public onChangeShippingMethod(): void {
@@ -71,6 +79,10 @@ export class ShippingDataComponent implements OnInit {
     }
 
     return false
+  }
+
+  public getTotalItems(): number {
+    return this.cartProducts.length + this.pcs.length 
   }
 
   public getCartTotal(): number {
@@ -123,6 +135,26 @@ export class ShippingDataComponent implements OnInit {
     }
 
     return ''
+  }
+
+  public getBox(pcProduct: PcProduct): Product | undefined {
+    return pcProduct.components.find(x => x.category == this.boxCategory?.nombre)
+  }
+
+  public someComponentHasDiscount(pcProduct: PcProduct): boolean {
+    return pcProduct.components.some(x => x.discount > 0)
+  }
+
+  public getTotalWithoutDiscount(pcProduct: PcProduct): number {
+    return pcProduct.components
+    .map(component => component.price)
+    .reduce((previous, current) => previous + current, 0)
+  }
+
+  public getTotalWithDiscount(pcProduct: PcProduct): number {
+    return pcProduct.components
+    .map(component => component.discount ? component.price * (100 - component.discount) / 100 : component.price)
+    .reduce((previous, current) => previous + current, 0)
   }
 
   private getAddressDirection(): string | undefined {

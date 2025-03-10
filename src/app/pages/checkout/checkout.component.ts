@@ -22,7 +22,7 @@ import { MatSnackBar } from '@angular/material/snack-bar';
 
 @Component({
   selector: 'app-checkout',
-  imports: [ReactiveFormsModule, MatProgressSpinnerModule, RouterOutlet],
+  imports: [ ReactiveFormsModule, MatProgressSpinnerModule, RouterOutlet ],
   templateUrl: './checkout.component.html',
   styleUrl: './checkout.component.css'
 })
@@ -81,22 +81,6 @@ export class CheckoutComponent implements OnInit {
 
   public changeToPaymentStep(): void {
     this.checkoutSteps = CheckoutSteps.PAYMENT
-  }
-
-  public async processOrderAndChangeToProcessOrderStep(): Promise<void> {
-    // Create order
-    this.isLoading = true
-
-    this.total = this.getTotalWithTax()
-    this.order = await this.checkoutService.createOrder(
-      this.cartProducts, this.getShippingMethod(), 
-      this.getShippingOption(), this.getPaymentOption(), this.total, this.getAddress())
-    this.cartService.removeAllItems();
-
-    this.isLoading = false
-
-    // Change form step
-    this.checkoutSteps = CheckoutSteps.PROCESS_ORDER
   }
 
   public getCartTotal(): number {

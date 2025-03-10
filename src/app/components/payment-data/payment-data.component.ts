@@ -13,10 +13,13 @@ import { ShippingMethod } from '../../models/shippingMethod.model';
 import { ShippingOption } from '../../models/shippingOption.model';
 import { Address } from '../../models/address.model';
 import { MatProgressSpinner } from '@angular/material/progress-spinner';
-import { pipe } from 'rxjs';
 import { CurrencyPipe } from '@angular/common';
 import { ShippingMethodValue } from '../../models/shippingMethodValue.model';
-import { Router, ActivatedRoute } from '@angular/router';
+import { Router } from '@angular/router';
+import { PcProduct } from '../../models/pcProduct.model';
+import { Category } from '../../models/category.model';
+import { CategoriesService } from '../../services/categories.service';
+import { CategoryValue } from '../../models/categoryValue.model';
 
 @Component({
   selector: 'app-payment-data',
@@ -27,16 +30,19 @@ import { Router, ActivatedRoute } from '@angular/router';
 export class PaymentDataComponent implements OnInit {
   paymentOptions: PaymentOption[] = []
   cartProducts: Product[] = []
+  pcs: PcProduct[] = []
   shippingMethod: ShippingMethod | null = null
   shippingOption: ShippingOption | null = null
   paymentOption: PaymentOption | null = null
   address: Address | null = null
   order: OrderRepository | null = null
+  boxCategory: Category | undefined
   isLoading = false
   total = 0
 
   checkoutService = inject(CheckoutService)
   cartService = inject(CartService)
+  categoriesService = inject(CategoriesService)
   formBuilder = inject(FormBuilder)
   dialog = inject(MatDialog)
   router = inject(Router)
@@ -55,6 +61,8 @@ export class PaymentDataComponent implements OnInit {
   async ngOnInit(): Promise<void> {
     this.paymentOptions = await this.checkoutService.getPaymentOptions()
     this.cartProducts = this.cartService.getItems()
+    this.pcs = this.cartService.getPcs()
+    this.boxCategory = await this.categoriesService.getCategoryByValue(CategoryValue.PC_TOWERS_AND_ENCLOSURES)
   }
 
   public openAddtionalInfoPopUp(paymentOption: PaymentOption): void {
@@ -72,13 +80,17 @@ export class PaymentDataComponent implements OnInit {
     await new Promise(resolve => setInterval(resolve, 1500))
     
     this.order = await this.checkoutService.createOrder(
-      this.cartProducts, this.shippingMethod!, 
+      this.cartProducts, this.pcs, this.shippingMethod!, 
       this.shippingOption!, this.getPaymentOption(), this.total, this.address!)
     this.checkoutService.createOrderSubject.next(this.order)
     this.cartService.removeAllItems();
   
     this.isLoading = false
     this.router.navigate(['/checkout/process-order'])
+  }
+
+  public getTotalItems(): number {
+    return this.cartProducts.length + this.pcs.length 
   }
 
   public getCartTotal(): number {
@@ -127,6 +139,26 @@ export class PaymentDataComponent implements OnInit {
 
   public onChangePaymentOption(paymentOption: PaymentOption): void {
     this.checkoutService.changePaymentOptionSubject.next(paymentOption)
+  }
+
+  public getBox(pcProduct: PcProduct): Product | undefined {
+    return pcProduct.components.find(x => x.category == this.boxCategory?.nombre)
+  }
+
+  public someComponentHasDiscount(pcProduct: PcProduct): boolean {
+    return pcProduct.components.some(x => x.discount > 0)
+  }
+
+  public getTotalWithoutDiscount(pcProduct: PcProduct): number {
+    return pcProduct.components
+    .map(component => component.price)
+    .reduce((previous, current) => previous + current, 0)
+  }
+
+  public getTotalWithDiscount(pcProduct: PcProduct): number {
+    return pcProduct.components
+    .map(component => component.discount ? component.price * (100 - component.discount) / 100 : component.price)
+    .reduce((previous, current) => previous + current, 0)
   }
 
   private getAddressDirection(): string | undefined {

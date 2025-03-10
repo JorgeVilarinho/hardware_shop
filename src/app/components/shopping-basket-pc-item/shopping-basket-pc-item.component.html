@@ -1,0 +1,37 @@
+<div class="flex gap-6 max-h-[160px]">
+  <div>
+    <img [src]="'http://localhost:8080/images/' + box?.image" 
+    alt="Imagen del producto de la cesta"
+    class="max-w-[160px]">
+  </div>
+  <div class="flex flex-col w-full justify-between">
+    <div class="flex justify-between mb-1">
+      <div class="flex flex-col gap-1">
+        <p class="line-clamp-2">Ordenador personalizado</p>
+        <p class="text-zinc-400">Ordenador ByteShop</p>
+      </div>
+      @if(someComponentHasDiscount(pcItem)) {
+        <p>{{ getTotalWithDiscount(pcItem) | currency:'EUR' }}</p>
+      } @else {
+        <p>{{ getTotalWithoutDiscount(pcItem) | currency:'EUR' }}</p>
+      }
+    </div>
+    <div class="flex items-end">
+      <button class="
+        hover:bg-slate-200 
+        hover:rounded-full 
+        w-8 
+        h-8 
+        flex 
+        items-center 
+        justify-center 
+        cursor-pointer 
+        active:bg-slate-300
+      "
+        (click)="removePcProduct()"
+      >
+        <mat-icon>delete</mat-icon>
+      </button>
+    </div>
+  </div>
+</div>

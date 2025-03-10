@@ -59,8 +59,31 @@
     <hr class="w-full border border-gray-300 mb-5">
 
     <h2 class="text-xl">Artículos</h2>
-      <p class="mb-3">{{ cartProducts.length }} artículos</p>
+      <p class="mb-3">{{ getTotalItems() }} artículos</p>
       <div class="flex flex-col gap-5 mb-5">
+        @for(pc of pcs; track pc.id) {
+          <div class="grid grid-cols-5 gap-4">
+            <img 
+              [src]="'http://localhost:8080/images/' + getBox(pc)?.image" 
+              alt="Imagen producto"
+              class="w-full"
+            >
+            <div class="col-span-3 flex flex-col justify-between">
+              <p>Ordenador personalizado</p>
+              <div class="text-sm">
+                <p class="text-neutral-400">Ordenador ByteShop</p>
+                <p class="text-neutral-400">1 ud.</p>
+              </div>
+            </div>
+            <div class="text-end">
+              @if(someComponentHasDiscount(pc)) {
+                {{ getTotalWithDiscount(pc) | currency:'EUR' }}
+              } @else {
+                {{ getTotalWithoutDiscount(pc) | currency:'EUR' }}
+              }
+            </div>
+          </div>
+        }
         @for (item of cartProducts; track item.id) {
           <div class="grid grid-cols-5 gap-4">
             <img 

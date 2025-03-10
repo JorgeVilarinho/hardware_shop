@@ -50,9 +50,9 @@
       </button>
       <button
         mat-icon-button
-        [matBadge]="cart.items.length"
-        [matBadgeHidden]="cart.items.length === 0"
-        [matMenuTriggerFor]="cart.items.length === 0 ? null: menu"
+        [matBadge]="cart.items.length + cart.pcs.length"
+        [matBadgeHidden]="cart.items.length === 0 && cart.pcs.length === 0"
+        [matMenuTriggerFor]="cart.items.length === 0 && cart.pcs.length === 0 ? null: menu"
         disableRipple="true">
         <mat-icon>shopping_cart</mat-icon>
       </button>
@@ -60,6 +60,27 @@
     <mat-menu #menu="matMenu" class="mt-2 p-4 !max-w-[700px] !min-w-[400px] !bg-white !overflow-y-hidden">
       <p class="mb-2">Productos en tu cesta ({{ cart.items.length }})</p>
       <div class="overflow-x-hidden max-h-[320px] mb-3">
+        @for(pc of cart.pcs; track $index) {
+          <div class="flex mb-3 max-w-[400px]">
+            @if(getBox(pc)) {
+              <img [src]="'http://localhost:8080/images/' + getBox(pc)!.image" alt="Imagen del producto" class="mr-3 max-w-36 max-h-36">
+            } @else {
+              <img src="http://localhost:8080/images/default_pc.png" alt="Imagen del producto" class="mr-3 max-w-36 max-h-36">
+            }
+            <div class="flex flex-col">
+              <p class="mb-2">Ordenador personalizado</p>
+              <div class="h-full flex flex-col justify-end">
+                @if(someComponentHasDiscount(pc)) {
+                  <p class="text-slate-500 line-through">{{ getTotalWithoutDiscount(pc) | currency:'EUR' }}</p>
+                  <p class="text-red-600 text-xl mr-2">{{ getTotalWithDiscount(pc) | currency:'EUR' }}</p>
+                } @else {
+                  <p class="text-red-600 text-xl">{{ getTotalWithoutDiscount(pc) | currency:'EUR' }}</p>
+                }
+              </div>
+            </div>
+          </div>
+          <hr class="mb-3 border-gray-300" />
+        }
         @for(item of cart.items; track item.id; let last = $last) {
           <div class="flex mb-3 max-w-[400px]">
             <img [src]="'http://localhost:8080/images/' + item.image" alt="Imagen del producto" class="mr-3 max-w-36 max-h-36">

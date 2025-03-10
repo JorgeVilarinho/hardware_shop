@@ -6,10 +6,11 @@ import { Router, RouterModule } from '@angular/router';
 import { ShoppingBasketItemComponent } from "../../components/shopping-basket-item/shopping-basket-item.component";
 import { CurrencyPipe } from '@angular/common';
 import { HttpClient } from '@angular/common/http';
+import { ShoppingBasketPcItemComponent } from "../../components/shopping-basket-pc-item/shopping-basket-pc-item.component";
 
 @Component({
   selector: 'app-shopping-basket',
-  imports: [ MatIcon, RouterModule, ShoppingBasketItemComponent, CurrencyPipe ],
+  imports: [MatIcon, RouterModule, ShoppingBasketItemComponent, CurrencyPipe, ShoppingBasketPcItemComponent],
   templateUrl: './shopping-basket.component.html',
   styleUrl: './shopping-basket.component.css'
 })

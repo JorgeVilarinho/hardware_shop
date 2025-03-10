@@ -1,4 +1,4 @@
-  @if(this.cartService.productsInCart.value.items.length === 0) {
+  @if(this.cartService.productsInCart.value.items.length === 0 && this.cartService.productsInCart.value.pcs.length === 0) {
   <div class="fix-height flex flex-col justify-center items-center bg-gray-200">
     <div>
       <mat-icon class="!text-[200px] !h-full !w-full">local_mall</mat-icon>
@@ -16,14 +16,23 @@
         <h1 class="text-4xl font-medium mb-3">Cesta de la compra</h1>
         <p class="text-zinc-400 text-lg mb-3">{{ this.cartService.getCountItems() }} productos</p>
         <hr class="w-full mb-4">
+        @for (pc of this.cartService.productsInCart.value.pcs; track $index; let last = $last) {
+          <app-shopping-basket-pc-item [pcItem]="pc"></app-shopping-basket-pc-item>
+          @if(!last) {
+            <hr class="mt-4 mb-4">
+          }
+        }
+        @if(this.cartService.productsInCart.value.pcs.length > 1) {
+          <hr class="mt-4 mb-4">
+        }
         @for (item of this.cartService.productsInCart.value.items; track item.id; let last = $last) {
           <app-shopping-basket-item [cartItem]="item"></app-shopping-basket-item>
           @if(!last) {
-            <hr class="mb-4">
+            <hr class="mt-4 mb-4">
           }
         }
-        <hr class="border-[2px] rounded-full mb-3">
-        <div class="flex justify-end">
+        <hr class="border-[2px] rounded-full mb-3 mt-3">
+        <div class="flex justify-end mb-5">
           <button class="flex justify-center items-center border rounded-md p-2 hover:border-slate-400
             transition-transform active:scale-95 shadow-sm"
             (click)="removeAllItems()"

@@ -5,6 +5,8 @@ import { MatIcon } from '@angular/material/icon';
 import { Router } from '@angular/router';
 import { PcConfiguratorService } from '../../services/pc-configurator.service';
 import { CategoryValue } from '../../models/categoryValue.model';
+import { CartService } from '../../services/cart.service';
+import { PcProduct } from '../../models/pcProduct.model';
 
 @Component({
   selector: 'app-initial-pc-configurator',
@@ -22,6 +24,7 @@ export class InitialPcConfiguratorComponent {
   router = inject(Router)
   categoriesService = inject(CategoriesService)
   pcConfiguratorService = inject(PcConfiguratorService)
+  cartService = inject(CartService)
 
   public changeActiveTabToComponentTab(): void {
     this.componentsTabActive = true
@@ -74,7 +77,12 @@ export class InitialPcConfiguratorComponent {
     return this.SHIPPING_COSTS
   }
 
-  public createOrder(): void {
-    // TODO
+  public addToCart(): void {
+    let pcProduct: PcProduct = {
+      id: crypto.randomUUID(),
+      components: this.pcConfiguratorService.getComponents()
+    }
+
+    this.cartService.addPcProduct(pcProduct)
   }
 }

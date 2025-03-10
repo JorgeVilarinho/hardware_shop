@@ -1,5 +1,7 @@
+import { PcProduct } from "./pcProduct.model";
 import { Product } from "./product.model";
 
 export interface Cart {
-  items: Array<Product>;
+  items: Product[],
+  pcs: PcProduct[]
 }
