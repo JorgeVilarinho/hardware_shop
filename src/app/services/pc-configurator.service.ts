@@ -7,6 +7,7 @@ import { Product } from '../models/product.model';
 })
 export class PcConfiguratorService {
   private components = new Map<CategoryValue, Product>()
+  private assembly = false
 
   constructor() { }
 
@@ -30,7 +31,16 @@ export class PcConfiguratorService {
     return [...this.components.values()] 
   }
 
+  public getAssembly(): boolean {
+    return this.assembly
+  }
+
   public clearProduct(): void {
     this.components.clear()
+    this.assembly = false
+  }
+
+  public changeAssembly(value: boolean): void {
+    this.assembly = value
   }
 }

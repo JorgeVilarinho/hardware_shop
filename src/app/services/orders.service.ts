@@ -14,6 +14,8 @@ import { GetUnassignedOrdersResponse } from '../responses/getUnassignedOrders.re
 import { GetAssignedOrdersResponse } from '../responses/getAssignedOrders.response';
 import { GetInShippingOrdersResponse } from '../responses/getInShippingOrders.response';
 import { getOrdersInShopResponse } from '../responses/getOrdersInShop.response';
+import { PcProduct } from '../models/pcProduct.model';
+import { GetPcProductsFromOrderResponse } from '../responses/getPcProductsFromOrder.response';
 
 @Injectable({
   providedIn: 'root'
@@ -61,6 +63,19 @@ export class OrdersService {
     
     if(response.ok) {
       return response.body!.products;
+    }
+    
+    return []
+  }
+
+  public async getPcProductsFromOrder(orderId: number): Promise<PcProduct[]> {
+    const response = await firstValueFrom(
+      this.httpClient.get<GetPcProductsFromOrderResponse>(`${environment.apiBaseUrl}orders/${orderId}/pcs`, 
+      { observe: 'response', withCredentials: true })
+    )
+    
+    if(response.ok) {
+      return response.body!.pcs;
     }
     
     return []

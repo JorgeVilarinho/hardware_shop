@@ -42,6 +42,34 @@
     <div class="text-center text-neutral-500">
       Precio
     </div>
+    @for (pc of pcProducts; track pc.id) {
+      <div class="col-span-3 flex gap-3">
+        <img 
+          [src]="'http://localhost:8080/images/' + getBox(pc)?.image" 
+          alt="Imagen del producto"
+          class="w-28 border"
+        >
+        <div>
+          <p class="text-black font-medium text-lg">Ordenador personalizado</p>
+          <p class="text-sm text-neutral-500">Ordenadores ByteShop</p>
+        </div>
+      </div>
+      <div class="text-center">
+        1
+      </div>
+      <div class="col-span-2 text-center">
+        {{ getFormattedDate(order?.fecha_creacion!) }} a {{ getFormattedDate(order?.fecha_creacion!) }}
+      </div>
+      @if(someComponentHasDiscount(pc)) {
+        <div class="text-center">
+          {{ getTotalWithDiscount(pc) | currency:'EUR' }}
+        </div>
+      } @else {
+        <div class="text-center">
+          {{ getTotalWithoutDiscount(pc) | currency:'EUR' }}
+        </div>
+      }
+    }
     @for (product of products; track product.id) {
       <div class="col-span-3 flex gap-3">
         <img 

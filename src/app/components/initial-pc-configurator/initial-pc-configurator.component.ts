@@ -7,10 +7,11 @@ import { PcConfiguratorService } from '../../services/pc-configurator.service';
 import { CategoryValue } from '../../models/categoryValue.model';
 import { CartService } from '../../services/cart.service';
 import { PcProduct } from '../../models/pcProduct.model';
+import { FormBuilder, FormControl, ReactiveFormsModule, Validators } from '@angular/forms';
 
 @Component({
   selector: 'app-initial-pc-configurator',
-  imports: [ MatIcon, NgClass, CurrencyPipe ],
+  imports: [ MatIcon, NgClass, CurrencyPipe, ReactiveFormsModule ],
   templateUrl: './initial-pc-configurator.component.html',
   styleUrl: './initial-pc-configurator.component.css'
 })
@@ -25,6 +26,11 @@ export class InitialPcConfiguratorComponent {
   categoriesService = inject(CategoriesService)
   pcConfiguratorService = inject(PcConfiguratorService)
   cartService = inject(CartService)
+  formBuilder = inject(FormBuilder)
+
+  assemblyForm = this.formBuilder.group({
+    assembly: new FormControl<boolean>(false, Validators.required),
+  })
 
   public changeActiveTabToComponentTab(): void {
     this.componentsTabActive = true
@@ -77,10 +83,15 @@ export class InitialPcConfiguratorComponent {
     return this.SHIPPING_COSTS
   }
 
+  public onChangeAssembly(): void {
+    this.pcConfiguratorService.changeAssembly(this.assemblyForm.get('assembly')?.value!) 
+  }
+
   public addToCart(): void {
     let pcProduct: PcProduct = {
       id: crypto.randomUUID(),
-      components: this.pcConfiguratorService.getComponents()
+      components: this.pcConfiguratorService.getComponents(),
+      assembly: this.pcConfiguratorService.getAssembly()
     }
 
     this.cartService.addPcProduct(pcProduct)

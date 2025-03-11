@@ -18,9 +18,7 @@
         <hr class="w-full mb-4">
         @for (pc of this.cartService.productsInCart.value.pcs; track $index; let last = $last) {
           <app-shopping-basket-pc-item [pcItem]="pc"></app-shopping-basket-pc-item>
-          @if(!last) {
-            <hr class="mt-4 mb-4">
-          }
+          <hr class="mt-4 mb-4">
         }
         @if(this.cartService.productsInCart.value.pcs.length > 1) {
           <hr class="mt-4 mb-4">
