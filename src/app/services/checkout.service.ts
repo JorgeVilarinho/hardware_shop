@@ -27,9 +27,7 @@ export class CheckoutService {
   changeShippingOption$ = this.changeShippingOptionSubject.asObservable()
   changeShippingMethod$ = this.changeShippingMethodSubject.asObservable()
   changeAddress$ = this.changeAddressSubject.asObservable()
-  changePaymentOption$ = this.changePaymentOptionSubject.asObservable()
   changeTotalWithTax$ = this.changeTotalWithTaxSubject.asObservable()
-  createOrder$ = this.createOrderSubject.asObservable()
 
   constructor() { }
 

@@ -1,5 +1,5 @@
 import { Order } from "../models/order.model";
 
-export interface getOrdersInShopResponse {
+export interface GetOrdersInShopResponse {
   orders: Order[]
 }

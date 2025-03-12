@@ -1,6 +1,6 @@
-<form [formGroup]="productSelectionForm" (ngSubmit)="onSubmit()" class="fix-height">
-  <div class="flex gap-5 mb-5">
-    <div class="w-[70%]">
+<form [formGroup]="productSelectionForm" (ngSubmit)="onSubmit()" class="min-h-full">
+  <div class="flex gap-5 mb-5 h-full">
+    <div class="w-[70%] h-full">
       <h1 class="text-2xl font-medium mb-3">{{ getCategoryName() }}</h1>
       <div class="flex flex-grow gap-3 mb-8">
         <input 
@@ -81,7 +81,7 @@
     </div>
   
     @if(productIsSelected()) {
-      <div class="w-[30%] p-4 bg-gray-200 rounded-md flex flex-col gap-5 overflow-y-auto">
+      <div class="w-[30%] p-4 bg-gray-200 rounded-md flex flex-col gap-5 overflow-y-auto h-full">
         <img [src]="'http://localhost:8080/images/' + selectedProduct!.image" alt="Imagen del producto">
         @if(selectedProduct!.discount > 0) {
           <div class="font-medium">
@@ -98,7 +98,7 @@
   </div>
 
   @if(productIsSelected()) {
-    <div class="flex justify-between bg-white rounded-md px-3 py-5">
+    <div class="flex justify-between bg-white rounded-md px-3 py-5 h-full">
 
       <div class="flex items-center gap-8">
         <button>

@@ -1,11 +1,11 @@
-<mat-sidenav-container class="!h-screen">
+<mat-sidenav-container class="!h-full">
   <mat-sidenav [opened]="filtersMenuOpenedState" mode="over" 
     disableClose="true" position="end" class="!w-[500px] !rounded-none">
     <app-filters-sidenav></app-filters-sidenav>
   </mat-sidenav>
-  <mat-sidenav-content class="bg-white">
+  <mat-sidenav-content class="bg-white !h-full">
     <app-header></app-header>
-    <mat-sidenav-container>
+    <mat-sidenav-container class="h-full">
       <mat-sidenav [opened]="menuOpenedState" mode="side" class="!w-[350px]">
         <app-sidenav-custom></app-sidenav-custom>
       </mat-sidenav>

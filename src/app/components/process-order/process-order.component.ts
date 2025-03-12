@@ -1,18 +1,18 @@
 import { CheckoutService } from './../../services/checkout.service';
-import { Component, inject } from '@angular/core';
+import { Component, inject, OnInit } from '@angular/core';
 import { MatIcon } from '@angular/material/icon';
 import { PaymentOption } from '../../models/paymentOption.model';
 import { PaymentOptionValue } from '../../models/paymentOptionValue.models';
 import { FormBuilder, ReactiveFormsModule, Validators } from '@angular/forms';
-import { RouterLink } from '@angular/router';
+import { ActivatedRoute, RouterLink } from '@angular/router';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { MatDialog } from '@angular/material/dialog';
 import { OrdersService } from '../../services/orders.service';
 import { PaymentDialogComponent } from '../payment-dialog/payment-dialog.component';
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
-import { OrderRepository } from '../../models/orderRepository.model';
 import { CurrencyPipe } from '@angular/common';
 import { ShippingMethod } from '../../models/shippingMethod.model';
+import { Order } from '../../models/order.model';
 
 @Component({
   selector: 'app-process-order',
@@ -20,12 +20,13 @@ import { ShippingMethod } from '../../models/shippingMethod.model';
   templateUrl: './process-order.component.html',
   styleUrl: './process-order.component.css',
 })
-export class ProcessOrderComponent {
+export class ProcessOrderComponent implements OnInit {
   cardNumberRegex = /[0-9]{12}/i;
   expireDateRegex = /^(0[1-9]|1[0-2])\/([0-9]{2})$/i;
   securityCodeRegex = /^[0-9]{3}$/i;
 
-  order: OrderRepository | null = null;
+  orderId: string | undefined
+  order: Order | null = null;
   paymentOption: PaymentOption | null = null;
   shippingMethod: ShippingMethod | null = null;
   total = 0
@@ -53,11 +54,16 @@ export class ProcessOrderComponent {
     ],
   });
 
-  constructor() {
-    this.listenToChangePaymentOption()
-    this.listenToCreateOrder()
+  constructor(private route: ActivatedRoute) {
     this.listenToChangeShippingMethod()
     this.listenToChangeTotal()
+  }
+
+  async ngOnInit(): Promise<void> {
+    this.orderId = this.route.snapshot.paramMap.get('id')!;
+    this.order = await this.ordersService.getOrderById(this.orderId!) 
+    this.shippingMethod = await this.ordersService.getShippingMethodById(this.order?.id_metodo_envio!)
+    this.paymentOption = await this.ordersService.getPaymentOptionById(this.order?.id_opcion_pago!)
   }
 
   public paymentOptionIsCreditCard(): boolean {
@@ -211,18 +217,6 @@ export class ProcessOrderComponent {
     }
 
     this.checkOutFormSubmitted = true;
-  }
-
-  private listenToChangePaymentOption(): void {
-    this.checkoutService.changePaymentOption$
-    .pipe(takeUntilDestroyed())
-    .subscribe(paymentOption => this.paymentOption = paymentOption)
-  }
-
-  private listenToCreateOrder(): void {
-    this.checkoutService.createOrder$
-    .pipe(takeUntilDestroyed())
-    .subscribe(order => this.order = order)
   }
 
   private listenToChangeShippingMethod(): void {

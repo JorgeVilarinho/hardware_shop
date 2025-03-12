@@ -13,9 +13,12 @@ import { GetCanceledOrdersResponse } from '../responses/getCanceledOrders.respon
 import { GetUnassignedOrdersResponse } from '../responses/getUnassignedOrders.response';
 import { GetAssignedOrdersResponse } from '../responses/getAssignedOrders.response';
 import { GetInShippingOrdersResponse } from '../responses/getInShippingOrders.response';
-import { getOrdersInShopResponse } from '../responses/getOrdersInShop.response';
+import { GetOrdersInShopResponse } from '../responses/getOrdersInShop.response';
 import { PcProduct } from '../models/pcProduct.model';
 import { GetPcProductsFromOrderResponse } from '../responses/getPcProductsFromOrder.response';
+import { GetOrderByIdResponse } from '../responses/getOrderById.response';
+import { GetShippingMethodResponse } from '../responses/getShippingMethod.response';
+import { GetPaymentOptionResponse } from '../responses/getPaymentOption.response';
 
 @Injectable({
   providedIn: 'root'
@@ -28,6 +31,17 @@ export class OrdersService {
   httpClient = inject(HttpClient)
 
   constructor() { }
+
+  public async getOrderById(orderId: string): Promise<Order | null> {
+    const response = await firstValueFrom(
+      this.httpClient.get<GetOrderByIdResponse>(`${environment.apiBaseUrl}orders/${orderId}/order`, 
+      { observe: 'response', withCredentials: true })
+    )
+    
+    if(response.ok) return response.body!.order
+
+    return null
+  }
 
   public async getClientActiveOrders(): Promise<Order[]> {
     const response = await firstValueFrom(
@@ -180,7 +194,7 @@ export class OrdersService {
 
   public async getOrdersInShop() {
     const response = await firstValueFrom(
-      this.httpClient.get<getOrdersInShopResponse>(
+      this.httpClient.get<GetOrdersInShopResponse>(
         `${environment.apiBaseUrl}orders/in-shop`,
         { observe: 'response', withCredentials: true }
       )
@@ -189,6 +203,32 @@ export class OrdersService {
     if(response.ok) return response.body!.orders
 
     return []
+  }
+
+  public async getShippingMethodById(id: number) {
+    const response = await firstValueFrom(
+      this.httpClient.get<GetShippingMethodResponse>(
+        `${environment.apiBaseUrl}orders/shippingMethod/${id}`,
+        { observe: 'response', withCredentials: true }
+      )
+    )
+
+    if(response.ok) return response.body!.shippingMethod
+
+    return null
+  }
+
+  public async getPaymentOptionById(id: number) {
+    const response = await firstValueFrom(
+      this.httpClient.get<GetPaymentOptionResponse>(
+        `${environment.apiBaseUrl}orders/paymentOption/${id}`,
+        { observe: 'response', withCredentials: true }
+      )
+    )
+
+    if(response.ok) return response.body!.paymentOption
+
+    return null
   }
 
   public fireUpdatedOrderStatusEvent(orderId: number) {

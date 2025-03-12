@@ -81,7 +81,7 @@ export const routes: Routes = [
         path: 'payment-data', component: PaymentDataComponent
       },
       {
-        path: 'process-order', component: ProcessOrderComponent
+        path: 'process-order/:id', component: ProcessOrderComponent
       }
     ]
   },

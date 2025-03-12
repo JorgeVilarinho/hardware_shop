@@ -86,7 +86,7 @@ export class PaymentDataComponent implements OnInit {
     this.cartService.removeAllItems();
   
     this.isLoading = false
-    this.router.navigate(['/checkout/process-order'])
+    this.router.navigate([`/checkout/process-order/${this.order?.id}`])
   }
 
   public getTotalItems(): number {
