@@ -71,7 +71,7 @@ export class ShippingDataComponent implements OnInit {
 
   public selectionFormIsValid(): boolean {
     if(this.selectionForm.get('shippingMethod')!.value?.valor == ShippingMethodValue.HOME_DELIVERY) {
-      return this.selectionForm.get('address')!.value as unknown as boolean &&  this.selectionForm.get('shippingOption')!.value as unknown as boolean
+      return this.selectionForm.get('address')!.value as unknown as boolean && this.selectionForm.get('shippingOption')!.value as unknown as boolean
     }
 
     if(this.selectionForm.get('shippingMethod')!.value?.valor == ShippingMethodValue.SHOP_PICKUP) {
@@ -91,6 +91,14 @@ export class ShippingDataComponent implements OnInit {
 
   public shippingOptionIsSelected(): boolean {
     return this.selectionForm.get('shippingOption')!.value as unknown as boolean;
+  }
+
+  public shippingMethodIsSelected(): boolean {
+    return this.selectionForm.get('shippingMethod')!.value as unknown as boolean;
+  }
+
+  public addressIsSelected(): boolean {
+    return this.selectionForm.get('address')!.value as unknown as boolean;
   }
 
   public getShippingOptionCost(): number | undefined {

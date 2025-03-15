@@ -1,4 +1,4 @@
-<div class="flex flex-col gap-5 p-5 h-full">
+<div class="flex flex-col gap-5 p-5">
   <div class="flex w-full justify-between items-center">
     <h1 class="text-xl font-medium">Filtrar</h1>
     <button mat-icon-button class="!flex !justify-center !items-center"
@@ -24,9 +24,9 @@
       <mat-panel-title>Precio</mat-panel-title>
     </mat-expansion-panel-header>
     <div>
-    <mat-slider min="0" [max]="maxLimit" class="!w-[95%]">
-        <input [(value)]="minPriceValue" matSliderStartThumb (input)="minValueChanged($event)">
-        <input [(value)]="maxPriceValue" matSliderEndThumb (input)="maxValueChanged($event)">
+      <mat-slider min="0" [max]="maxLimit" class="!w-[95%]">
+          <input [(value)]="minPriceValue" matSliderStartThumb (input)="minValueChanged($event)">
+          <input [(value)]="maxPriceValue" matSliderEndThumb (input)="maxValueChanged($event)">
       </mat-slider>  
       <div class="flex justify-between items-center mt-2">
         <input type="text" name="start" id="start" 

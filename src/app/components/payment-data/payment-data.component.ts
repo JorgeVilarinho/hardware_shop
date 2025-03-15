@@ -109,6 +109,14 @@ export class PaymentDataComponent implements OnInit {
     return this.shippingMethod?.valor == ShippingMethodValue.SHOP_PICKUP
   }
 
+  public shippingMethodIsSelected(): boolean {
+    return this.shippingMethod as unknown as boolean;
+  }
+
+  public addressIsSelected(): boolean {
+    return this.address as unknown as boolean;
+  }
+
   public getTotalWithTax(): number {
     if(this.shippingOptionIsSelected()) {
       return (this.cartService.getTotal() + this.getShippingOptionCost()!) * 1.21

@@ -1,7 +1,3 @@
-.fix-height {
-  height: calc(100vh - 64px);
-}
-
 .invalid {
   border: 1px solid red;
 }

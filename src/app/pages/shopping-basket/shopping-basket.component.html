@@ -1,5 +1,5 @@
   @if(this.cartService.productsInCart.value.items.length === 0 && this.cartService.productsInCart.value.pcs.length === 0) {
-  <div class="fix-height flex flex-col justify-center items-center bg-gray-200">
+  <div class="flex flex-col justify-center items-center bg-gray-200">
     <div>
       <mat-icon class="!text-[200px] !h-full !w-full">local_mall</mat-icon>
     </div>
@@ -10,7 +10,7 @@
     routerLink="/home">Ver productos</button>
   </div>
 } @else {
-  <div class="px-24 py-10 fix-height">
+  <div class="px-24 py-10">
     <div class="flex gap-10 items-start">
       <div class="basis-[70%]">
         <h1 class="text-4xl font-medium mb-3">Cesta de la compra</h1>
@@ -31,8 +31,8 @@
         }
         <hr class="border-[2px] rounded-full mb-3 mt-3">
         <div class="flex justify-end mb-5">
-          <button class="flex justify-center items-center border rounded-md p-2 hover:border-slate-400
-            transition-transform active:scale-95 shadow-sm"
+          <button class="flex justify-center items-center border border-slate-300 rounded-md p-2 hover:border-slate-400
+            transition-transform active:scale-95 shadow-sm bg-white"
             (click)="removeAllItems()"
           >
             <mat-icon class="mr-2">delete</mat-icon>
@@ -40,7 +40,7 @@
           </button>
         </div>
       </div>
-      <div class="flex flex-col flex-1 rounded-md shadow-lg px-6 pt-12 pb-8">
+      <div class="flex flex-col flex-1 rounded-md shadow-lg px-6 pt-12 pb-8 bg-white">
         <h1 class="text-2xl font-medium mb-4">Resumen del pedido</h1>
         <div class="flex flex-col gap-4 mb-5">
           <div class="flex justify-between">

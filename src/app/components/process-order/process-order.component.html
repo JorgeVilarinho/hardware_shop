@@ -1,13 +1,13 @@
-<div class="flex">
-  <div class="w-[60%] py-10 pl-20 h-full">
+<div class="flex min-h-full">
+  <div class="w-[60%] flex flex-col gap-3 pt-5 pl-20 flex-1">
     
-    <div class="flex flex-col items-center gap-2 mb-5">
+    <div class="flex flex-col items-center gap-2">
       <div>
         <mat-icon fontIcon="verified" class="text-green-500 !text-8xl !w-full !h-full"></mat-icon>
       </div>
       <p class="text-2xl font-medium">¡Tu pedido ha sido realizado con éxito!</p>
     </div>
-    <div class="flex flex-col gap-5 mb-5">
+    <div class="flex flex-col gap-3">
       <p>Gracias por tu compra</p>
       <p>Te agradecemos la confianza en nuestra tienda</p>
       <div>
@@ -102,7 +102,7 @@
             </div>
 
             <button 
-              class="flex-auto bg-red-600 text-white rounded-md py-3 transition hover:bg-red-700 "
+              class="flex-auto bg-red-600 text-white rounded-md py-3 transition hover:bg-red-700"
               type="submit"
             >
               Pagar
@@ -112,7 +112,7 @@
         </form>
       </div>
     }
-    <div class="flex justify-center items-center gap-5">
+    <div class="flex justify-center items-center gap-5 mb-3">
       <button 
         class="border rounded-md py-2 px-6 transition outline-none hover:border-gray-400 active:scale-95"
         routerLink="/account/orders/active"
@@ -125,7 +125,7 @@
 
   </div>
 
-  <div class="bg-gray-200 w-[40%] py-10 px-10 flex-grow">
+  <div class="bg-gray-200 w-[40%] py-10 px-10">
 
     <div class="flex flex-col gap-7">
       <p class="text-3xl font-medium">Datos de tu pedido</p>
