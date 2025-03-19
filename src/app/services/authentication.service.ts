@@ -164,14 +164,16 @@ export class AuthenticationService {
     return false
   }
 
-  public isAdminAndDeliveryEmployee(): boolean {
+  public isAdminAndDeliveryOrAssemblerEmployee(): boolean {
     let user = this.loggedInUser
 
     if(!user) return false
 
     let employee = UserTypeInferenceHelper.isEmployee(user)
   
-    if(employee && employee.admin && employee.tipo_trabajador == EmployeeTypeValue.DELIVERY) return true
+    if(employee && employee.admin && 
+      (employee.tipo_trabajador == EmployeeTypeValue.DELIVERY 
+      || employee.tipo_trabajador == EmployeeTypeValue.COMPUTER_ASSEMBLER)) return true
   
     return false
   }
@@ -196,6 +198,20 @@ export class AuthenticationService {
     let employee = UserTypeInferenceHelper.isEmployee(user)
   
     if(employee && !employee.admin && employee.tipo_trabajador == EmployeeTypeValue.DELIVERY) return true
+  
+    return false
+  }
+
+  public isNotAdminAndDeliveryOrAssemblerEmployee(): boolean {
+    let user = this.loggedInUser
+
+    if(!user) return false
+
+    let employee = UserTypeInferenceHelper.isEmployee(user)
+  
+    if(employee && !employee.admin && 
+      (employee.tipo_trabajador == EmployeeTypeValue.DELIVERY 
+      || employee.tipo_trabajador == EmployeeTypeValue.COMPUTER_ASSEMBLER)) return true
   
     return false
   }

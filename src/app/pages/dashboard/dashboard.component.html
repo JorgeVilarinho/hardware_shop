@@ -1,5 +1,5 @@
-<div class="flex">
-  <div class="w-full max-w-[25%] flex justify-center py-5 px-12 border-r">
+<div class="flex min-h-full">
+  <div class="w-full max-w-[25%] flex justify-center py-5 px-12 border-r border-r-slate-300">
     <div class="w-full flex flex-col gap-3">
 
       <div 
@@ -9,7 +9,7 @@
         <p>Mis datos</p>
       </div>
 
-      @if(isAdminAndDeliveryEmployee()) {
+      @if(isAdminAndDeliveryOrAssemblerEmployee()) {
         <div 
           class="py-2 px-4 hover:bg-gray-300 rounded-md transition-colors cursor-pointer" 
           [ngClass]="{'selected': ordersIsActive}"
@@ -43,14 +43,16 @@
         </div>
       }
 
-      @if(isNotAdminAndDeliveryEmployee()) {
+      @if(isNotAdminAndDeliveryOrAssemblerEmployee()) {
         <div 
           class="py-2 px-4 hover:bg-gray-300 rounded-md transition-colors cursor-pointer" 
           [ngClass]="{'selected': ordersAssignedToMeIsActive}"
           (click)="changeSelectedOption('ordersAssignedToMe')">
           <p>Pedidos asignados a mi</p>
         </div>
+      }
 
+      @if(isNotAdminAndDeliveryEmployee()) {
         <div 
           class="py-2 px-4 hover:bg-gray-300 rounded-md transition-colors cursor-pointer" 
           [ngClass]="{'selected': ordersInShippingIsActive}"

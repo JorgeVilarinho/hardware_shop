@@ -179,6 +179,18 @@ export class OrdersService {
     return response
   }
 
+  public async updateOrderAssembledStatusByEmployee(orderId: number) {
+    const response = await firstValueFrom(
+      this.httpClient.put<any>(
+        `${environment.apiBaseUrl}orders/${orderId}/assembled/changeStatus`, 
+        null,
+        { observe: 'response', withCredentials: true }
+      )
+    )
+
+    return response
+  }
+
   public async getOrdersInShipping(employeeId: string) {
     const response = await firstValueFrom(
       this.httpClient.get<GetInShippingOrdersResponse>(

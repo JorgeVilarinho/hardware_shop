@@ -1,5 +1,5 @@
 import { OrdersService } from './../../services/orders.service';
-import { Router, RouterModule } from '@angular/router';
+import { ActivatedRoute, Router, RouterModule } from '@angular/router';
 import { Component, inject, OnInit } from '@angular/core';
 import { MatIcon } from '@angular/material/icon';
 import { Order } from '../../models/order.model';
@@ -20,6 +20,8 @@ import { CategoryValue } from '../../models/categoryValue.model';
   styleUrl: './order.component.css'
 })
 export class OrderComponent implements OnInit {
+  orderId: string | null = null
+
   order: Order | undefined
   products: Product[] = []
   pcProducts: PcProduct[] = []
@@ -34,11 +36,12 @@ export class OrderComponent implements OnInit {
   categoriesService = inject(CategoriesService)
   dialog = inject(MatDialog)
 
-  constructor(private router: Router) {
-    this.order = this.router.getCurrentNavigation()?.extras.state!['order']
+  constructor(private route: ActivatedRoute, private router: Router) {
+    this.orderId = this.route.snapshot.paramMap.get('id')
   }
   
   async ngOnInit(): Promise<void> {
+    this.order = await this.ordersService.getOrderById(this.orderId!) ?? undefined
     this.products = await this.ordersService.getProductsFromOrder(this.order?.id!)
     this.pcProducts = await this.ordersService.getPcProductsFromOrder(this.order?.id!)
     this.shippingOptionCost = await this.ordersService.getShippingOptionCost(this.order?.id_opcion_envio!)
@@ -54,6 +57,9 @@ export class OrderComponent implements OnInit {
   }
 
   public getBox(pcProduct: PcProduct): Product | undefined {
+    console.log('Get Box:')
+    console.log(this.boxCategory?.nombre)
+    console.log(pcProduct.components.find(x => x.category == this.boxCategory?.nombre))
     return pcProduct.components.find(x => x.category == this.boxCategory?.nombre)
   }
 

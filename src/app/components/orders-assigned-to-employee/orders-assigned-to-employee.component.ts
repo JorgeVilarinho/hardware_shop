@@ -6,6 +6,10 @@ import { ActivatedRoute } from '@angular/router';
 import { MatDialog } from '@angular/material/dialog';
 import { ChangeOrderStatusDialogComponent } from '../change-order-status-dialog/change-order-status-dialog.component';
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
+import { Employee } from '../../models/employee.model';
+import { EmployeeService } from '../../services/employee.service';
+import { EmployeeTypeValue } from '../../models/employeeTypeValue';
+import { ChangeOrderAssembledStatusDialogComponent } from '../change-order-assembled-status-dialog/change-order-assembled-status-dialog.component';
 
 @Component({
   selector: 'app-orders-assigned-to-employee',
@@ -16,8 +20,10 @@ import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 export class OrdersAssignedToEmployeeComponent implements OnInit {
   assignedOrders: Order[] = []
   employeeId: string | null = null
+  employee: Employee | null = null
 
   ordersService = inject(OrdersService)
+  employeesService = inject(EmployeeService)
   dialog = inject(MatDialog)
 
   constructor(private route: ActivatedRoute) {
@@ -27,6 +33,7 @@ export class OrdersAssignedToEmployeeComponent implements OnInit {
 
   async ngOnInit(): Promise<void> {
     this.assignedOrders = await this.ordersService.getAssignedOrders(this.employeeId)
+    this.employee = await this.employeesService.getEmployee(this.employeeId)
   }
 
   public getFormattedDate(createDate: string): string {
@@ -34,9 +41,26 @@ export class OrdersAssignedToEmployeeComponent implements OnInit {
   }
 
   public openDialog(orderId: number): void {
-    const dialogRef = this.dialog.open(ChangeOrderStatusDialogComponent)
-    dialogRef.componentInstance.orderId = orderId
-    dialogRef.componentInstance.employeeId = this.employeeId
+    if(this.isDeliveryEmployee()) {
+      const dialogRef = this.dialog.open(ChangeOrderStatusDialogComponent)
+      dialogRef.componentInstance.orderId = orderId
+      dialogRef.componentInstance.employeeId = this.employeeId
+    } else {
+      const dialogRef = this.dialog.open(ChangeOrderAssembledStatusDialogComponent)
+      dialogRef.componentInstance.orderId = orderId
+    }
+  }
+
+  public isDeliveryEmployee(): boolean {
+    let employeeTypeValue = this.employee?.tipo_trabajador as EmployeeTypeValue
+
+    return employeeTypeValue == EmployeeTypeValue.DELIVERY
+  }
+
+  public isAssemblerEmployee(): boolean {
+    let employeeTypeValue = this.employee?.tipo_trabajador as EmployeeTypeValue
+
+    return employeeTypeValue == EmployeeTypeValue.COMPUTER_ASSEMBLER
   }
 
   private listenToUpdatedOrderStatus() {

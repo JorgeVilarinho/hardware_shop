@@ -15,7 +15,7 @@
     @for (employee of employees; track employee.user_id) {
       <div 
         class="border border-neutral-400 rounded-md p-3 w-full flex flex-col gap-2 
-        transition shadow-sm hover:shadow-md hover:border-red-400 cursor-pointer"
+        transition shadow-sm hover:shadow-md hover:border-red-400 cursor-pointer bg-white"
         (click)="goToUpdateEmployee(employee)"
       >
         <div class="flex justify-between items-center font-medium">

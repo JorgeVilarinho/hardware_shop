@@ -32,6 +32,6 @@ export class ActiveOrdersComponent implements OnInit {
   }
 
   public openOrder(activeOrder: Order): void {
-    this.router.navigate(['/account/orders/' + activeOrder.id], { state: { 'order': activeOrder } });
+    this.router.navigate(['/account/orders/' + activeOrder.id]);
   }
 }

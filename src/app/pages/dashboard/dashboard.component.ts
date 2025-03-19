@@ -113,8 +113,8 @@ export class DashboardComponent {
     return this.authenticationService.isAdminEmployee()
   }
 
-  public isAdminAndDeliveryEmployee(): boolean {
-    return this.authenticationService.isAdminAndDeliveryEmployee()
+  public isAdminAndDeliveryOrAssemblerEmployee(): boolean {
+    return this.authenticationService.isAdminAndDeliveryOrAssemblerEmployee()
   }
 
   public isNotAdminAndDeliveryEmployee(): boolean {
@@ -123,6 +123,10 @@ export class DashboardComponent {
 
   public isNotAdminAndShopClerkEmployee(): boolean {
     return this.authenticationService.isNotAdminAndShopClerkEmployee()
+  }
+
+  public isNotAdminAndDeliveryOrAssemblerEmployee(): boolean {
+    return this.authenticationService.isNotAdminAndDeliveryOrAssemblerEmployee()
   }
 
   public getEmployeeId(): number {

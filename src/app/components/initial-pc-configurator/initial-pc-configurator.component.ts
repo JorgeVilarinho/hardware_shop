@@ -95,5 +95,13 @@ export class InitialPcConfiguratorComponent {
     }
 
     this.cartService.addPcProduct(pcProduct)
+    this.resetFlagsAndForm()
+  }
+
+  private resetFlagsAndForm(): void {
+    this.componentsTabActive = true
+    this.peripheralsTabActive = false
+    this.assemblyTabActive = false
+    this.assemblyForm.get('assembly')!.setValue(false)
   }
 }
