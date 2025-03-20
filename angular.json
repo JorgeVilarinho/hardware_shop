@@ -105,6 +105,7 @@
     }
   },
   "cli": {
-    "packageManager": "pnpm"
+    "packageManager": "pnpm",
+    "analytics": false
   }
 }
