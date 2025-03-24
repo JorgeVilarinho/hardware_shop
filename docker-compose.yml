@@ -4,5 +4,5 @@ services:
     ports: 
       - 80:80
     extra_hosts:
-      - "www.byteshop_front.com=localhost"
-      - "byteshop_front.com=localhost"
+      - "www.byteshop_front.com=127.0.0.1"
+      - "byteshop_front.com=127.0.0.1"
