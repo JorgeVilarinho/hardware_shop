@@ -1,0 +1,8 @@
+services:
+  frontend:
+    build: .
+    ports: 
+      - 80:80
+    extra_hosts:
+      - "www.byteshop_front.com=localhost"
+      - "byteshop_front.com=localhost"
