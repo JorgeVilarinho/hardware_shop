@@ -1,8 +1,0 @@
-services:
-  frontend:
-    build: .
-    ports: 
-      - 80:80
-    extra_hosts:
-      www.byteshop_front.com: "127.0.0.1"
-      byteshop_front.com: "127.0.0.1"
