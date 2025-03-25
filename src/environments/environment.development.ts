@@ -1,3 +1,3 @@
 export const environment = {
-  apiBaseUrl: 'http://backend.byteshop.com/api/'
+  apiBaseUrl: 'https://backend.byteshop.com/api/'
 };
