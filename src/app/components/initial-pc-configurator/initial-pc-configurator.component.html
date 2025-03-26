@@ -3,11 +3,11 @@
     <div class="flex gap-20 mb-10">
       @if(hasBox()) {
         <img 
-          [src]="'http://localhost:8080/images/' + this.pcConfiguratorService.getProduct('pc-towers-and-enclosures')?.image" 
+          [src]="'https://backend.byteshop.com/images/' + this.pcConfiguratorService.getProduct('pc-towers-and-enclosures')?.image" 
           alt="Imagen de la caja" class="pt-10 w-[500px] h-[500px]"
         >
       } @else {
-        <img src="http://localhost:8080/images/default_pc.png" alt="Imagen de la caja" class="pt-10 w-[500px] h-[500px]">
+        <img src="https://backend.byteshop.com/images/default_pc.png" alt="Imagen de la caja" class="pt-10 w-[500px] h-[500px]">
       }
       <div class="flex-grow">
         
@@ -58,7 +58,7 @@
               (click)="goToProductSelectionByCategory('processors')"
             >
               <div class="flex items-center gap-2">
-                <img src="http://localhost:8080/images/processor.svg" alt="Icono procesador" class="w-5 h-5">
+                <img src="https://backend.byteshop.com/images/processor.svg" alt="Icono procesador" class="w-5 h-5">
                 <p class="text-sm">PROCESADOR</p>
               </div>
               <div class="flex items-center text-neutral-400 gap-2">
@@ -67,7 +67,7 @@
                     <mat-icon fontIcon="check_circle" class="text-green-600 p" />
                   </div>
                   <img 
-                    [src]="'http://localhost:8080/images/' + this.pcConfiguratorService.getProduct('processors')?.image" 
+                    [src]="'https://backend.byteshop.com/images/' + this.pcConfiguratorService.getProduct('processors')?.image" 
                     alt="Imagen del producto"
                     class="w-12 h-12"
                   >
@@ -84,7 +84,7 @@
               (click)="goToProductSelectionByCategory('motherboards')"
             >
               <div class="flex items-center gap-2">
-                <img src="http://localhost:8080/images/motherboard.svg" alt="Icono procesador" class="w-5 h-5">
+                <img src="https://backend.byteshop.com/images/motherboard.svg" alt="Icono procesador" class="w-5 h-5">
                 <p class="text-sm">PLACA BASE</p>
               </div>
               <div class="flex items-center text-neutral-400 gap-2">
@@ -93,7 +93,7 @@
                     <mat-icon fontIcon="check_circle" class="text-green-600 p" />
                   </div>
                   <img 
-                    [src]="'http://localhost:8080/images/' + this.pcConfiguratorService.getProduct('motherboards')?.image" 
+                    [src]="'https://backend.byteshop.com/images/' + this.pcConfiguratorService.getProduct('motherboards')?.image" 
                     alt="Imagen del producto"
                     class="w-12 h-12"
                   >
@@ -110,7 +110,7 @@
               (click)="goToProductSelectionByCategory('ram')"
             >
               <div class="flex items-center gap-2">
-                <img src="http://localhost:8080/images/RAM.svg" alt="Icono procesador" class="w-5 h-5">
+                <img src="https://backend.byteshop.com/images/RAM.svg" alt="Icono procesador" class="w-5 h-5">
                 <p class="text-sm">RAM</p>
               </div>
               <div class="flex items-center text-neutral-400 gap-2">
@@ -119,7 +119,7 @@
                     <mat-icon fontIcon="check_circle" class="text-green-600 p" />
                   </div>
                   <img 
-                    [src]="'http://localhost:8080/images/' + this.pcConfiguratorService.getProduct('ram')?.image" 
+                    [src]="'https://backend.byteshop.com/images/' + this.pcConfiguratorService.getProduct('ram')?.image" 
                     alt="Imagen del producto"
                     class="w-12 h-12"
                   >
@@ -136,7 +136,7 @@
               (click)="goToProductSelectionByCategory('cpu-cooler')"
             >
               <div class="flex items-center gap-2">
-                <img src="http://localhost:8080/images/cpu_cooler.svg" alt="Icono procesador" class="w-5 h-5">
+                <img src="https://backend.byteshop.com/images/cpu_cooler.svg" alt="Icono procesador" class="w-5 h-5">
                 <p class="text-sm">DISIPADOR CPU</p>
               </div>
               <div class="flex items-center text-neutral-400 gap-2">
@@ -145,7 +145,7 @@
                     <mat-icon fontIcon="check_circle" class="text-green-600 p" />
                   </div>
                   <img 
-                    [src]="'http://localhost:8080/images/' + this.pcConfiguratorService.getProduct('cpu-cooler')?.image" 
+                    [src]="'https://backend.byteshop.com/images/' + this.pcConfiguratorService.getProduct('cpu-cooler')?.image" 
                     alt="Imagen del producto"
                     class="w-12 h-12"
                   >
@@ -162,7 +162,7 @@
               (click)="goToProductSelectionByCategory('graphic-cards')"  
             >
               <div class="flex items-center gap-2">
-                <img src="http://localhost:8080/images/graphics_card.svg" alt="Icono procesador" class="w-5 h-5">
+                <img src="https://backend.byteshop.com/images/graphics_card.svg" alt="Icono procesador" class="w-5 h-5">
                 <p class="text-sm">TARJETA GRÁFICA</p>
               </div>
               <div class="flex items-center text-neutral-400 gap-2">
@@ -171,7 +171,7 @@
                     <mat-icon fontIcon="check_circle" class="text-green-600 p" />
                   </div>
                   <img 
-                    [src]="'http://localhost:8080/images/' + this.pcConfiguratorService.getProduct('graphic-cards')?.image" 
+                    [src]="'https://backend.byteshop.com/images/' + this.pcConfiguratorService.getProduct('graphic-cards')?.image" 
                     alt="Imagen del producto"
                     class="w-12 h-12"
                   >
@@ -188,7 +188,7 @@
               (click)="goToProductSelectionByCategory('storage')"  
             >
               <div class="flex items-center gap-2">
-                <img src="http://localhost:8080/images/storage.svg" alt="Icono procesador" class="w-5 h-5">
+                <img src="https://backend.byteshop.com/images/storage.svg" alt="Icono procesador" class="w-5 h-5">
                 <p class="text-sm">ALMACENAMIENTO</p>
               </div>
               <div class="flex items-center text-neutral-400 gap-2">
@@ -197,7 +197,7 @@
                     <mat-icon fontIcon="check_circle" class="text-green-600 p" />
                   </div>
                   <img 
-                    [src]="'http://localhost:8080/images/' + this.pcConfiguratorService.getProduct('storage')?.image" 
+                    [src]="'https://backend.byteshop.com/images/' + this.pcConfiguratorService.getProduct('storage')?.image" 
                     alt="Imagen del producto"
                     class="w-12 h-12"
                   >
@@ -214,7 +214,7 @@
               (click)="goToProductSelectionByCategory('power-supplies')"  
             >
               <div class="flex items-center gap-2">
-                <img src="http://localhost:8080/images/power_supply.svg" alt="Icono procesador" class="w-5 h-5">
+                <img src="https://backend.byteshop.com/images/power_supply.svg" alt="Icono procesador" class="w-5 h-5">
                 <p class="text-sm">FUENTE ALIMENTACIÓN</p>
               </div>
               <div class="flex items-center text-neutral-400 gap-2">
@@ -223,7 +223,7 @@
                     <mat-icon fontIcon="check_circle" class="text-green-600 p" />
                   </div>
                   <img 
-                    [src]="'http://localhost:8080/images/' + this.pcConfiguratorService.getProduct('power-supplies')?.image" 
+                    [src]="'https://backend.byteshop.com/images/' + this.pcConfiguratorService.getProduct('power-supplies')?.image" 
                     alt="Imagen del producto"
                     class="w-12 h-12"
                   >
@@ -240,7 +240,7 @@
               (click)="goToProductSelectionByCategory('pc-towers-and-enclosures')"
             >
               <div class="flex items-center gap-2">
-                <img src="http://localhost:8080/images/box.svg" alt="Icono procesador" class="w-5 h-5">
+                <img src="https://backend.byteshop.com/images/box.svg" alt="Icono procesador" class="w-5 h-5">
                 <p class="text-sm">CAJA</p>
               </div>
               <div class="flex items-center text-neutral-400 gap-2">
@@ -249,7 +249,7 @@
                     <mat-icon fontIcon="check_circle" class="text-green-600 p" />
                   </div>
                   <img 
-                    [src]="'http://localhost:8080/images/' + this.pcConfiguratorService.getProduct('pc-towers-and-enclosures')?.image" 
+                    [src]="'https://backend.byteshop.com/images/' + this.pcConfiguratorService.getProduct('pc-towers-and-enclosures')?.image" 
                     alt="Imagen del producto"
                     class="w-12 h-12"
                   >

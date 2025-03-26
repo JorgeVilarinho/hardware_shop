@@ -58,7 +58,7 @@
                   formControlName="shippingOption" [value]="shippingOption" class="w-5 h-5 accent-red-600 cursor-pointer"
                   (change)="onChangeShippingOption(shippingOption)"  
                 >
-                <img [src]="'http://localhost:8080/images/' + shippingOption.imagen" class="w-12">
+                <img [src]="'https://backend.byteshop.com/images/' + shippingOption.imagen" class="w-12">
                 {{ shippingOption.descripcion }}
               </label>
               @if(shippingOption.coste) {
@@ -95,7 +95,7 @@
       @for(pc of pcs; track pc.id) {
         <div class="grid grid-cols-5 gap-4">
           <img 
-            [src]="'http://localhost:8080/images/' + getBox(pc)?.image" 
+            [src]="'https://backend.byteshop.com/images/' + getBox(pc)?.image" 
             alt="Imagen producto"
             class="w-full"
           >
@@ -118,7 +118,7 @@
       @for (item of cartProducts; track item.id) {
         <div class="grid grid-cols-5 gap-4">
           <img 
-            [src]="'http://localhost:8080/images/' + item.image" 
+            [src]="'https://backend.byteshop.com/images/' + item.image" 
             alt="Imagen producto"
             class="w-full"
           >

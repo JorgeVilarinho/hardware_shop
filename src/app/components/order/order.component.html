@@ -45,7 +45,7 @@
     @for (pc of pcProducts; track pc.id) {
       <div class="col-span-3 flex gap-3">
         <img 
-          [src]="'http://localhost:8080/images/' + getBox(pc)?.image" 
+          [src]="'https://backend.byteshop.com/images/' + getBox(pc)?.image" 
           alt="Imagen del producto"
           class="w-28 border"
         >
@@ -73,7 +73,7 @@
     @for (product of products; track product.id) {
       <div class="col-span-3 flex gap-3">
         <img 
-          [src]="'http://localhost:8080/images/' + product.image" 
+          [src]="'https://backend.byteshop.com/images/' + product.image" 
           alt="Imagen del producto"
           class="w-28 border"
         >
