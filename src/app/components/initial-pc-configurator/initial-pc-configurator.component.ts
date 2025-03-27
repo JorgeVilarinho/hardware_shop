@@ -8,6 +8,7 @@ import { CategoryValue } from '../../models/categoryValue.model';
 import { CartService } from '../../services/cart.service';
 import { PcProduct } from '../../models/pcProduct.model';
 import { FormBuilder, FormControl, ReactiveFormsModule, Validators } from '@angular/forms';
+import { environment } from '../../../environments/environment';
 
 @Component({
   selector: 'app-initial-pc-configurator',
@@ -31,6 +32,10 @@ export class InitialPcConfiguratorComponent {
   assemblyForm = this.formBuilder.group({
     assembly: new FormControl<boolean>(false, Validators.required),
   })
+
+  public getImage(imageFile: string | undefined): string {
+    return environment.apiImageUrl + imageFile;
+  }
 
   public changeActiveTabToComponentTab(): void {
     this.componentsTabActive = true

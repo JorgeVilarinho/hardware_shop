@@ -10,6 +10,7 @@ import { Employee } from '../../models/employee.model';
 import { EmployeeService } from '../../services/employee.service';
 import { EmployeeTypeValue } from '../../models/employeeTypeValue';
 import { ChangeOrderAssembledStatusDialogComponent } from '../change-order-assembled-status-dialog/change-order-assembled-status-dialog.component';
+import { environment } from '../../../environments/environment';
 
 @Component({
   selector: 'app-orders-assigned-to-employee',
@@ -34,6 +35,10 @@ export class OrdersAssignedToEmployeeComponent implements OnInit {
   async ngOnInit(): Promise<void> {
     this.assignedOrders = await this.ordersService.getAssignedOrders(this.employeeId)
     this.employee = await this.employeesService.getEmployee(this.employeeId)
+  }
+
+  public getImage(imageFile: string): string {
+    return environment.apiImageUrl + imageFile
   }
 
   public getFormattedDate(createDate: string): string {

@@ -12,6 +12,7 @@ import { PcProduct } from '../../models/pcProduct.model';
 import { Category } from '../../models/category.model';
 import { CategoriesService } from '../../services/categories.service';
 import { CategoryValue } from '../../models/categoryValue.model';
+import { environment } from '../../../environments/environment';
 
 @Component({
   selector: 'app-order',
@@ -46,6 +47,10 @@ export class OrderComponent implements OnInit {
     this.pcProducts = await this.ordersService.getPcProductsFromOrder(this.order?.id!)
     this.shippingOptionCost = await this.ordersService.getShippingOptionCost(this.order?.id_opcion_envio!)
     this.boxCategory = await this.categoriesService.getCategoryByValue(CategoryValue.PC_TOWERS_AND_ENCLOSURES)
+  }
+
+  public getImage(imageFile: string | undefined): string {
+    return environment.apiImageUrl + imageFile;
   }
 
   public getSubtotal(): number {

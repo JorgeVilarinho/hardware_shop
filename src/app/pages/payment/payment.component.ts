@@ -6,6 +6,7 @@ import { Router, RouterLink } from '@angular/router';
 import { Order } from '../../models/order.model';
 import { MatDialog } from '@angular/material/dialog';
 import { PaymentDialogComponent } from '../../components/payment-dialog/payment-dialog.component';
+import { environment } from '../../../environments/environment';
 
 @Component({
   selector: 'app-payment',
@@ -34,6 +35,10 @@ export class PaymentComponent {
 
   constructor(private router: Router) {
     this.order = this.router.getCurrentNavigation()?.extras.state!['order']
+  }
+
+  public getImage(imageFile: string): string {
+    return environment.apiImageUrl + imageFile
   }
 
   public invalidCardHolder(): boolean {

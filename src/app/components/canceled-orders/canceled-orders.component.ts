@@ -4,6 +4,7 @@ import { OrderStatusValue } from '../../models/orderStatusValue.model';
 import { OrdersService } from '../../services/orders.service';
 import { CurrencyPipe } from '@angular/common';
 import { Router } from '@angular/router';
+import { environment } from '../../../environments/environment';
 
 @Component({
   selector: 'app-canceled-orders',
@@ -20,6 +21,10 @@ export class CanceledOrdersComponent implements OnInit {
 
   async ngOnInit(): Promise<void> {
     this.canceledOrders = await this.ordersService.getClientCanceledOrders()
+  }
+
+  public getImage(imageFile: string): string {
+    return environment.apiImageUrl + imageFile
   }
 
   public getFormattedDate(createDate: string): string {

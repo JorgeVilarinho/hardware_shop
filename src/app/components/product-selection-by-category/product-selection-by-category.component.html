@@ -58,7 +58,7 @@
                 class="accent-red-600 scale-[1.2]" formControlName="product"
                 (change)="onChangeProduct(product)"
               >
-              <img [src]="'https://backend.byteshop.com/images/' + product.image" alt="Imagen del producto" class="w-16 h-16">
+              <img [src]="getImage(product.image)" alt="Imagen del producto" class="w-16 h-16">
               <div>
                 <p>{{ product.name }}</p>
                 <div class="flex gap-2">
@@ -82,7 +82,7 @@
   
     @if(productIsSelected()) {
       <div class="w-[30%] p-4 bg-gray-200 rounded-md flex flex-col gap-5">
-        <img [src]="'https://backend.byteshop.com/images/' + selectedProduct!.image" alt="Imagen del producto">
+        <img [src]="getImage(selectedProduct!.image)" alt="Imagen del producto">
         @if(selectedProduct!.discount > 0) {
           <div class="font-medium">
             <p class="line-through text-neutral-500 text-lg">{{ selectedProduct!.price | currency:"EUR" }}</p>

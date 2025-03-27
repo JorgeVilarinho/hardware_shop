@@ -1,7 +1,7 @@
 <div class="container mx-auto h-full pt-10">
   <div class="flex content-start">
     <div>
-      <img [src]="'https://backend.byteshop.com/images/' + product?.image" alt="Imagen del producto" />
+      <img [src]="getImage(product?.image)" alt="Imagen del producto" />
     </div>
     <div class="flex flex-col items-start max-w-lg">
       @if(product?.discount) {

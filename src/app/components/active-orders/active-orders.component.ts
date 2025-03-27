@@ -4,6 +4,7 @@ import { Order } from '../../models/order.model';
 import { OrderStatusValue } from '../../models/orderStatusValue.model';
 import { CurrencyPipe } from '@angular/common';
 import { Router } from '@angular/router';
+import { environment } from '../../../environments/environment';
 
 @Component({
   selector: 'app-active-orders',
@@ -25,6 +26,10 @@ export class ActiveOrdersComponent implements OnInit {
   
   async ngOnInit(): Promise<void> {
     this.activeOrders = await this.ordersService.getClientActiveOrders()
+  }
+
+  public getImage(imageFile: string): string {
+    return environment.apiImageUrl + imageFile;
   }
 
   public getFormattedDate(createDate: string): string {

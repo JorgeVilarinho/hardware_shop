@@ -20,7 +20,7 @@
         <div class="flex items-center gap-14">
           <div class="flex item items-center gap-5">
             <img 
-            [src]="'https://backend.byteshop.com/images/' + product.image" 
+            [src]="getImage(product.image)" 
             alt="Imagen producto pedido"
             class="w-20 border"
             >

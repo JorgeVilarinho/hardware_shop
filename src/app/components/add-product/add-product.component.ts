@@ -9,6 +9,7 @@ import { BrandsService } from '../../services/brands.service';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { ImagesService } from '../../services/images.service';
 import { ProductsService } from '../../services/products.service';
+import { environment } from '../../../environments/environment';
 
 @Component({
   selector: 'app-add-product',
@@ -42,6 +43,10 @@ export class AddProductComponent implements OnInit {
 
   async ngOnInit(): Promise<void> {
     this.categories = await this.categoriesService.getCategories()
+  }
+
+  public getImage(imageFile: string): string {
+    return environment.apiImageUrl + imageFile;
   }
 
   public onImageSelected(event: Event): void {

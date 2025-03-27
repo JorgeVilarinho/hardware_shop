@@ -13,6 +13,7 @@ import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import { CurrencyPipe } from '@angular/common';
 import { ShippingMethod } from '../../models/shippingMethod.model';
 import { Order } from '../../models/order.model';
+import { environment } from '../../../environments/environment';
 
 @Component({
   selector: 'app-process-order',
@@ -64,6 +65,10 @@ export class ProcessOrderComponent implements OnInit {
     this.order = await this.ordersService.getOrderById(this.orderId!) 
     this.shippingMethod = await this.ordersService.getShippingMethodById(this.order?.id_metodo_envio!)
     this.paymentOption = await this.ordersService.getPaymentOptionById(this.order?.id_opcion_pago!)
+  }
+
+  public getImage(imageFile: string): string {
+    return environment.apiImageUrl + imageFile
   }
 
   public paymentOptionIsCreditCard(): boolean {

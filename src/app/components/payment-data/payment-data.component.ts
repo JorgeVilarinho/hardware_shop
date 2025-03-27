@@ -20,6 +20,7 @@ import { PcProduct } from '../../models/pcProduct.model';
 import { Category } from '../../models/category.model';
 import { CategoriesService } from '../../services/categories.service';
 import { CategoryValue } from '../../models/categoryValue.model';
+import { environment } from '../../../environments/environment';
 
 @Component({
   selector: 'app-payment-data',
@@ -63,6 +64,10 @@ export class PaymentDataComponent implements OnInit {
     this.cartProducts = this.cartService.getItems()
     this.pcs = this.cartService.getPcs()
     this.boxCategory = await this.categoriesService.getCategoryByValue(CategoryValue.PC_TOWERS_AND_ENCLOSURES)
+  }
+
+  public getImage(imageFile: string | undefined): string {
+    return environment.apiImageUrl + imageFile
   }
 
   public openAddtionalInfoPopUp(paymentOption: PaymentOption): void {

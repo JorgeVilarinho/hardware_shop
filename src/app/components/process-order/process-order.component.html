@@ -49,8 +49,8 @@
                   formControlName="cardNumber"
                 >
                 <div class="bg-white rounded-md flex justify-center items-center gap-1 px-3">
-                  <img src="https://backend.byteshop.com/images/visa.svg" alt="" class="w-8">
-                  <img src="https://backend.byteshop.com/images/mastercard.svg" alt="" class="w-8">
+                  <img [src]="getImage('visa.svg')" class="w-8">
+                  <img [src]="getImage('mastercard.svg')" class="w-8">
                 </div>
               </div>
               @if(cardNumberHasRequiredError()) {

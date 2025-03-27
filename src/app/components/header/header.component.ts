@@ -19,6 +19,7 @@ import { Product } from '../../models/product.model';
 import { PcProduct } from '../../models/pcProduct.model';
 import { CategoryValue } from '../../models/categoryValue.model';
 import { Category } from '../../models/category.model';
+import { environment } from '../../../environments/environment';
 
 @Component({
   selector: 'app-header',
@@ -71,6 +72,10 @@ export class HeaderComponent implements OnInit {
     .subscribe(_logOut => {
       if(_logOut) this.authenticationService.logOutUser();
     })
+  }
+
+  public getImage(imageFile: string): string {
+    return environment.apiImageUrl + imageFile
   }
 
   public changeOpenedState(): void {

@@ -17,6 +17,7 @@ import { MatSnackBar } from '@angular/material/snack-bar';
 import { ImagesService } from '../../services/images.service';
 import { MatDialog } from '@angular/material/dialog';
 import { DeleteProductDialogComponent } from '../delete-product-dialog/delete-product-dialog.component';
+import { environment } from '../../../environments/environment';
 
 @Component({
   selector: 'app-update-product',
@@ -58,6 +59,10 @@ export class UpdateProductComponent implements OnInit {
     this.categories = await this.categoriesService.getCategories()
     this.product = await this.productsService.getProductById(this.productId!);
     await this.loadProductData()
+  }
+
+  public getImage(imageFile: string | undefined) {
+    return environment.apiImageUrl + imageFile
   }
 
   public onImageSelected(event: Event): void {

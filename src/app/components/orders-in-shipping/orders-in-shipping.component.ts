@@ -6,6 +6,7 @@ import { OrdersService } from '../../services/orders.service';
 import { MatDialog } from '@angular/material/dialog';
 import { ChangeOrderStatusDialogComponent } from '../change-order-status-dialog/change-order-status-dialog.component';
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
+import { environment } from '../../../environments/environment';
 
 @Component({
   selector: 'app-orders-in-shipping',
@@ -27,6 +28,10 @@ export class OrdersInShippingComponent implements OnInit {
 
   async ngOnInit(): Promise<void> {
     this.ordersInShipping = await this.ordersService.getOrdersInShipping(this.employeeId!)
+  }
+
+  public getImage(imageFile: string): string {
+    return environment.apiImageUrl + imageFile
   }
 
   public getFormattedDate(createDate: string): string {

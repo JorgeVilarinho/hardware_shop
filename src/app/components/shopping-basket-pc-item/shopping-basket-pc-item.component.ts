@@ -10,6 +10,7 @@ import { CategoryValue } from '../../models/categoryValue.model';
 import { Product } from '../../models/product.model';
 import { CurrencyPipe } from '@angular/common';
 import { MatIcon } from '@angular/material/icon';
+import { environment } from '../../../environments/environment';
 
 @Component({
   selector: 'app-shopping-basket-pc-item',
@@ -33,6 +34,10 @@ export class ShoppingBasketPcItemComponent implements OnInit {
   async ngOnInit(): Promise<void> {
     this.boxCategory = await this.categoriesService.getCategoryByValue(CategoryValue.PC_TOWERS_AND_ENCLOSURES)
     this.box = this.getBox(this.pcItem)
+  }
+
+  public getImage(imageFile: string | undefined): string {
+    return environment.apiImageUrl + imageFile
   }
 
   public getBox(pcProduct: PcProduct | undefined): Product | undefined {

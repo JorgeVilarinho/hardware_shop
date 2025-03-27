@@ -4,6 +4,7 @@ import { OrderStatusValue } from '../../models/orderStatusValue.model';
 import { OrdersService } from '../../services/orders.service';
 import { CurrencyPipe } from '@angular/common';
 import { Router } from '@angular/router';
+import { environment } from '../../../environments/environment';
 
 @Component({
   selector: 'app-orders-assignment',
@@ -25,6 +26,10 @@ export class OrdersAssignmentComponent {
   
   async ngOnInit(): Promise<void> {
     this.unassignedOrders = await this.ordersService.getUnassignedOrders()
+  }
+
+  public getImage(imageFile: string): string {
+    return environment.apiImageUrl + imageFile
   }
 
   public getFormattedDate(createDate: string): string {

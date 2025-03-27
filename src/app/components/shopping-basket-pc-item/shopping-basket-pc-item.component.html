@@ -1,6 +1,6 @@
 <div class="flex gap-6 max-h-[160px]">
   <div>
-    <img [src]="'https://backend.byteshop.com/images/' + box?.image" 
+    <img [src]="getImage(box?.image)" 
     alt="Imagen del producto de la cesta"
     class="max-w-[160px] border border-neutral-300">
   </div>

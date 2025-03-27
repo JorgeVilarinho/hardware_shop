@@ -4,6 +4,7 @@ import { MatButtonModule } from '@angular/material/button';
 import { CartService } from '../../services/cart.service';
 import { CurrencyPipe } from '@angular/common';
 import { RouterLink } from '@angular/router';
+import { environment } from '../../../environments/environment';
 
 @Component({
   selector: 'app-product-box',
@@ -14,6 +15,10 @@ import { RouterLink } from '@angular/router';
 export class ProductBoxComponent {
   @Input() product: Product | undefined;
   cartService = inject(CartService);
+
+  public getImage(imageFile: string | undefined): string {
+    return environment.apiImageUrl + imageFile
+  }
 
   onAddProductToCart(): void {
     this.cartService.addItem(this.product)

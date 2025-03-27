@@ -6,6 +6,7 @@ import { OrdersService } from '../../services/orders.service';
 import { ChangeOrderStatusDialogComponent } from '../change-order-status-dialog/change-order-status-dialog.component';
 import { MatDialog } from '@angular/material/dialog';
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
+import { environment } from '../../../environments/environment';
 
 @Component({
   selector: 'app-orders-in-shop',
@@ -26,6 +27,10 @@ export class OrdersInShopComponent implements OnInit {
 
   async ngOnInit(): Promise<void> {
     this.ordersInShop = await this.ordersService.getOrdersInShop()
+  }
+
+  public getImage(imageFile: string): string {
+    return environment.apiImageUrl + imageFile
   }
 
   public getFormattedDate(createDate: string): string {

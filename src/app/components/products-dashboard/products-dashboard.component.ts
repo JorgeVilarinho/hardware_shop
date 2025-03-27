@@ -4,6 +4,7 @@ import { Product } from '../../models/product.model';
 import { ProductsService } from '../../services/products.service';
 import { CurrencyPipe } from '@angular/common';
 import { Router, RouterLink } from '@angular/router';
+import { environment } from '../../../environments/environment';
 
 @Component({
   selector: 'app-products-dashboard',
@@ -19,6 +20,10 @@ export class ProductsDashboardComponent implements OnInit {
 
   async ngOnInit(): Promise<void> {
     this.products = await this.productsService.getAllProductsAsync()
+  }
+
+  public getImage(imageFile: string): string {
+    return environment.apiImageUrl + imageFile
   }
 
   public goToModifyProduct(productId: number): void {

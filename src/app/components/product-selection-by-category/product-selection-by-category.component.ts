@@ -15,6 +15,7 @@ import { OrderBy } from '../../models/orderBy.model';
 import { Brand } from '../../models/brand.model';
 import { CompatibilityValue } from '../../models/compatibilityValue.model';
 import { MatIcon } from '@angular/material/icon';
+import { environment } from '../../../environments/environment';
 
 @Component({
   selector: 'app-product-selection-by-category',
@@ -66,6 +67,10 @@ export class ProductSelectionByCategoryComponent implements OnInit {
 
     this.products = await this.productsService.getProductsWithFiltersAsync(this.filters)
     this.brands = await this.brandsService.getBrandsByCategory(this.category!.id)
+  }
+
+  public getImage(imageFile: string): string {
+    return environment.apiImageUrl + imageFile
   }
 
   public getNumberOfResults(): number {

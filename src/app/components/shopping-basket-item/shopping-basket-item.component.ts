@@ -4,7 +4,7 @@ import { CurrencyPipe } from '@angular/common';
 import { MatIcon } from '@angular/material/icon';
 import { CartService } from '../../services/cart.service';
 import { HttpClient } from '@angular/common/http';
-import { environment } from '../../../environments/environment.development';
+import { environment } from '../../../environments/environment';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { LocalStorageService } from '../../services/local-storage.service';
 
@@ -33,6 +33,10 @@ export class ShoppingBasketItemComponent implements OnInit {
         }
       }
     );
+  }
+
+  public getImage(imageFile: string | undefined): string {
+    return environment.apiImageUrl + imageFile
   }
 
   public removeItem(): void {

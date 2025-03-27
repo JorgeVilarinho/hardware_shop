@@ -5,7 +5,7 @@ import { MatExpansionModule } from '@angular/material/expansion'
 import { MatSliderModule } from '@angular/material/slider';
 import { Category } from '../../models/category.model';
 import { HttpClient } from '@angular/common/http';
-import { environment } from '../../../environments/environment.development';
+import { environment } from '../../../environments/environment';
 import { Brand } from '../../models/brand.model';
 import { CurrencyPipe } from '@angular/common';
 import { Filters } from '../../models/filters.model';

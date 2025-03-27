@@ -1,3 +1,4 @@
 export const environment = {
-  apiBaseUrl: 'https://backend.byteshop.com/api/'
+  apiBaseUrl: 'http://localhost:8080/api/',
+  apiImageUrl: 'http://localhost:8080/images/'
 };

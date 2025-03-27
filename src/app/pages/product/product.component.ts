@@ -3,6 +3,7 @@ import { ActivatedRoute } from '@angular/router';
 import { Product } from '../../models/product.model';
 import { CurrencyPipe } from '@angular/common';
 import { CartService } from '../../services/cart.service';
+import { environment } from '../../../environments/environment';
 
 @Component({
   selector: 'app-product',
@@ -19,6 +20,10 @@ export class ProductComponent implements OnInit {
     this.activatedRoute.paramMap.subscribe(() => {
       this.product = window.history.state
     })
+  }
+
+  public getImage(imageFile: string | undefined): string {
+    return environment.apiImageUrl + imageFile
   }
 
   public addProductToCart(): void {
