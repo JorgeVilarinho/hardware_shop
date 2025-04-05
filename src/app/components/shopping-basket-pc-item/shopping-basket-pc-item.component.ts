@@ -1,5 +1,5 @@
 import { Component, inject, Input, OnInit } from '@angular/core';
-import { PcProduct } from '../../models/pcProduct.model';
+import { Pc } from '../../models/pc.model';
 import { CartService } from '../../services/cart.service';
 import { LocalStorageService } from '../../services/local-storage.service';
 import { HttpClient } from '@angular/common/http';
@@ -19,7 +19,7 @@ import { environment } from '../../../environments/environment';
   styleUrl: './shopping-basket-pc-item.component.css'
 })
 export class ShoppingBasketPcItemComponent implements OnInit {
-  @Input() pcItem: PcProduct | undefined;
+  @Input() pcItem: Pc | undefined;
   cartService = inject(CartService)
   localStorage = inject(LocalStorageService)
   categoriesService = inject(CategoriesService)
@@ -37,20 +37,22 @@ export class ShoppingBasketPcItemComponent implements OnInit {
   }
 
   public getImage(imageFile: string | undefined): string {
+    if(!imageFile) return environment.apiImageUrl + 'default_pc.png'
+
     return environment.apiImageUrl + imageFile
   }
 
-  public getBox(pcProduct: PcProduct | undefined): Product | undefined {
+  public getBox(pcProduct: Pc | undefined): Product | undefined {
     return pcProduct!.components.find(x => x.category == this.boxCategory?.nombre)
   }
 
-  public someComponentHasDiscount(pcProduct: PcProduct | undefined): boolean {
+  public someComponentHasDiscount(pcProduct: Pc | undefined): boolean {
     if(!pcProduct) return false
 
     return pcProduct.components.some(x => x.discount > 0)
   }
 
-  public getTotalWithoutDiscount(pcProduct: PcProduct | undefined): number {
+  public getTotalWithoutDiscount(pcProduct: Pc | undefined): number {
     if(!pcProduct) return 0
 
     return pcProduct.components
@@ -58,7 +60,7 @@ export class ShoppingBasketPcItemComponent implements OnInit {
     .reduce((previous, current) => previous + current, 0)
   }
 
-  public getTotalWithDiscount(pcProduct: PcProduct | undefined): number {
+  public getTotalWithDiscount(pcProduct: Pc | undefined): number {
     if(!pcProduct) return 0
 
     return pcProduct.components

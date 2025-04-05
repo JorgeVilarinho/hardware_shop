@@ -6,9 +6,10 @@ import { Router } from '@angular/router';
 import { PcConfiguratorService } from '../../services/pc-configurator.service';
 import { CategoryValue } from '../../models/categoryValue.model';
 import { CartService } from '../../services/cart.service';
-import { PcProduct } from '../../models/pcProduct.model';
+import { Pc } from '../../models/pc.model';
 import { FormBuilder, FormControl, ReactiveFormsModule, Validators } from '@angular/forms';
 import { environment } from '../../../environments/environment';
+import { PcData } from '../../models/pcData.model';
 
 @Component({
   selector: 'app-initial-pc-configurator',
@@ -93,13 +94,12 @@ export class InitialPcConfiguratorComponent {
   }
 
   public addToCart(): void {
-    let pcProduct: PcProduct = {
-      id: crypto.randomUUID(),
+    let pcData: PcData = {
       components: this.pcConfiguratorService.getComponents(),
       assembly: this.pcConfiguratorService.getAssembly()
     }
 
-    this.cartService.addPcProduct(pcProduct)
+    this.cartService.addPcProduct(pcData)
     this.resetFlagsAndForm()
   }
 

@@ -16,7 +16,7 @@ import { CurrencyPipe } from '@angular/common';
 import { LogoutService } from '../../services/logout.service';
 import { StateService } from '../../services/state.service';
 import { Product } from '../../models/product.model';
-import { PcProduct } from '../../models/pcProduct.model';
+import { Pc } from '../../models/pc.model';
 import { CategoryValue } from '../../models/categoryValue.model';
 import { Category } from '../../models/category.model';
 import { environment } from '../../../environments/environment';
@@ -74,6 +74,10 @@ export class HeaderComponent implements OnInit {
     })
   }
 
+  public getCountProducts(): number {
+    return this.cart.items.length + this.cart.pcs.length
+  }
+
   public getImage(imageFile: string): string {
     return environment.apiImageUrl + imageFile
   }
@@ -103,21 +107,21 @@ export class HeaderComponent implements OnInit {
     return this.authenticationService.isEmployee()
   }
 
-  public getBox(pcProduct: PcProduct): Product | undefined {
+  public getBox(pcProduct: Pc): Product | undefined {
     return pcProduct.components.find(x => x.category == this.boxCategory?.nombre)
   }
 
-  public someComponentHasDiscount(pcProduct: PcProduct): boolean {
+  public someComponentHasDiscount(pcProduct: Pc): boolean {
     return pcProduct.components.some(x => x.discount > 0)
   }
 
-  public getTotalWithoutDiscount(pcProduct: PcProduct): number {
+  public getTotalWithoutDiscount(pcProduct: Pc): number {
     return pcProduct.components
     .map(component => component.price)
     .reduce((previous, current) => previous + current, 0)
   }
 
-  public getTotalWithDiscount(pcProduct: PcProduct): number {
+  public getTotalWithDiscount(pcProduct: Pc): number {
     return pcProduct.components
     .map(component => component.discount ? component.price * (100 - component.discount) / 100 : component.price)
     .reduce((previous, current) => previous + current, 0)

@@ -1,5 +1,5 @@
-import { PcProduct } from "../models/pcProduct.model";
+import { Pc } from "../models/pc.model";
 
 export interface GetPcProductsFromOrderResponse {
-  pcs: PcProduct[]
+  pcs: Pc[]
 }

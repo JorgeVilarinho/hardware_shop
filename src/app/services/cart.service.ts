@@ -1,4 +1,4 @@
-import { inject, Injectable, NgModuleDecorator } from '@angular/core';
+import { inject, Injectable } from '@angular/core';
 import { BehaviorSubject, firstValueFrom } from 'rxjs';
 import { Product } from '../models/product.model';
 import { Cart } from '../models/cart.model';
@@ -8,9 +8,11 @@ import { HttpClient } from '@angular/common/http';
 import { environment } from '../../environments/environment.development';
 import { AuthenticationService } from './authentication.service';
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
-import { PcProduct } from '../models/pcProduct.model';
+import { Pc } from '../models/pc.model';
 import { PcConfiguratorService } from './pc-configurator.service';
-import { InsertPcProdctToShoppingBasketResponse } from '../responses/insertPcProductToShoppingBasket.response';
+import { InsertPcProductToShoppingBasketResponse } from '../responses/insertPcProductToShoppingBasket.response';
+import { PcData } from '../models/pcData.model';
+import { InsertPcToDatabaseResponse } from '../responses/insertPcToDatabase.response';
 
 @Injectable({
   providedIn: 'root'
@@ -36,7 +38,7 @@ export class CartService {
     return this.productsInCart.value.items;
   }
 
-  public getPcs(): PcProduct[] {
+  public getPcs(): Pc[] {
     return this.productsInCart.value.pcs;
   }
 
@@ -74,16 +76,23 @@ export class CartService {
     this.snackBar.open(this.message, 'Ok', { duration: 3000 });
   }
 
-  public addPcProduct(pcProduct: PcProduct | undefined): void {
-    if(!pcProduct) {
+  public async addPcProduct(pcData: PcData): Promise<void> {
+    if(!pcData) {
       this.snackBar.open("ERROR: Problema al insertar el producto", 'Ok', { duration: 3000 })
       return
     }
 
-    if(this.authenticationService.isLoggedIn()) this.insertPcProductToShoppingBasketDatabase(pcProduct)
+    let pc = await this.insertPcToDatabase(pcData)
+
+    if(!pc) {
+      this.snackBar.open('No se ha podido añadir el PC al carrito', 'Ok', { duration: 3000 });
+      return
+    }
+
+    if(this.authenticationService.isLoggedIn()) await this.insertPcProductToShoppingBasketDatabase(pc)
 
     let pcs = this.productsInCart.value.pcs
-    pcs.push(pcProduct)
+    pcs.push(pc)
 
     this.localStorageService.setItem('pcs', JSON.stringify(pcs))
     this.productsInCart.next({ items: this.productsInCart.value.items, pcs })
@@ -111,7 +120,7 @@ export class CartService {
     this.snackBar.open('Se ha eliminado el producto correctamente', 'Ok', { duration: 3000 });
   }
 
-  public removePcProduct(id: string): void {
+  public removePcProduct(id: number): void {
     const pcs = [...this.productsInCart.value.pcs];
 
     const index = pcs.findIndex(x => x.id === id);
@@ -191,9 +200,23 @@ export class CartService {
     );
   }
 
-  public async insertPcProductToShoppingBasketDatabase(pcProduct: PcProduct): Promise<void> {
+  public async insertPcToDatabase(pcData: PcData): Promise<Pc | undefined> {
     const response = await firstValueFrom(
-      this.httpClient.post<InsertPcProdctToShoppingBasketResponse>(
+      this.httpClient.post<InsertPcToDatabaseResponse>(
+        `${environment.apiBaseUrl}pc`, 
+        { pcData }, 
+        { observe: 'response' }
+      )
+    )
+
+    if(response.ok) return response.body!.pc
+
+    return undefined
+  }
+
+  public async insertPcProductToShoppingBasketDatabase(pcProduct: Pc): Promise<void> {
+    const response = await firstValueFrom(
+      this.httpClient.post<InsertPcProductToShoppingBasketResponse>(
         `${environment.apiBaseUrl}shopping-basket/pc-product`, 
         { pcProduct }, 
         { observe: 'response', withCredentials: true }
@@ -220,7 +243,7 @@ export class CartService {
     );
   }
 
-  private async deletePcToShoppingBasketDatabase(pcId: string) {
+  private async deletePcToShoppingBasketDatabase(pcId: number) {
     if(!this.authenticationService.isLoggedIn()) {
       return
     }

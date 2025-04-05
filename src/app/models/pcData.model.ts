@@ -1,7 +1,6 @@
 import { Product } from "./product.model";
 
-export interface PcProduct {
-  id: string,
+export interface PcData {
   components: Product[],
   assembly: boolean
 }

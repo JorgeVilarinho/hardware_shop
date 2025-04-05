@@ -14,7 +14,7 @@ import { GetUnassignedOrdersResponse } from '../responses/getUnassignedOrders.re
 import { GetAssignedOrdersResponse } from '../responses/getAssignedOrders.response';
 import { GetInShippingOrdersResponse } from '../responses/getInShippingOrders.response';
 import { GetOrdersInShopResponse } from '../responses/getOrdersInShop.response';
-import { PcProduct } from '../models/pcProduct.model';
+import { Pc } from '../models/pc.model';
 import { GetPcProductsFromOrderResponse } from '../responses/getPcProductsFromOrder.response';
 import { GetOrderByIdResponse } from '../responses/getOrderById.response';
 import { GetShippingMethodResponse } from '../responses/getShippingMethod.response';
@@ -82,7 +82,7 @@ export class OrdersService {
     return []
   }
 
-  public async getPcProductsFromOrder(orderId: number): Promise<PcProduct[]> {
+  public async getPcProductsFromOrder(orderId: number): Promise<Pc[]> {
     const response = await firstValueFrom(
       this.httpClient.get<GetPcProductsFromOrderResponse>(`${environment.apiBaseUrl}orders/${orderId}/pcs`, 
       { observe: 'response', withCredentials: true })

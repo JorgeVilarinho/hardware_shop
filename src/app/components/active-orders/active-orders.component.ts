@@ -15,9 +15,9 @@ import { environment } from '../../../environments/environment';
 export class ActiveOrdersComponent implements OnInit {
   activeOrders: Order[] = []
 
-  pendingPayment = OrderStatusValue.PENDING_PAYMENT
-  paid = OrderStatusValue.PAID
-  canceled = OrderStatusValue.CANCELED
+  public readonly pendingPayment = OrderStatusValue.PENDING_PAYMENT
+  public readonly paid = OrderStatusValue.PAID
+  public readonly canceled = OrderStatusValue.CANCELED
 
   ordersService = inject(OrdersService)
   router = inject(Router)

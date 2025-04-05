@@ -1,3 +1,3 @@
-export interface InsertPcProdctToShoppingBasketResponse {
+export interface InsertPcProductToShoppingBasketResponse {
   message: string
 }

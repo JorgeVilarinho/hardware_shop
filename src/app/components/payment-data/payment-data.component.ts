@@ -16,7 +16,7 @@ import { MatProgressSpinner } from '@angular/material/progress-spinner';
 import { CurrencyPipe } from '@angular/common';
 import { ShippingMethodValue } from '../../models/shippingMethodValue.model';
 import { Router } from '@angular/router';
-import { PcProduct } from '../../models/pcProduct.model';
+import { Pc } from '../../models/pc.model';
 import { Category } from '../../models/category.model';
 import { CategoriesService } from '../../services/categories.service';
 import { CategoryValue } from '../../models/categoryValue.model';
@@ -31,7 +31,7 @@ import { environment } from '../../../environments/environment';
 export class PaymentDataComponent implements OnInit {
   paymentOptions: PaymentOption[] = []
   cartProducts: Product[] = []
-  pcs: PcProduct[] = []
+  pcs: Pc[] = []
   shippingMethod: ShippingMethod | null = null
   shippingOption: ShippingOption | null = null
   paymentOption: PaymentOption | null = null
@@ -154,21 +154,21 @@ export class PaymentDataComponent implements OnInit {
     this.checkoutService.changePaymentOptionSubject.next(paymentOption)
   }
 
-  public getBox(pcProduct: PcProduct): Product | undefined {
+  public getBox(pcProduct: Pc): Product | undefined {
     return pcProduct.components.find(x => x.category == this.boxCategory?.nombre)
   }
 
-  public someComponentHasDiscount(pcProduct: PcProduct): boolean {
+  public someComponentHasDiscount(pcProduct: Pc): boolean {
     return pcProduct.components.some(x => x.discount > 0)
   }
 
-  public getTotalWithoutDiscount(pcProduct: PcProduct): number {
+  public getTotalWithoutDiscount(pcProduct: Pc): number {
     return pcProduct.components
     .map(component => component.price)
     .reduce((previous, current) => previous + current, 0)
   }
 
-  public getTotalWithDiscount(pcProduct: PcProduct): number {
+  public getTotalWithDiscount(pcProduct: Pc): number {
     return pcProduct.components
     .map(component => component.discount ? component.price * (100 - component.discount) / 100 : component.price)
     .reduce((previous, current) => previous + current, 0)

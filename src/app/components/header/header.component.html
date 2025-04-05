@@ -50,7 +50,7 @@
       </button>
     </div>
     <mat-menu #menu="matMenu" class="mt-2 p-4 !max-w-[700px] !min-w-[400px] !bg-white !overflow-y-hidden">
-      <p class="mb-2">Productos en tu cesta ({{ cart.items.length }})</p>
+      <p class="mb-2">Productos en tu cesta ({{ getCountProducts() }})</p>
       <div class="overflow-x-hidden max-h-[320px] mb-3">
         @for(pc of cart.pcs; track $index) {
           <div class="flex mb-3 max-w-[400px]">

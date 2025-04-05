@@ -9,7 +9,7 @@ import { environment } from '../../environments/environment.development';
 import { Product } from '../models/product.model';
 import { OrderRepository } from '../models/orderRepository.model';
 import { Address } from '../models/address.model';
-import { PcProduct } from '../models/pcProduct.model';
+import { Pc } from '../models/pc.model';
 
 @Injectable({
   providedIn: 'root'
@@ -76,7 +76,7 @@ export class CheckoutService {
     return []
   }
 
-  public async createOrder(products: Product[], pcs: PcProduct[], shippingMethod: ShippingMethod, 
+  public async createOrder(products: Product[], pcs: Pc[], shippingMethod: ShippingMethod, 
     shippingOption: ShippingOption, paymentOption: PaymentOption, 
     total: number, address: Address): Promise<OrderRepository | null> {
     const response = await firstValueFrom(
