@@ -52,7 +52,7 @@
     <mat-menu #menu="matMenu" class="mt-2 p-4 !max-w-[700px] !min-w-[400px] !bg-white !overflow-y-hidden">
       <p class="mb-2">Productos en tu cesta ({{ getCountProducts() }})</p>
       <div class="overflow-x-hidden max-h-[320px] mb-3">
-        @for(pc of cart.pcs; track $index) {
+        @for(pc of cart.pcs; track pc.id; let last = $last) {
           <div class="flex mb-3 max-w-[400px]">
             @if(getBox(pc)) {
               <img [src]="getImage(getBox(pc)!.image)" alt="Imagen del producto" class="mr-3 max-w-36 max-h-36">
@@ -71,6 +71,11 @@
               </div>
             </div>
           </div>
+          @if(!last) {
+            <hr class="mb-3 border-gray-300" />
+          }
+        }
+        @if(cart.pcs.length > 0 && cart.items.length > 0) {
           <hr class="mb-3 border-gray-300" />
         }
         @for(item of cart.items; track item.id; let last = $last) {
