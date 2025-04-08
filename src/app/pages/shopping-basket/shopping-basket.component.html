@@ -16,11 +16,13 @@
         <h1 class="text-4xl font-medium mb-3">Cesta de la compra</h1>
         <p class="text-zinc-400 text-lg mb-3">{{ this.cartService.getCountItems() }} productos</p>
         <hr class="w-full mb-4">
-        @for (pc of this.cartService.productsInCart.value.pcs; track $index; let last = $last) {
+        @for (pc of this.cartService.productsInCart.value.pcs; track pc.id; let last = $last) {
           <app-shopping-basket-pc-item [pcItem]="pc"></app-shopping-basket-pc-item>
-          <hr class="mt-4 mb-4">
+          @if(!last) {
+            <hr class="mt-4 mb-4">
+          }
         }
-        @if(this.cartService.productsInCart.value.pcs.length > 1) {
+        @if(this.cartService.productsInCart.value.items.length > 0 && this.cartService.productsInCart.value.pcs.length > 0) {
           <hr class="mt-4 mb-4">
         }
         @for (item of this.cartService.productsInCart.value.items; track item.id; let last = $last) {
