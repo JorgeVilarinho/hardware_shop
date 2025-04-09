@@ -3,9 +3,15 @@
     <button mat-icon-button class="example-icon" (click)="changeOpenedState()">
       <mat-icon>menu</mat-icon>
     </button>
-    <a routerLink="home">
-      <img src="img/byteShopLogo.png" class="w-16 m-3" alt="Logo de la tienda">
-    </a>
+    @if(!isLoggedIn || isClient()) {
+      <a routerLink="home">
+        <img src="img/byteShopLogo.png" class="w-16 m-3" alt="Logo de la tienda">
+      </a>
+    } @else {
+      <a routerLink="dashboard/data">
+        <img src="img/byteShopLogo.png" class="w-16 m-3" alt="Logo de la tienda">
+      </a>
+    }
   </div>
   <div>
     <div class="flex gap-2 items-center">

@@ -24,13 +24,8 @@ export class LoginFormComponent {
   });
   isSubmited = false
 
-  onSubmit(): void {
+  public onSubmit(): void {
     if(this.registerForm.valid) {
-      // if(this.logInUser(this.registerForm.get('email')!.value!, this.registerForm.get('password')!.value!)) {
-      //   this.router.navigate(['/home']);
-      // } else {
-      //   this.snackBar.open("Los campos introducidos no coincide con ningún usuario registrado", 'Ok', { duration: 3000 });
-      // }
       this.logInUser(this.registerForm.get('email')!.value!, this.registerForm.get('password')!.value!);
     } else {
       this.snackBar.open("Los campos introducidos no son válidos", 'Ok', { duration: 3000 });
@@ -38,36 +33,36 @@ export class LoginFormComponent {
     this.isSubmited = true;
   }
 
-  logInUser(email: string, password: string): void {
+  private logInUser(email: string, password: string): void {
     this.authenticationService.logInUser(email, password);
   }
 
-  emailHasRequiredError(): boolean | undefined {
+  public emailHasRequiredError(): boolean | undefined {
     return this.registerForm.get('email')?.hasError('required') && (this.registerForm.get('email')?.dirty
     || this.registerForm.get('email')?.touched || this.isSubmited);
   }
 
-  emailHasEmailTypeError(): boolean | undefined {
+  public emailHasEmailTypeError(): boolean | undefined {
     return this.registerForm.get('email')?.hasError('email') && (this.registerForm.get('email')?.dirty
     || this.registerForm.get('email')?.touched || this.isSubmited);
   }
 
-  passwordHasRequiredError(): boolean | undefined {
+  public passwordHasRequiredError(): boolean | undefined {
     return this.registerForm.get('password')?.hasError('required') && (this.registerForm.get('password')?.dirty
     || this.registerForm.get('password')?.touched || this.isSubmited);
   }
 
-  passwordHasLenghtError(): boolean | undefined {
+  public passwordHasLenghtError(): boolean | undefined {
     return this.registerForm.get('password')?.hasError('minlength') && (this.registerForm.get('password')?.dirty
     || this.registerForm.get('password')?.touched || this.isSubmited);
   }
 
-  invalidEmail(): boolean | undefined {
+  public invalidEmail(): boolean | undefined {
     return this.registerForm.get('email')?.invalid && (this.registerForm.get('email')?.dirty
           || this.registerForm.get('email')?.touched || this.isSubmited);
   }
 
-  invalidPassword(): boolean | undefined {
+  public invalidPassword(): boolean | undefined {
     return  this.registerForm.get('password')?.invalid && (this.registerForm.get('password')?.dirty
       || this.registerForm.get('password')?.touched || this.isSubmited);
   }

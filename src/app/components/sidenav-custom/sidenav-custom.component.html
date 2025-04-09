@@ -8,19 +8,21 @@
   <div class="flex my-5 h-full">
     <ul class="flex flex-col justify-between w-full">
       <div class="flex flex-col gap-3">
-        <button 
-          class="flex items-center justify-between py-3 px-2 rounded-md 
-            outline-none cursor-pointer transition hover:bg-neutral-200"
-          (click)="goToShop()"
-        >
-          <div class="flex gap-2">
-            <mat-icon fontIcon="store"></mat-icon>
-            <span>Tienda</span>
-          </div>
-          <div class="flex">
-            <mat-icon fontIcon="chevron_right"></mat-icon>
-          </div>
-        </button>
+        @if(!isLoggedIn() || isClient()) {
+          <button 
+            class="flex items-center justify-between py-3 px-2 rounded-md 
+              outline-none cursor-pointer transition hover:bg-neutral-200"
+            (click)="goToShop()"
+          >
+            <div class="flex gap-2">
+              <mat-icon fontIcon="store"></mat-icon>
+              <span>Tienda</span>
+            </div>
+            <div class="flex">
+              <mat-icon fontIcon="chevron_right"></mat-icon>
+            </div>
+          </button>
+        }
 
         @if(isLoggedIn()) {
           
@@ -57,19 +59,21 @@
           }
         }
 
-        <button 
-          class="flex items-center justify-between py-3 px-2 rounded-md
-            outline-none cursor-pointer transition hover:bg-neutral-200"
-          (click)="goToConfigureYourPC()"
-        >
-          <div class="flex gap-2">
-            <mat-icon fontIcon="computer"></mat-icon>
-            <span>Configura tu PC</span>
-          </div>
-          <div class="flex">
-            <mat-icon fontIcon="chevron_right"></mat-icon>
-          </div>
-        </button>
+        @if(!isLoggedIn() || isClient()) {
+          <button 
+            class="flex items-center justify-between py-3 px-2 rounded-md
+              outline-none cursor-pointer transition hover:bg-neutral-200"
+            (click)="goToConfigureYourPC()"
+          >
+            <div class="flex gap-2">
+              <mat-icon fontIcon="computer"></mat-icon>
+              <span>Configura tu PC</span>
+            </div>
+            <div class="flex">
+              <mat-icon fontIcon="chevron_right"></mat-icon>
+            </div>
+          </button>
+        }
       </div>
 
       @if(isLoggedIn()) {

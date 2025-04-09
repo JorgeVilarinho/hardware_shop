@@ -74,7 +74,12 @@ export class AuthenticationService {
       this.loggedInUser = user;
       this.userIsLoggedInSubject.next(true);
       this.snackBar.open('Inicio de sesión correcto', 'Ok', { duration: 3000 });
-      this.router.navigate(['/home']);
+      if(this.loggedInUser.kind == UserType.CLIENT) {
+        this.router.navigate(['/home']);
+      } else {
+        this.router.navigate(['/dashboard']);
+      }
+      
       return;
     }
 
