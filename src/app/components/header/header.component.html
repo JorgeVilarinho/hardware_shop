@@ -8,7 +8,7 @@
         <img src="img/byteShopLogo.png" class="w-16 m-3" alt="Logo de la tienda">
       </a>
     } @else {
-      <a routerLink="dashboard/data">
+      <a routerLink="dashboard/data" (click)="resetDashboardState()">
         <img src="img/byteShopLogo.png" class="w-16 m-3" alt="Logo de la tienda">
       </a>
     }
@@ -29,7 +29,8 @@
         <button
         mat-button
         disableRipple="true"
-        routerLink="dashboard/data">
+        routerLink="dashboard/data"
+        (click)="resetDashboardState()">
           <div class="flex items-center mr-3">
             <mat-icon fontIcon="space_dashboard" class="mr-2"></mat-icon>
             <p class="text-base">Dashboard</p>

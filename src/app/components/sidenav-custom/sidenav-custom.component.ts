@@ -25,6 +25,10 @@ export class SidenavCustomComponent {
     this.stateService.menuOpened.next(!this.stateService.menuOpened.value)
   }
 
+  public resetDashboardState(): void {
+    this.stateService.resetDashboardState()
+  }
+
   public isLoggedIn(): boolean {
     return this.authenticationService.isLoggedIn()
   }
@@ -51,6 +55,7 @@ export class SidenavCustomComponent {
 
     if(employee) {
       this.router.navigate(['/dashboard/data'])
+      this.resetDashboardState()
     }
   }
 

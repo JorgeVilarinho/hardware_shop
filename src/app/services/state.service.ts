@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { BehaviorSubject } from 'rxjs';
+import { BehaviorSubject, Subject } from 'rxjs';
 
 @Injectable({
   providedIn: 'root'
@@ -8,6 +8,7 @@ export class StateService {
   menuOpened = new BehaviorSubject<boolean>(false);
   filterMenuOpened = new BehaviorSubject<boolean>(false);
   initialAddressComponentIsActive = new BehaviorSubject<boolean>(true);
+  resetDashboardStateSubject = new Subject<void>();
 
   constructor() { }
 
@@ -25,5 +26,9 @@ export class StateService {
 
   public changeInitialAddressComponentToInactive(): void {
     this.initialAddressComponentIsActive.next(false);
+  }
+
+  public resetDashboardState(): void {
+    this.resetDashboardStateSubject.next()
   }
 }

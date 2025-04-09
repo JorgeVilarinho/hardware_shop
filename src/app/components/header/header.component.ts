@@ -86,6 +86,10 @@ export class HeaderComponent implements OnInit {
     this.stateService.menuOpened.next(!this.stateService.menuOpened.value);
   }
 
+  public resetDashboardState(): void {
+    this.stateService.resetDashboardState()
+  }
+
   public getTotal(): number {
     return this.cartService.getTotal()
   }
