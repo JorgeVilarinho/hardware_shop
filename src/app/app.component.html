@@ -1,15 +1,15 @@
-<mat-sidenav-container class="h-screen">
+<mat-sidenav-container class="h-full flex flex-col">
   <mat-sidenav [opened]="filtersMenuOpenedState" mode="over" 
     disableClose="true" position="end" class="!w-[500px] !rounded-none">
     <app-filters-sidenav></app-filters-sidenav>
   </mat-sidenav>
-  <mat-sidenav-content class="bg-white h-screen">
+  <mat-sidenav-content class="bg-white flex-grow relative">
     <app-header></app-header>
-    <mat-sidenav-container class="!h-[93%]">
-      <mat-sidenav [opened]="menuOpenedState" mode="side" class="!w-[350px]">
+    <mat-sidenav-container class="!min-h-[93%]">
+      <mat-sidenav [opened]="menuOpenedState" mode="side" fixedInViewport="true" fixedTopGap="70" fixedBottomGap="0" class="!w-[350px] min-h-full">
         <app-sidenav-custom></app-sidenav-custom>
       </mat-sidenav>
-      <mat-sidenav-content class="h-screen bg-slate-100">
+      <mat-sidenav-content class="flex flex-col bg-slate-100 pt-[70px]">
         <router-outlet></router-outlet>
       </mat-sidenav-content>
     </mat-sidenav-container>
