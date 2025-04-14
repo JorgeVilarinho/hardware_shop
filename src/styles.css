@@ -11,7 +11,7 @@
 
 body { 
   font-family: Roboto, "Helvetica Neue", sans-serif; 
+  min-height: 100vh;
   display: flex;
   flex-direction: column;
-  height: 100%;
 }
