@@ -1,18 +1,22 @@
   @if(this.cartService.productsInCart.value.items.length === 0 && this.cartService.productsInCart.value.pcs.length === 0) {
   <div class="flex-1 flex flex-col justify-center items-center bg-gray-200 min-h-full">
     <div>
-      <mat-icon class="!text-[200px] !h-full !w-full">local_mall</mat-icon>
+      <mat-icon class="!text-[150px] sm:!text-[200px] !h-full !w-full">local_mall</mat-icon>
     </div>
     <p class="text-2xl mb-2">No hay productos en la cesta</p>
-    <p class="text-lg mb-4">¡Échale un vistazo a los productos de nuestra tienda!</p>
-    <button class=" bg-red-600 active:bg-red-700 active:shadow-lg text-white
-    py-2 px-16 rounded-md"
-    routerLink="/home">Ver productos</button>
+    <p class="text-lg sm:text-2xl mb-4 text-center">¡Échale un vistazo a los productos de nuestra tienda!</p>
+    <button 
+      class="bg-red-600 active:bg-red-700 active:shadow-lg 
+      text-white py-2 px-16 rounded-md"
+      routerLink="/home"
+    >
+      Ver productos
+    </button>
   </div>
 } @else {
-  <div class="px-24 py-10">
-    <div class="flex gap-10 items-start">
-      <div class="basis-[70%]">
+  <div class="px-8 md:px-10 lg:px-12 py-6 md:py-10">
+    <div class="flex flex-col lg:flex-row md:gap-5 items-start">
+      <div class="flex-[3_3_0%] md:flex-[2_2_0%] lg:flex-[2_2_0%] xl:flex-[3_3_0%] w-full">
         <h1 class="text-4xl font-medium mb-3">Cesta de la compra</h1>
         <p class="text-zinc-400 text-lg mb-3">{{ this.cartService.getCountItems() }} productos</p>
         <hr class="w-full mb-4">
@@ -42,18 +46,18 @@
           </button>
         </div>
       </div>
-      <div class="flex flex-col flex-1 rounded-md shadow-lg px-6 pt-12 pb-8 bg-white">
+      <div class="flex flex-col flex-1 rounded-md shadow-lg px-6 pt-6 pb-8 bg-white w-full">
         <h1 class="text-2xl font-medium mb-4">Resumen del pedido</h1>
         <div class="flex flex-col gap-4 mb-5">
-          <div class="flex justify-between">
+          <div class="flex flex-col gap-1 sm:flex-row justify-between">
             <p>Precio de los productos</p>
             <p class="font-medium">{{ getTotal() | currency:'EUR' }}</p>
           </div>
-          <div class="flex justify-between">
+          <div class="flex flex-col gap-1 sm:flex-row justify-between">
             <p>IVA</p>
             <p class="font-medium">{{ getTaxImport() | currency:'EUR' }}</p>
           </div>
-          <div class="flex justify-between">
+          <div class="flex flex-col gap-1 sm:flex-row justify-between">
             <p>Gastos de envío</p>
             <p class="font-medium">Por calcular</p>
           </div>
