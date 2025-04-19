@@ -56,9 +56,9 @@
         <mat-icon>shopping_cart</mat-icon>
       </button>
     </div>
-    <mat-menu #menu="matMenu" class="mt-2 p-4 !max-w-[700px] !min-w-[400px] !bg-white !overflow-y-hidden">
+    <mat-menu #menu="matMenu" class="mt-2 p-4 mx-4 !min-w-[350px] sm:!min-w-[400px] !bg-white !overflow-y-hidden">
       <p class="mb-2">Productos en tu cesta ({{ getCountProducts() }})</p>
-      <div class="overflow-x-hidden max-h-[320px] mb-3">
+      <div class="overflow-x-hidden max-h-[150px] sm:max-h-[320px] mb-3">
         @for(pc of cart.pcs; track pc.id; let last = $last) {
           <div class="flex mb-3 max-w-[400px]">
             @if(getBox(pc)) {
@@ -117,7 +117,7 @@
           <p>Total <span>(IVA incluido)</span></p>
           <p>Gastos de envío</p>
           <button class="w-full bg-white active:bg-slate-200 active:shadow-md text-black
-            border-gray-300 border py-2 mt-1 rounded-md mt-3"
+            border-gray-300 border py-2 rounded-md mt-3"
             routerLink="shopping-basket">Ver cesta</button>
         </div>
         <div class="text-right w-6/12">
@@ -125,7 +125,7 @@
           <p>Por calcular</p>
           <button 
             class="w-full bg-red-600 active:bg-red-800 active:shadow-lg text-white
-            py-2 mt-1 rounded-md mt-3"
+            py-2 rounded-md mt-3"
             (click)="processCheckout()"
             >Realizar pedido</button>
         </div>

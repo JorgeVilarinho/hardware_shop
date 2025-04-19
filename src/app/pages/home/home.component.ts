@@ -20,11 +20,11 @@ export class HomeComponent implements OnInit {
   stateService = inject(StateService);
   productsService = inject(ProductsService);
 
-  cols: number = 5;
+  // cols: number = 5;
   products: Array<Product> = []
 
   constructor() {
-    this.setBreakPoints();
+    // this.setBreakPoints();
     this.listenToGetAllProducts();
     this.listenToGetProductsWithFilters();
   }
@@ -38,28 +38,28 @@ export class HomeComponent implements OnInit {
   }
 
   // TODO: Instead of mediaquery establish a container query
-  private setBreakPoints(): void {
-    this.breakpointObserver.observe([
-      Breakpoints.XSmall,
-      Breakpoints.Small,
-      Breakpoints.Medium,
-      Breakpoints.Large,
-      Breakpoints.XLarge,
-    ]).pipe(takeUntilDestroyed())
-    .subscribe(_result => {
-      const breakpoints = _result.breakpoints;
+  // private setBreakPoints(): void {
+  //   this.breakpointObserver.observe([
+  //     Breakpoints.XSmall,
+  //     Breakpoints.Small,
+  //     Breakpoints.Medium,
+  //     Breakpoints.Large,
+  //     Breakpoints.XLarge,
+  //   ]).pipe(takeUntilDestroyed())
+  //   .subscribe(_result => {
+  //     const breakpoints = _result.breakpoints;
 
-      if(breakpoints[Breakpoints.XSmall]) {
-        this.cols = 2;
-      } else if(breakpoints[Breakpoints.Small]) {
-        this.cols = 3;
-      } else if(breakpoints[Breakpoints.Medium]) {
-        this.cols = 4;
-      } else if(breakpoints[Breakpoints.Large]) {
-        this.cols = 5;
-      }
-    });
-  }
+  //     if(breakpoints[Breakpoints.XSmall]) {
+  //       this.cols = 2;
+  //     } else if(breakpoints[Breakpoints.Small]) {
+  //       this.cols = 3;
+  //     } else if(breakpoints[Breakpoints.Medium]) {
+  //       this.cols = 4;
+  //     } else if(breakpoints[Breakpoints.Large]) {
+  //       this.cols = 5;
+  //     }
+  //   });
+  // }
 
   private listenToGetAllProducts(): void {
     this.productsService.getAllProducts$

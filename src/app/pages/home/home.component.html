@@ -7,7 +7,7 @@
       <button>Filtrar y ordenar</button>
     </button>
   </div>
-  <div class="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 2xl:grid-cols-6 gap-x-6 place-items-center gap-y-5">
+  <div class="grid products-grid gap-x-6 place-items-center gap-y-4">
     @for (product of products; track product.id) {
       <app-product-box [product]="product"></app-product-box>
     }
