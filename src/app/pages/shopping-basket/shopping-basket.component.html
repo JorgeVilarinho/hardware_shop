@@ -46,7 +46,7 @@
           </button>
         </div>
       </div>
-      <div class="flex flex-col flex-1 rounded-md shadow-lg px-6 pt-6 pb-8 bg-white w-full">
+      <div class="flex flex-col flex-1 rounded-md shadow-lg px-6 pt-6 pb-6 bg-white w-full">
         <h1 class="text-2xl font-medium mb-4">Resumen del pedido</h1>
         <div class="flex flex-col gap-4 mb-5">
           <div class="flex flex-col gap-1 sm:flex-row justify-between">
@@ -63,7 +63,7 @@
           </div>
         </div>
         <hr class="mb-6">
-        <div class="flex justify-between mb-6">
+        <div class="flex flex-col gap-1 sm:flex-row justify-between mb-6">
           <p>Total <span class="text-gray-400">(IVA incluido)</span></p>
           <p class="font-medium">{{ getTotalWithTax() | currency:'EUR' }}</p>
         </div>
