@@ -1,28 +1,28 @@
 <mat-toolbar class="justify-between !z-50 min-h-[70px] fixed !shadow-md">
   <div class="flex items-center">
-    <button mat-icon-button class="example-icon" (click)="changeOpenedState()">
+    <button mat-icon-button class="md:mr-2" (click)="changeOpenedState()">
       <mat-icon>menu</mat-icon>
     </button>
     @if(!isLoggedIn || isClient()) {
       <a routerLink="home">
-        <img src="img/byteShopLogo.png" class="w-16 m-3" alt="Logo de la tienda">
+        <img src="img/byteShopLogo.png" class="w-16" alt="Logo de la tienda">
       </a>
     } @else {
       <a routerLink="dashboard/data" (click)="resetDashboardState()">
-        <img src="img/byteShopLogo.png" class="w-16 m-3" alt="Logo de la tienda">
+        <img src="img/byteShopLogo.png" class="w-16" alt="Logo de la tienda">
       </a>
     }
   </div>
   <div>
-    <div class="flex gap-2 items-center">
+    <div class="flex items-center">
       @if(isLoggedIn && isClient()) {
         <button
         mat-button
         disableRipple="true"
         routerLink="account/orders/active">
-          <div class="flex items-center mr-3">
-            <mat-icon fontIcon="person" class="mr-2"></mat-icon>
-            <p class="text-base">Mi cuenta</p>
+          <div class="flex items-center">
+            <mat-icon fontIcon="person" class="sm:mr-2"></mat-icon>
+            <p class="text-base hidden sm:block">Mi cuenta</p>
           </div>
         </button>
       } @else if(isLoggedIn && isEmployee()) {
@@ -31,9 +31,9 @@
         disableRipple="true"
         routerLink="dashboard/data"
         (click)="resetDashboardState()">
-          <div class="flex items-center mr-3">
-            <mat-icon fontIcon="space_dashboard" class="mr-2"></mat-icon>
-            <p class="text-base">Dashboard</p>
+          <div class="flex items-center">
+            <mat-icon fontIcon="space_dashboard" class="sm:mr-2"></mat-icon>
+            <p class="text-base hidden sm:block">Dashboard</p>
           </div>
         </button>
       } @else {
@@ -41,9 +41,9 @@
         mat-button
         disableRipple="true"
         routerLink="login">
-          <div class="flex items-center mr-3">
-            <mat-icon fontIcon="login" class="mr-2"></mat-icon>
-            <p class="text-base">Iniciar sesión</p>
+          <div class="flex items-center relative">
+            <mat-icon fontIcon="login" class="sm:mr-2"></mat-icon>
+            <p class="text-base hidden sm:block">Iniciar sesión</p>
           </div>
         </button>
       }
