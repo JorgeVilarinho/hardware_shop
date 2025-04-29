@@ -1,5 +1,4 @@
 import { AuthenticationService } from './../../services/authentication.service';
-import { NgClass } from '@angular/common';
 import { Component, inject } from '@angular/core';
 import { FormBuilder, ReactiveFormsModule, Validators } from '@angular/forms';
 import { MatIconModule } from '@angular/material/icon';
@@ -8,7 +7,7 @@ import { Router, RouterLink } from '@angular/router';
 
 @Component({
   selector: 'app-login-form',
-  imports: [ ReactiveFormsModule, MatIconModule, NgClass, RouterLink ],
+  imports: [ ReactiveFormsModule, MatIconModule, RouterLink ],
   templateUrl: './login-form.component.html',
   styleUrl: './login-form.component.css'
 })

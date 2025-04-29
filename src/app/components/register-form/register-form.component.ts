@@ -1,5 +1,4 @@
 import { AuthenticationService } from './../../services/authentication.service';
-import { NgClass } from '@angular/common';
 import { Component, inject } from '@angular/core';
 import { FormBuilder, ReactiveFormsModule, Validators } from '@angular/forms';
 import { MatSnackBar } from '@angular/material/snack-bar';
@@ -7,7 +6,7 @@ import { RouterLink } from '@angular/router';
 
 @Component({
   selector: 'app-register-form',
-  imports: [ ReactiveFormsModule, NgClass, RouterLink ],
+  imports: [ ReactiveFormsModule, RouterLink ],
   templateUrl: './register-form.component.html',
   styleUrl: './register-form.component.css'
 })
