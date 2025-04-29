@@ -1,21 +1,23 @@
-<div class="flex-1 flex gap-16 h-full">
-  <div class="w-[500px] p-10
-    bg-gradient-to-b from-[#E04AB7] to-[#FF9B48]
-    text-white flex flex-col">
-    <div class="basis-12">
+<div class="flex-1 flex flex-col w-full lg:flex-row">
+  <div class="lg:max-w-[500px] p-7 md:p-10
+  bg-gradient-to-b from-[#E04AB7] to-[#FF9B48]
+  text-white flex flex-col gap-3">
+    <div class="flex lg:flex-col items-start">
       <button routerLink="/home">
         <mat-icon class="text-white text-xl">arrow_back</mat-icon>
       </button>
-    </div>
-    <div class="basis-44">
-      <img src="img/byteShopLogo.png" alt="Logo de la tienda" class="w-[150px]">
+      <img 
+        src="img/byteShopLogo.png" 
+        alt="Logo de la tienda" 
+        class="mx-auto w-[120px] md:w-[150px]"
+      >
     </div>
     <div class="flex flex-col gap-5">
-      <h2 class="text-2xl">Indentifícate o crea una nueva cuenta</h2>
-      <p>Con tu cuenta de usuario podrás:</p>
+      <h2 class="text-xl md:text-2xl">Indentifícate o crea una nueva cuenta</h2>
+      <p class="text-lg">Con tu cuenta de usuario podrás:</p>
       <ul class="flex flex-col gap-5">
         <li>
-          <div class="flex gap-5 items-center">
+          <div class="flex gap-3 items-center">
             <div class="flex items-center">
               <mat-icon>verified</mat-icon>
             </div>
@@ -23,7 +25,7 @@
           </div>
         </li>
         <li>
-          <div class="flex gap-5 items-center">
+          <div class="flex gap-3 items-center">
             <div class="flex items-center">
               <mat-icon>verified</mat-icon>
             </div>
@@ -32,11 +34,9 @@
         </li>
       </ul>
     </div>
-    <div class="mt-auto">
-      <p>©2024 BYTESHOP</p>
-    </div>
+    <p>©2024 BYTESHOP</p>
   </div>
-  <div class="my-auto">
+  <div class="flex-1 p-7 lg:max-w-[800px]">
     <app-register-form></app-register-form>
   </div>
 </div>

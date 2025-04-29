@@ -1,17 +1,16 @@
-<form name="form" [formGroup]="registerForm" (ngSubmit)="onSubmit()" class="w-[500px]">
-  <div class="flex flex-col">
-    <h2 class="text-3xl basis-20 font-medium">Iniciar sesión</h2>
+<form name="form" [formGroup]="registerForm" (ngSubmit)="onSubmit()" class="flex-1">
+  <div class="flex flex-col gap-3">
+    <h1 class="text-3xl font-medium">Iniciar sesión</h1>
     <div class="flex flex-col gap-2">
       <label for="email">Correo electrónico</label>
       <input type="email" name="email" formControlName="email"
         class="rounded-md w-full p-3 border border-gray-400 focus:border-amber-500 outline-none"
-        [class.invalid]="invalidEmail()"
-        [ngClass]="{'mb-5': !invalidEmail()}">
+        [class.invalid]="invalidEmail()">
       @if(emailHasRequiredError()) {
-        <span class="text-red-600 mb-5">Este campo es obligatorio</span>
+        <span class="text-red-600">Este campo es obligatorio</span>
       }
       @if(emailHasEmailTypeError()) {
-        <span class="text-red-600 mb-5">Este campo tiene que tener un formato válido de email</span>
+        <span class="text-red-600">Este campo tiene que tener un formato válido de email</span>
       }
     </div>
     <div class="flex flex-col gap-2">
@@ -19,22 +18,21 @@
       <input type="password" name="password" formControlName="password"
         placeholder="Al menos 6 caracteres"
         class="rounded-md w-full p-3 border border-gray-400 focus:border-amber-500 outline-none"
-        [class.invalid]="invalidPassword()"
-        [ngClass]="{'mb-5': !invalidPassword()}">
+        [class.invalid]="invalidPassword()">
       @if(passwordHasRequiredError()) {
-        <span class="text-red-600 mb-5">Este campo es obligatorio</span>
+        <span class="text-red-600">Este campo es obligatorio</span>
       }
       @if(passwordHasLenghtError()) {
-        <span class="text-red-600 mb-5">La contraseña tiene que tener un mínimo de 6 caracteres</span>
+        <span class="text-red-600">La contraseña tiene que tener un mínimo de 6 caracteres</span>
       }
     </div>
-    <button class="bg-amber-500 rounded-md w-full p-2 text-white mb-5" type="submit">Acceder</button>
+    <button class="bg-amber-500 rounded-md w-full p-2 text-white mb-3" type="submit">Acceder</button>
   </div>
 </form>
-<hr class="border border-gray-200 mb-5">
-<div>
-  <h2 class="mb-5 font-medium">¿No estás registrado en ByteShop?</h2>
-  <button class="bg-white rounded-md w-full p-2 border border-gray-400 text-black mb-5"
+<hr class="border border-gray-200 mb-3">
+<div class="flex flex-col gap-3 mb-3">
+  <h2 class="font-medium">¿No estás registrado en ByteShop?</h2>
+  <button class="bg-white rounded-md w-full p-2 border border-gray-400 text-black"
     routerLink="/register">Crear cuenta</button>
 </div>
 
