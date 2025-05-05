@@ -1,33 +1,40 @@
 <div class="flex flex-col gap-3">
   @for (activeOrder of activeOrders; track activeOrder.id; let last = $last) {
     <div 
-      class="flex items-center justify-between p-3 shadow-md bg-white rounded-lg cursor-pointer transition-shadow hover:shadow-lg" 
+      class="flex flex-col md:flex-row md:gap-0 gap-3 md:items-center 
+      justify-between p-3 shadow-md bg-white rounded-lg cursor-pointer 
+      transition-shadow hover:shadow-lg" 
       (click)="openOrder(activeOrder)"
     >
-      <div class="flex items-center gap-14">
-        <div class="flex item items-center gap-5">
-          <img 
+      <div class="w-full flex gap-3">
+        <img 
           [src]="getImage(activeOrder.imagen)" 
           alt="Imagen producto pedido"
           class="w-20 border"
-          >
+        >
+        <div class="flex flex-col">
           <p class="text-black">Nº Pedido {{ activeOrder.id }}</p>
+          <p>{{ getFormattedDate(activeOrder.fecha_creacion) }}</p>
         </div>
-        <p>{{ getFormattedDate(activeOrder.fecha_creacion) }}</p>
       </div>
-      <div class="flex items-center gap-20">
+      <div class="w-full h-full flex md:flex-col-reverse md:items-end 
+      justify-between md:gap-5">
         @switch (activeOrder.estado_pedido_valor) {
           @case (pendingPayment) {
-            <p class="bg-red-200 text-red-600 text-sm font-medium rounded-full px-2 py-1">{{ activeOrder.estado_pedido_desc }}</p>
+            <p class="bg-red-200 text-red-600 text-sm font-medium 
+            rounded-full px-2 py-1">{{ activeOrder.estado_pedido_desc }}</p>
           }
           @case(paid) {
-            <p class="bg-green-300 text-green-700 text-sm font-medium rounded-full px-2 py-1">{{ activeOrder.estado_pedido_desc }}</p>
+            <p class="bg-green-300 text-green-700 text-sm font-medium 
+            rounded-full px-2 py-1">{{ activeOrder.estado_pedido_desc }}</p>
           }
           @case (canceled) {
-            <p class="bg-gray-200 text-gray-600 text-sm font-medium rounded-full px-2 py-1">{{ activeOrder.estado_pedido_desc }}</p>
+            <p class="bg-gray-200 text-gray-600 text-sm font-medium 
+            rounded-full px-2 py-1">{{ activeOrder.estado_pedido_desc }}</p>
           }
           @default {
-            <p class="text-red-600 text-sm font-medium rounded-full px-2 py-1">ERROR</p>
+            <p class="text-red-600 text-sm font-medium 
+            rounded-full px-2 py-1">ERROR</p>
           }
         }
         <p class="text-black font-medium">{{ activeOrder.total | currency:'EUR' }}</p>

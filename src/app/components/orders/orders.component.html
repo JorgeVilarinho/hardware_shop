@@ -1,14 +1,14 @@
-<h1 class="mb-12 text-2xl">Mis pedidos</h1>
-<div class="flex gap-10">
-  <div class="border-b-2 px-10 pb-1 cursor-pointer"
+<h1 class="mb-5 text-2xl">Mis pedidos</h1>
+<div class="flex gap-10 justify-center">
+  <div class="border-b-2 px-7 pb-1 cursor-pointer"
     [ngClass]="{ 'border-[#ffa033]': activeOrdersIsActive, 'border-slate-200': !activeOrdersIsActive }"
     (click)="changeActiveTab('activeOrders')"
     routerLink="active">Activos</div>
-  <div class="border-b-2 px-10 pb-1 cursor-pointer"
+  <div class="border-b-2 px-7 pb-1 cursor-pointer"
     [ngClass]="{ 'border-[#ffa033]': canceledOrdersIsActive, 'border-slate-200': !canceledOrdersIsActive }"
     (click)="changeActiveTab('canceledOrders')"
     routerLink="canceled">Cancelados</div>
 </div>
-<div class="pt-10 text-gray-500">
+<div class="mt-5 text-gray-500">
   <router-outlet></router-outlet>
 </div>

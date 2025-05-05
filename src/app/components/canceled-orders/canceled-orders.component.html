@@ -1,27 +1,32 @@
 <div class="flex flex-col gap-3">
   @for(canceledOrder of canceledOrders; track canceledOrder.id; let last = $last) {
     <div 
-      class="flex items-center justify-between p-3 shadow-md bg-white rounded-lg cursor-pointer transition-shadow hover:shadow-lg" 
+      class="flex flex-col md:flex-row md:gap-0 gap-3 md:items-center 
+      justify-between p-3 shadow-md bg-white rounded-lg cursor-pointer 
+      transition-shadow hover:shadow-lg" 
       (click)="openOrder(canceledOrder)"
     >
-      <div class="flex items-center gap-14">
-        <div class="flex item items-center gap-5">
-          <img 
+      <div class="w-full flex gap-3">
+        <img 
           [src]="getImage(canceledOrder.imagen)" 
           alt="Imagen producto pedido"
           class="w-20 border"
-          >
+        >
+        <div class="flex flex-col">
           <p class="text-black">Nº Pedido {{ canceledOrder.id }}</p>
+          <p>{{ getFormattedDate(canceledOrder.fecha_creacion) }}</p>
         </div>
-        <p>{{ getFormattedDate(canceledOrder.fecha_creacion) }}</p>
       </div>
-      <div class="flex items-center gap-20">
+      <div class="w-full h-full flex md:flex-col-reverse md:items-end 
+      justify-between md:gap-5">
         @switch (canceledOrder.estado_pedido_valor) {
           @case (canceled) {
-            <p class="bg-gray-200 text-gray-600 text-sm font-medium rounded-full px-2 py-1">{{ canceledOrder.estado_pedido_desc }}</p>
+            <p class="bg-gray-200 text-gray-600 text-sm font-medium 
+            rounded-full px-2 py-1">{{ canceledOrder.estado_pedido_desc }}</p>
           }
           @default {
-            <p class="text-red-600 text-sm font-medium rounded-full px-2 py-1">ERROR</p>
+            <p class="text-red-600 text-sm font-medium 
+            rounded-full px-2 py-1">ERROR</p>
           }
         }
         <p class="text-black font-medium">{{ canceledOrder.total | currency:'EUR' }}</p>
