@@ -1,81 +1,81 @@
-<div class="flex gap-10">
-  <div class="w-[50%]">
-    <h2 class="text-2xl mb-5">Datos</h2>
+<div class="flex flex-col gap-5 lg:flex-row">
+  
+  <!-- FIRST COLUMN -->
+  <div class="flex flex-col flex-1 gap-3">
+    <h2 class="text-2xl">Datos</h2>
     <form name="form" [formGroup]="dataForm" (ngSubmit)="onSubmitUserData()">
-      <div class="flex flex-col">
+      <div class="flex flex-col gap-3">
         <div class="flex flex-col gap-1">
           <label for="fullName">Nombre y apellidos</label>
           <input type="text" name="fullName" formControlName="fullName"
             class="rounded-md w-full p-3 border border-gray-400 focus:border-amber-500 outline-none"
-            [class.invalid]="invalidName()"
-            [ngClass]="{'mb-5': !invalidName()}">
+            [class.invalid]="invalidName()">
         </div>
         @if(nameHasRequiredError()) {
-          <span class="text-red-600 mb-5">Este campo es obligatorio</span>
+          <span class="text-red-600">Este campo es obligatorio</span>
         }
         <div class="flex flex-col gap-1">
           <label for="dni">DNI</label>
           <input type="text" name="dni" formControlName="dni"
             (input)="dniToUpperCase()"
             class="rounded-md w-full p-3 border border-gray-400 focus:border-amber-500 outline-none"
-            [class.invalid]="invalidDni()"
-            [ngClass]="{'mb-5': !invalidDni()}">
+            [class.invalid]="invalidDni()">
         </div>
         @if(dniHasRequiredError()) {
-          <span class="text-red-600 mb-5">Este campo es obligatorio</span>
+          <span class="text-red-600">Este campo es obligatorio</span>
         }
         @if(dniHasPatternError()) {
-          <span class="text-red-600 mb-5">Este campo debe contener 8 números y una letra</span>
+          <span class="text-red-600">Este campo debe contener 8 números y una letra</span>
         }
         <div class="flex flex-col gap-1">
           <label for="email">Correo electrónico</label>
           <input type="text" name="email" formControlName="email"
             class="rounded-md w-full p-3 border border-gray-400 focus:border-amber-500 outline-none"
-            [class.invalid]="invalidEmail()"
-            [ngClass]="{'mb-5': !invalidEmail()}">
+            [class.invalid]="invalidEmail()">
         </div>
         @if(emailHasRequiredError()) {
-          <span class="text-red-600 mb-5">Este campo es obligatorio</span>
+          <span class="text-red-600">Este campo es obligatorio</span>
         }
         @if(emailHasEmailTypeError()) {
-          <span class="text-red-600 mb-5">Este campo tiene que tener un formato válido de email</span>
+          <span class="text-red-600">Este campo tiene que tener un formato válido de email</span>
         }
         <div class="flex flex-col gap-1">
           <label for="phone">Teléfono</label>
           <input type="tel" name="phone" formControlName="phone"
             class="rounded-md w-full p-3 border border-gray-400 focus:border-amber-500 outline-none"
-            [class.invalid]="invalidPhone()"
-            [ngClass]="{'mb-5': !invalidPhone()}">
+            [class.invalid]="invalidPhone()">
         </div>
         @if(phoneHasRequiredError()) {
-          <span class="text-red-600 mb-5">Este campo es obligatorio</span>
+          <span class="text-red-600">Este campo es obligatorio</span>
         }
         @if(phoneHasPatternError()) {
-          <span class="text-red-600 mb-5">Este campo debe tener 9 dígitos</span>
+          <span class="text-red-600">Este campo debe tener 9 dígitos</span>
         }
-        <button class="bg-amber-500 rounded-md w-full p-2 text-white mb-5" type="submit">Editar datos</button>
+        <button class="bg-amber-500 rounded-md w-full p-2 text-white" type="submit">Editar datos</button>
       </div>
     </form>
   </div>
-  <div class="w-[50%]">
-    <h2 class="text-2xl mb-5">Contraseña</h2>
+
+  <!-- SECOND COLUMN -->
+  <div class="flex flex-col flex-1 gap-3">
+    <h2 class="text-2xl">Contraseña</h2>
     <form name="form" [formGroup]="passwordForm" (ngSubmit)="onSubmitPasswordForm()">
-      <div class="flex flex-col">
-        <div class="flex flex-col gap-1 mb-5">
+      <div class="flex flex-col gap-3">
+        <div class="flex flex-col gap-1">
           <label for="password">Contraseña</label>
           <input type="password" name="password" formControlName="password"
             class="rounded-md w-full p-3 border border-gray-400 focus:border-amber-500 outline-none"
-            [class.invalid]="invalidPassword()"
-            [ngClass]="{'mb-5': !invalidPassword()}">
+            [class.invalid]="invalidPassword()">
           @if(passwordHasRequiredError()) {
-            <span class="text-red-600 mb-5">Este campo es obligatorio</span>
+            <span class="text-red-600">Este campo es obligatorio</span>
           }
           @if(passwordHasLenghtError()) {
-            <span class="text-red-600 mb-5">La contraseña tiene que tener un mínimo de 6 caracteres</span>
+            <span class="text-red-600">La contraseña tiene que tener un mínimo de 6 caracteres</span>
           }
         </div>
-        <button class="bg-amber-500 rounded-md w-full p-2 text-white mb-5" type="submit">Cambiar contraseña</button>
+        <button class="bg-amber-500 rounded-md w-full p-2 text-white" type="submit">Cambiar contraseña</button>
       </div>
     </form>
   </div>
+  
 </div>
