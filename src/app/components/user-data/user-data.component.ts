@@ -2,13 +2,12 @@ import { AuthenticationService } from './../../services/authentication.service';
 import { Component, inject, OnInit } from '@angular/core';
 import { FormBuilder, ReactiveFormsModule, Validators } from '@angular/forms';
 import { UserService } from '../../services/user.service';
-import { NgClass } from '@angular/common';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 
 @Component({
   selector: 'app-user-data',
-  imports: [ ReactiveFormsModule, NgClass ],
+  imports: [ ReactiveFormsModule ],
   templateUrl: './user-data.component.html',
   styleUrl: './user-data.component.css'
 })
