@@ -1,122 +1,134 @@
-<div class="flex items-center gap-3 cursor-pointer mb-5" (click)="goBack()">
-  <mat-icon fontIcon="arrow_back"></mat-icon>
-  <p class="text-lg">Volver</p>
-</div>
-<div class="flex flex-col">
-  <div class="flex items-center justify-between">
-    <div class="flex gap-3">
-      <h1 class="text-lg text-black font-medium">Nº de pedido: {{ order?.id }} </h1>
-      @switch (order?.estado_pedido_valor) {
-        @case (pendingPayment) {
-          <p class="bg-red-200 text-red-600 text-sm font-medium rounded-full px-2 py-1">{{ order?.estado_pedido_desc }}</p>
+<div class="flex flex-col gap-2">
+  <div class="flex items-center gap-3 cursor-pointer" (click)="goBack()">
+    <mat-icon fontIcon="arrow_back"></mat-icon>
+    <p class="text-lg">Volver</p>
+  </div>
+  <div class="flex flex-col gap-2">
+    <div class="flex flex-col-reverse gap-3 md:flex-row md:justify-between md:items-center">
+      <div class="flex flex-col gap-1">
+        <h1 class="text-lg text-black font-medium">Nº de pedido: {{ order?.id }} </h1>
+        @switch (order?.estado_pedido_valor) {
+          @case (pendingPayment) {
+            <p class="bg-red-200 text-red-600 text-sm font-medium rounded-full px-2 py-1 w-fit">{{ order?.estado_pedido_desc }}</p>
+          }
+          @case(paid) {
+            <p class="bg-green-300 text-green-700 text-sm font-medium rounded-full px-2 py-1 w-fit">{{ order?.estado_pedido_desc }}</p>
+          }
+          @case (canceled) {
+            <p class="bg-gray-200 text-gray-600 text-sm font-medium rounded-full px-2 py-1 w-full">{{ order?.estado_pedido_desc }}</p>
+          }
+          @default {
+            <p class="text-red-600 text-sm font-medium rounded-full px-2 py-1 w-fit">ERROR</p>
+          }
         }
-        @case(paid) {
-          <p class="bg-green-300 text-green-700 text-sm font-medium rounded-full px-2 py-1">{{ order?.estado_pedido_desc }}</p>
-        }
-        @case (canceled) {
-          <p class="bg-gray-200 text-gray-600 text-sm font-medium rounded-full px-2 py-1">{{ order?.estado_pedido_desc }}</p>
-        }
-        @default {
-          <p class="text-red-600 text-sm font-medium rounded-full px-2 py-1">ERROR</p>
-        }
+      </div>
+      @if(isPayable()) {
+        <button class="bg-red-600 text-white rounded-md py-2 px-3 transition hover:bg-red-700 active:scale-95" (click)="goToPayment()">Realizar pago</button>
       }
     </div>
-    @if(isPayable()) {
-      <button class="bg-red-600 text-white rounded-md py-2 px-3 transition hover:bg-red-700 active:scale-95" (click)="goToPayment()">Realizar pago</button>
-    }
-  </div>
-  <p class="text-neutral-500 mb-5">Pedido realizado: {{ getFormattedDate(order?.fecha_creacion!) }}</p>
-  <div class="bg-neutral-200 px-4 py-2 mb-5 font-medium">
-    <p>Envío - Entrega estimada {{ getFormattedDate(order?.fecha_creacion!) }} a {{ getFormattedDate(order?.fecha_creacion!) }}</p>
-  </div>
-  <div class="grid grid-cols-7 gap-y-5 mb-10">
-    <div class="col-span-3 text-lg font-semibold">
-      Producto
+    <p class="text-neutral-500">Pedido realizado: {{ getFormattedDate(order?.fecha_creacion!) }}</p>
+    <div class="bg-neutral-200 px-4 py-2 font-medium">
+      <p>Envío - Entrega estimada {{ getFormattedDate(order?.fecha_creacion!) }} a {{ getFormattedDate(order?.fecha_creacion!) }}</p>
     </div>
-    <div class="text-center text-neutral-500">
-      Cantidad
-    </div>
-    <div class="col-span-2 text-center text-neutral-500">
-      Entrega estimada
-    </div>
-    <div class="text-center text-neutral-500">
-      Precio
-    </div>
-    @for (pc of pcProducts; track pc.id) {
-      <div class="col-span-3 flex gap-3">
-        <img 
-          [src]="getImage(getBox(pc)?.image)" 
-          alt="Imagen del producto"
-          class="w-28 border"
-        >
-        <div>
-          <p class="text-black font-medium text-lg">Ordenador personalizado</p>
-          <p class="text-sm text-neutral-500">Ordenadores ByteShop</p>
-        </div>
+    <div class="grid grid-cols-1 md:grid-cols-5 gap-y-2">
+      <div class="text-lg font-semibold hidden md:block md:col-span-2">
+        Producto
       </div>
-      <div class="text-center">
-        1
+      <div class="text-center text-neutral-500 hidden md:block">
+        Cantidad
       </div>
-      <div class="col-span-2 text-center">
-        {{ getFormattedDate(order?.fecha_creacion!) }} a {{ getFormattedDate(order?.fecha_creacion!) }}
+      <div class="text-center text-neutral-500 hidden md:block">
+        Entrega estimada
       </div>
-      @if(someComponentHasDiscount(pc)) {
-        <div class="text-center">
-          {{ getTotalWithDiscount(pc) | currency:'EUR' }}
+      <div class="text-center text-neutral-500 hidden md:block">
+        Precio
+      </div>
+      @for (pc of pcProducts; track pc.id) {
+        <div class="flex flex-col gap-1 md:col-span-2">
+          <div class="text-md font-semibold md:hidden">Producto</div>
+          <div class="flex gap-2">
+            <img 
+              [src]="getImage(getBox(pc)?.image)" 
+              alt="Imagen del producto"
+              class="w-28 h-28 border"
+            >
+            <div class="flex flex-col flex-1">
+              <p class="text-black font-medium text-lg">Ordenador personalizado</p>
+              <p class="text-sm text-neutral-500">Ordenadores ByteShop</p>
+            </div>
+          </div>
         </div>
-      } @else {
-        <div class="text-center">
-          {{ getTotalWithoutDiscount(pc) | currency:'EUR' }}
+        <div class="md:text-center">
+          <span class="md:hidden">Cantidad: </span> 1
         </div>
+        <div class="md:text-center">
+          <span class="md:hidden">Entrega estimada: </span> 
+          {{ getFormattedDate(order?.fecha_creacion!) }} a {{ getFormattedDate(order?.fecha_creacion!) }}
+        </div>
+        @if(someComponentHasDiscount(pc)) {
+          <div class="md:text-center">
+            <span class="md:hidden">Precio: </span> <span class="md:text-center">{{ getTotalWithDiscount(pc) | currency:'EUR' }}</span>
+          </div>
+        } @else {
+          <div class="md:text-center">
+            <span class="md:hidden">Precio: </span> <span class="md:text-center">{{ getTotalWithoutDiscount(pc) | currency:'EUR' }}</span>
+          </div>
+        }
+        <hr class="border-neutral-300 md:col-span-5 col-span-1"/>
       }
-    }
-    @for (product of products; track product.id) {
-      <div class="col-span-3 flex gap-3">
-        <img 
-          [src]="getImage(product.image)" 
-          alt="Imagen del producto"
-          class="w-28 border"
-        >
-        <div>
-          <p class="text-black font-medium text-lg">{{ product.name }}</p>
-          <p class="text-sm text-neutral-500">{{ product.category }}</p>
+      @for (product of products; track product.id) {
+        <div class="flex flex-col gap-1 md:col-span-2">
+          <div class="text-md font-semibold md:hidden">Producto</div>
+          <div class="flex gap-2">
+            <img 
+              [src]="getImage(product.image)" 
+              alt="Imagen del producto"
+              class="w-28 h-28 border"
+            >
+            <div class="flex flex-col flex-1">
+              <p class="text-black font-medium text-lg">{{ product.name }}</p>
+              <p class="text-sm text-neutral-500">{{ product.category }}</p>
+            </div>
+          </div>
         </div>
-      </div>
-      <div class="text-center">
-        {{ product.units }}
-      </div>
-      <div class="col-span-2 text-center">
-        {{ getFormattedDate(order?.fecha_creacion!) }} a {{ getFormattedDate(order?.fecha_creacion!) }}
-      </div>
-      @if(product.discount) {
-        <div class="text-center">
-          {{ product.price * product.units * (100 - product.discount) / 100 | currency:'EUR' }}
+        <div class="md:text-center">
+          <span class="md:hidden">Cantidad:</span>{{ product.units }}
         </div>
-      } @else {
-        <div class="text-center">
-          {{ product.price * product.units | currency:'EUR' }}
+        <div class="md:text-center">
+          <span class="md:hidden">Entrega estimada:</span>{{ getFormattedDate(order?.fecha_creacion!) }} a {{ getFormattedDate(order?.fecha_creacion!) }}
         </div>
+        @if(product.discount) {
+          <div class="md:text-center">
+            <span class="md:hidden">Precio:</span> {{ product.price * product.units * (100 - product.discount) / 100 | currency:'EUR' }}
+          </div>
+        } @else {
+          <div class="md:text-center">
+            <span class="md:hidden">Precio:</span> {{ product.price * product.units | currency:'EUR' }}
+          </div>
+        }
+        <hr class="border-neutral-300 md:col-span-5 col-span-1"/>
       }
+    </div>
+    <div class="font-semibold text-xl mt-3">Totales:</div>
+    <div class="flex items-center justify-between py-3">
+      <p>Subtotal</p>
+      <p>{{ getSubtotal() | currency:'EUR' }}</p>
+    </div>
+    <hr class="flex flex-1">
+    <div class="flex items-center justify-between py-3">
+      <p>Envío</p>
+      <p>{{ this.shippingOptionCost | currency:'EUR' }}</p>
+    </div>
+    <hr class="flex flex-1">
+    <div class="flex items-center justify-between py-3">
+      <p class="text-lg font-medium">Total</p>
+      <p>{{ order?.total | currency:'EUR' }}</p>
+    </div>
+    <hr class="border-neutral-400 flex flex-1">
+    @if(isCancelable()) {
+      <div class="flex flex-1 justify-end">
+        <button class="bg-red-600 text-white rounded-md py-2 px-3 transition hover:bg-red-700 active:scale-95" (click)="cancelOrder()">Cancelar pedido</button>
+      </div>
     }
   </div>
-  <div class="flex items-center justify-between py-3">
-    <p>Subtotal</p>
-    <p>{{ getSubtotal() | currency:'EUR' }}</p>
-  </div>
-  <hr class="flex flex-1">
-  <div class="flex items-center justify-between py-3">
-    <p>Envío</p>
-    <p>{{ this.shippingOptionCost | currency:'EUR' }}</p>
-  </div>
-  <hr class="flex flex-1">
-  <div class="flex items-center justify-between py-3">
-    <p class="text-lg font-medium">Total</p>
-    <p>{{ order?.total | currency:'EUR' }}</p>
-  </div>
-  <hr class="border-neutral-400 flex flex-1 mb-5">
-  @if(isCancelable()) {
-    <div class="flex flex-1 justify-end mb-5">
-      <button class="bg-red-600 text-white rounded-md py-2 px-3 transition hover:bg-red-700 active:scale-95" (click)="cancelOrder()">Cancelar pedido</button>
-    </div>
-  }
 </div>
