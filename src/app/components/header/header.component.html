@@ -56,48 +56,48 @@
         <mat-icon>shopping_cart</mat-icon>
       </button>
     </div>
-    <mat-menu #menu="matMenu" class="mt-2 p-4 mx-4 !min-w-[350px] sm:!min-w-[400px] !bg-white !overflow-y-hidden">
+    <mat-menu #menu="matMenu" class="mt-2 p-4 mx-4 sm:!min-w-[400px] !bg-white !overflow-y-hidden">
       <p class="mb-2">Productos en tu cesta ({{ getCountProducts() }})</p>
-      <div class="overflow-x-hidden max-h-[150px] sm:max-h-[320px] mb-3">
+      <div class="overflow-x-hidden max-h-[200px] sm:max-h-[320px] mb-3 flex flex-col gap-3">
         @for(pc of cart.pcs; track pc.id; let last = $last) {
-          <div class="flex mb-3 max-w-[400px]">
-            @if(getBox(pc)) {
-              <img [src]="getImage(getBox(pc)!.image)" alt="Imagen del producto" class="mr-3 max-w-36 max-h-36">
-            } @else {
-              <img [src]="getImage('default_pc.png')" alt="Imagen del producto" class="mr-3 max-w-36 max-h-36">
-            }
-            <div class="flex flex-col">
-              <p class="mb-2">Ordenador personalizado</p>
-              <div class="h-full flex flex-col justify-end">
-                @if(someComponentHasDiscount(pc)) {
-                  <p class="text-slate-500 line-through">{{ getTotalWithoutDiscount(pc) | currency:'EUR' }}</p>
-                  <p class="text-red-600 text-xl mr-2">{{ getTotalWithDiscount(pc) | currency:'EUR' }}</p>
-                } @else {
-                  <p class="text-red-600 text-xl">{{ getTotalWithoutDiscount(pc) | currency:'EUR' }}</p>
-                }
+          <div class="flex gap-3 max-w-[400px]">
+            <div class="flex gap-3">
+              @if(getBox(pc)) {
+                <img [src]="getImage(getBox(pc)!.image)" alt="Imagen del producto" class="max-w-28 max-h-28 sm:max-w-36 sm:max-h-36 border">
+              } @else {
+                <img [src]="getImage('default_pc.png')" alt="Imagen del producto" class="max-w-28 max-h-28 sm:max-w-36 sm:max-h-36 border">
+              }
+              <div class="flex flex-col justify-between">
+                <p>Ordenador personalizado</p>
+                <div>
+                  @if(someComponentHasDiscount(pc)) {
+                    <p class="text-slate-500 line-through">{{ getTotalWithoutDiscount(pc) | currency:'EUR' }}</p>
+                    <p class="text-red-600 text-xl mr-2">{{ getTotalWithDiscount(pc) | currency:'EUR' }}</p>
+                  } @else {
+                    <p class="text-red-600 text-xl">{{ getTotalWithoutDiscount(pc) | currency:'EUR' }}</p>
+                  }
+                </div>
               </div>
             </div>
           </div>
           @if(!last) {
-            <hr class="mb-3 border-gray-300" />
+            <hr class="border-gray-300" />
           }
         }
         @if(cart.pcs.length > 0 && cart.items.length > 0) {
-          <hr class="mb-3 border-gray-300" />
+          <hr class="border-gray-300" />
         }
         @for(item of cart.items; track item.id; let last = $last) {
-          <div class="flex mb-3 max-w-[400px]">
-            <img [src]="getImage(item.image)" alt="Imagen del producto" class="mr-3 max-w-36 max-h-36">
-            <div class="flex flex-col">
-              <p class="mb-2">{{ item.name }}</p>
-              <p class="text-gray-500 mb-2">Unidades: <b class="text-black">{{ item.units }}</b></p>
-              <div class="h-full flex flex-col justify-end">
+          <div class="flex flex-col gap-1 max-w-[400px]">
+            <div class="flex gap-3">
+              <img [src]="getImage(item.image)" alt="Imagen del producto" class="max-w-28 max-h-28 sm:max-w-36 sm:max-h-36 border">
+              <div class="flex flex-col justify-between">
+                <p>{{ item.name }}</p>
                 @if(item.discount) {
-                  <p class="text-slate-500 line-through">{{ item.price | currency:'EUR' }}</p>
-                  <div class="flex">
-                    <p class="text-red-600 text-xl mr-2">{{ (item.price * item.units * (100 - item.discount) / 100) | currency:'EUR' }}</p>
-                    <div class="bg-red-600 rounded-full px-2.5 text-white text-sm flex items-center">
-                      <span>Dto. {{ item?.discount }}%</span>
+                  <div class="flex flex-col">
+                    <p class="text-slate-500 line-through">{{ item.price | currency:'EUR' }}</p>
+                    <div class="flex gap-3">
+                      <p class="text-red-600 text-xl">{{ (item.price * item.units * (100 - item.discount) / 100) | currency:'EUR' }}</p>
                     </div>
                   </div>
                 } @else {
@@ -105,24 +105,34 @@
                 }
               </div>
             </div>
+            <div class="flex gap-3 items-center justify-between">
+              <p class="text-gray-500">Unidades: <b class="text-black">{{ item.units }}</b></p>
+              @if(item.discount) {
+                <div class="bg-red-600 rounded-full px-2.5 py-1 text-white text-sm flex items-center">
+                  <span>Dto. {{ item?.discount }}%</span>
+                </div>
+              }
+            </div>
           </div>
           @if(!last) {
-            <hr class="mb-3 border-gray-300" />
+            <hr class="border-gray-300" />
           }
         }
       </div>
-      <hr class="mb-3 border-gray-300" />
-      <div class="flex justify-between">
-        <div class="w-6/12 mr-5">
+      <hr class="border-gray-300 mb-3" />
+      <div>
+        <div class="flex justify-between">
           <p>Total <span>(IVA incluido)</span></p>
-          <p>Gastos de envío</p>
-          <button class="w-full bg-white active:bg-slate-200 active:shadow-md text-black
-            border-gray-300 border py-2 rounded-md mt-3"
-            routerLink="shopping-basket">Ver cesta</button>
-        </div>
-        <div class="text-right w-6/12">
           <p>{{ getTotal() | currency:'EUR' }}</p>
+        </div>
+        <div class="flex justify-between">
+          <p>Gastos de envío</p>
           <p>Por calcular</p>
+        </div>
+        <div class="flex justify-between gap-3">
+          <button class="w-full bg-white active:bg-slate-200 active:shadow-md text-black
+          border-gray-300 border py-2 rounded-md mt-3"
+          routerLink="shopping-basket">Ver cesta</button>
           <button 
             class="w-full bg-red-600 active:bg-red-800 active:shadow-lg text-white
             py-2 rounded-md mt-3"

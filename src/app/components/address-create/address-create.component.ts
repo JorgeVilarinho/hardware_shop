@@ -1,4 +1,3 @@
-import { NgClass } from '@angular/common';
 import { Component, inject } from '@angular/core';
 import { FormBuilder, ReactiveFormsModule, Validators } from '@angular/forms';
 import { StateService } from '../../services/state.service';
@@ -7,7 +6,7 @@ import { UserService } from '../../services/user.service';
 
 @Component({
   selector: 'app-address-create',
-  imports: [ ReactiveFormsModule, NgClass ],
+  imports: [ReactiveFormsModule],
   templateUrl: './address-create.component.html',
   styleUrl: './address-create.component.css'
 })
