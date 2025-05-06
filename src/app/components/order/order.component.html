@@ -59,19 +59,18 @@
           </div>
         </div>
         <div class="md:text-center">
-          <span class="md:hidden">Cantidad: </span> 1
+          <span class="md:hidden">Cantidad:</span> 1
         </div>
         <div class="md:text-center">
-          <span class="md:hidden">Entrega estimada: </span> 
-          {{ getFormattedDate(order?.fecha_creacion!) }} a {{ getFormattedDate(order?.fecha_creacion!) }}
+          <span class="md:hidden">Entrega estimada:</span> {{ getFormattedDate(order?.fecha_creacion!) }} a {{ getFormattedDate(order?.fecha_creacion!) }}
         </div>
         @if(someComponentHasDiscount(pc)) {
           <div class="md:text-center">
-            <span class="md:hidden">Precio: </span> <span class="md:text-center">{{ getTotalWithDiscount(pc) | currency:'EUR' }}</span>
+            <span class="md:hidden">Precio:</span> <span class="md:text-center"> {{ getTotalWithDiscount(pc) | currency:'EUR' }}</span>
           </div>
         } @else {
           <div class="md:text-center">
-            <span class="md:hidden">Precio: </span> <span class="md:text-center">{{ getTotalWithoutDiscount(pc) | currency:'EUR' }}</span>
+            <span class="md:hidden">Precio:</span> <span class="md:text-center"> {{ getTotalWithoutDiscount(pc) | currency:'EUR' }}</span>
           </div>
         }
         <hr class="border-neutral-300 md:col-span-5 col-span-1"/>
@@ -92,10 +91,10 @@
           </div>
         </div>
         <div class="md:text-center">
-          <span class="md:hidden">Cantidad:</span>{{ product.units }}
+          <span class="md:hidden">Cantidad:</span> {{ product.units }}
         </div>
         <div class="md:text-center">
-          <span class="md:hidden">Entrega estimada:</span>{{ getFormattedDate(order?.fecha_creacion!) }} a {{ getFormattedDate(order?.fecha_creacion!) }}
+          <span class="md:hidden">Entrega estimada:</span> {{ getFormattedDate(order?.fecha_creacion!) }} a {{ getFormattedDate(order?.fecha_creacion!) }}
         </div>
         @if(product.discount) {
           <div class="md:text-center">
