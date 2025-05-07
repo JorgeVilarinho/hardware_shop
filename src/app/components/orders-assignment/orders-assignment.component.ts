@@ -5,10 +5,11 @@ import { OrdersService } from '../../services/orders.service';
 import { CurrencyPipe } from '@angular/common';
 import { Router } from '@angular/router';
 import { environment } from '../../../environments/environment';
+import { MatIcon } from '@angular/material/icon';
 
 @Component({
   selector: 'app-orders-assignment',
-  imports: [ CurrencyPipe ],
+  imports: [ CurrencyPipe, MatIcon ],
   templateUrl: './orders-assignment.component.html',
   styleUrl: './orders-assignment.component.css'
 })

@@ -1,21 +1,21 @@
-<div class="flex flex-col p-5 gap-3 lg:flex-row lg:gap-5">
-  <div class="flex gap-2 overflow-x-auto lg:flex-col lg:flex-1">
-    <a class="rounded-md hover:bg-gray-300 p-2 cursor-pointer text-nowrap md:flex-1 lg:flex-grow-0"
+<div class="flex flex-col lg:flex-row lg:gap-5">
+  <div class="flex gap-2 overflow-x-auto lg:flex-col lg:flex-1 border-b border-b-slate-300 p-3">
+    <a class="rounded-md hover:bg-gray-300 p-2 cursor-pointer text-nowrap md:flex-1 md:text-center lg:flex-grow-0"
       (click)="changeSelected('orders')"
       [ngClass]="{'selected': ordersIsActive}"
       routerLink="orders/active">Pedidos</a>
-    <a class="rounded-md hover:bg-gray-300 p-2 cursor-pointer text-nowrap md:flex-1 lg:flex-grow-0"
+    <a class="rounded-md hover:bg-gray-300 p-2 cursor-pointer text-nowrap md:flex-1 md:text-center lg:flex-grow-0"
       (click)="changeSelected('address')"
       [ngClass]="{'selected': addressIsActive}"
       routerLink="address">Direcciones</a>
-    <a class="rounded-md hover:bg-gray-300 p-2 cursor-pointer text-nowrap md:flex-1 lg:flex-grow-0"
+    <a class="rounded-md hover:bg-gray-300 p-2 cursor-pointer text-nowrap md:flex-1 md:text-center lg:flex-grow-0"
       (click)="changeSelected('data')"
       [ngClass]="{'selected': dataIsActive}"
       routerLink="data">Datos</a>
-    <a class="rounded-md hover:bg-gray-300 p-2 cursor-pointer text-nowrap md:flex-1 lg:flex-grow-0"
+    <a class="rounded-md hover:bg-gray-300 p-2 cursor-pointer text-nowrap md:flex-1 md:text-center lg:flex-grow-0"
       (click)="openCloseSessionDialog()">Cerrar sesión</a>
   </div>
-  <div class="lg:flex-[3]">
+  <div class="lg:flex-[3] p-5">
     <router-outlet></router-outlet>
   </div>
 </div>

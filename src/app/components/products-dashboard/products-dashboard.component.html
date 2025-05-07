@@ -1,8 +1,8 @@
-<div class="px-10 py-5 flex flex-col justify-center gap-5">
-  <div class="flex justify-between">
+<div class="p-5 flex flex-col gap-5">
+  <div class="flex flex-col sm:flex-row sm:justify-between gap-3">
     <h1 class="text-2xl font-medium">Productos</h1>
     <button 
-      class="flex items-center gap-2 py-2 px-3 bg-red-600 rounded-md 
+      class="flex items-center justify-center sm:justify-normal gap-2 py-2 px-3 bg-red-600 rounded-md 
     text-white transition-transform active:scale-95 shadow-md"
       routerLink="/dashboard/products/add"
     >
@@ -14,27 +14,27 @@
   <div class="flex flex-col gap-3">
     @for (product of products; track product.id) {
       <div 
-        class="flex items-center justify-between p-3 shadow-md bg-white rounded-lg cursor-pointer transition-shadow hover:shadow-lg" 
+        class="flex flex-col p-3 gap-2 shadow-md bg-white rounded-lg cursor-pointer transition-shadow hover:shadow-lg" 
         (click)="goToModifyProduct(product.id)"
       >
-        <div class="flex items-center gap-14">
-          <div class="flex item items-center gap-5">
-            <img 
+        <div class="flex gap-3">
+          <img 
             [src]="getImage(product.image)" 
             alt="Imagen producto pedido"
             class="w-20 border"
-            >
+          >
+          <div class="flex flex-col">
             <p class="text-black">{{ product.name }}</p>
+            <p class="text-neutral-500">{{ product.category }}</p>
           </div>
-          <p class="text-neutral-500">{{ product.category }}</p>
         </div>
         @if(product.discount) {
           <p class="text-black font-medium">
-            {{ product.price * (100 - product.discount) / 100 | currency:'EUR' }}
+            Total: {{ product.price * (100 - product.discount) / 100 | currency:'EUR' }}
           </p>
         } @else {
           <p class="text-black font-medium">
-            {{ product.price | currency:'EUR' }}
+            Total: {{ product.price | currency:'EUR' }}
           </p>
         }
       </div>
