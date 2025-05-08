@@ -1,4 +1,4 @@
-<div class="px-10 py-5 flex flex-col justify-center gap-5">
+<div class="p-5 flex flex-col justify-center gap-3">
   <div class="flex flex-col gap-3">
     <h1 class="text-2xl font-medium">Pedidos en proceso de envío</h1>
     @if(ordersInShipping.length !== 0) {
@@ -9,24 +9,29 @@
   <div class="flex flex-col gap-3">
     @for (orderInShipping of ordersInShipping; track orderInShipping.id) {
       <div 
-        class="flex items-center justify-between p-3 shadow-md bg-white rounded-lg cursor-pointer transition-shadow hover:shadow-lg" 
+        class="flex flex-col sm:flex-row justify-between p-3 gap-2 shadow-md bg-white rounded-lg cursor-pointer transition-shadow hover:shadow-lg" 
         (click)="openDialog(orderInShipping.id)"
       >
-        <div class="flex items-center gap-14">
-          <div class="flex item items-center gap-5">
-            <img 
+        <div class="flex gap-3">
+          <img 
             [src]="getImage(orderInShipping.imagen)" 
             alt="Imagen producto pedido"
             class="w-20 border"
-            >
+          >
+          <div class="flex flex-col">
             <p class="text-black">Nº Pedido {{ orderInShipping.id }}</p>
+            <p class="text-neutral-500">{{ getFormattedDate(orderInShipping.fecha_creacion) }}</p>
           </div>
-          <p class="text-neutral-500">{{ getFormattedDate(orderInShipping.fecha_creacion) }}</p>
         </div>
-        <p class="text-black font-medium">{{ orderInShipping.total | currency:'EUR' }}</p>
+        <p class="text-black font-medium">Total: {{ orderInShipping.total | currency:'EUR' }}</p>
       </div>
     } @empty {
-      <p class="text-xl">No tiene ningún pedido en proceso de envío en este momento</p>
+      <div class="flex flex-col text-center">
+        <div class="flex items-center justify-center">
+          <mat-icon class="material-symbols-outlined text-7xl !w-full !h-full" fontIcon="orders" />
+        </div>
+        <p class="text-xl">No tiene ningún pedido en proceso de envío en este momento</p>
+      </div>
     }
   </div>
 </div>

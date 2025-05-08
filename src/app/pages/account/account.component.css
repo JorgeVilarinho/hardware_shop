@@ -1,3 +1,9 @@
+:host {
+  display: flex;
+  flex-direction: column;
+  flex: 1;
+}
+
 .selected {
   background-color: rgb(255, 233, 208);
   color: rgb(255, 160, 51);

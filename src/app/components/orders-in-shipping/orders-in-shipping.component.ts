@@ -7,10 +7,11 @@ import { MatDialog } from '@angular/material/dialog';
 import { ChangeOrderStatusDialogComponent } from '../change-order-status-dialog/change-order-status-dialog.component';
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import { environment } from '../../../environments/environment';
+import { MatIcon } from '@angular/material/icon';
 
 @Component({
   selector: 'app-orders-in-shipping',
-  imports: [ CurrencyPipe ],
+  imports: [ CurrencyPipe, MatIcon ],
   templateUrl: './orders-in-shipping.component.html',
   styleUrl: './orders-in-shipping.component.css'
 })

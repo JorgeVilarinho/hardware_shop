@@ -1,21 +1,27 @@
-<div class="flex flex-col lg:flex-row lg:gap-5">
-  <div class="flex gap-2 overflow-x-auto lg:flex-col lg:flex-1 border-b border-b-slate-300 p-3">
-    <a class="rounded-md hover:bg-gray-300 p-2 cursor-pointer text-nowrap md:flex-1 md:text-center lg:flex-grow-0"
+<div class="flex flex-col lg:flex-row flex-1 min-h-full">
+  <div class="w-full flex lg:flex-col gap-2 p-3 border-b-2 border-b-slate-300 
+  overflow-x-auto whitespace-nowrap lg:flex-1 lg:border-r-2 lg:border-r-slate-300
+  lg:border-b-0">
+    <a class="py-2 px-3 hover:bg-gray-300 rounded-md transition-colors 
+          cursor-pointer flex-1 sm:text-center lg:text-start lg:flex-none"
       (click)="changeSelected('orders')"
       [ngClass]="{'selected': ordersIsActive}"
       routerLink="orders/active">Pedidos</a>
-    <a class="rounded-md hover:bg-gray-300 p-2 cursor-pointer text-nowrap md:flex-1 md:text-center lg:flex-grow-0"
+    <a class="py-2 px-3 hover:bg-gray-300 rounded-md transition-colors 
+          cursor-pointer flex-1 sm:text-center lg:text-start lg:flex-none"
       (click)="changeSelected('address')"
       [ngClass]="{'selected': addressIsActive}"
       routerLink="address">Direcciones</a>
-    <a class="rounded-md hover:bg-gray-300 p-2 cursor-pointer text-nowrap md:flex-1 md:text-center lg:flex-grow-0"
+    <a class="py-2 px-3 hover:bg-gray-300 rounded-md transition-colors 
+          cursor-pointer flex-1 sm:text-center lg:text-start lg:flex-none"
       (click)="changeSelected('data')"
       [ngClass]="{'selected': dataIsActive}"
       routerLink="data">Datos</a>
-    <a class="rounded-md hover:bg-gray-300 p-2 cursor-pointer text-nowrap md:flex-1 md:text-center lg:flex-grow-0"
+    <a class="py-2 px-3 hover:bg-gray-300 rounded-md transition-colors 
+          cursor-pointer flex-1 sm:text-center lg:text-start lg:flex-none"
       (click)="openCloseSessionDialog()">Cerrar sesión</a>
   </div>
-  <div class="lg:flex-[3] p-5">
+  <div class="lg:flex-[3] w-full p-5">
     <router-outlet></router-outlet>
   </div>
 </div>

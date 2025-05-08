@@ -1,5 +1,5 @@
-<div class="px-10 py-5 flex flex-col justify-center gap-5">
-  <div class="flex items-center justify-between">
+<div class="p-5 flex flex-col justify-center gap-3">
+  <div class="flex flex-col sm:flex-row sm:justify-between gap-3">
     <div class="flex items-center gap-5 text-2xl">
       <button class="flex items-center font-medium" routerLink="/dashboard/products">
         <mat-icon fontIcon="arrow_back" />
@@ -7,7 +7,7 @@
       <h1 class="font-medium">Datos del producto</h1>
     </div>
     <button 
-      class="flex items-center gap-2 py-2 px-3 bg-red-600 rounded-md 
+      class="flex items-center justify-center gap-2 py-2 px-3 bg-red-600 rounded-md 
     text-white transition-transform active:scale-95 shadow-md"
       (click)="openDeleteDialog()"
     >
@@ -18,15 +18,15 @@
 
   <div>
     <form [formGroup]="updateProductForm" (ngSubmit)="onSubmit()" enctype="multipart/form-data">
-      <div class="flex flex-col gap-5">
-        <div class="flex gap-5 w-full">
+      <div class="flex flex-col gap-3">
+        <div class="flex flex-col sm:flex-row gap-3 w-full">
 
-          <div class="flex flex-col gap-1">
+          <div class="flex flex-col gap-2">
             <img 
               [src]="getImage(product?.image)" 
               id="productImage"
               alt="Imagen del producto"
-              class="w-[250px] h-[200px] border-2 border-neutral-300 rounded-md mb-2 object-cover"
+              class="border-2 border-neutral-300 rounded-md object-cover"
             >
             <label 
               for="image" 
@@ -58,7 +58,7 @@
             <div class="flex flex-col gap-1 flex-grow">
               <label for="description">Descripción</label>
               <textarea name="description" formControlName="description"
-                class="rounded-md w-full p-2 border flex-grow border-gray-400 focus:border-amber-500 outline-none resize-none"
+                class="rounded-md w-full p-2 border flex-grow border-gray-400 focus:border-amber-500 outline-none resize-none min-h-56"
               ></textarea>
               @if(descriptionHasRequiredError()) {
                 <span class="text-red-600">Este campo es obligatorio</span>
@@ -115,7 +115,7 @@
         <div class="flex flex-col gap-1">
           <label for="category">Categoría</label>
           <select name="category" formControlName="category"
-            class="rounded-md w-full p-3 border border-gray-400 focus:border-amber-500 outline-none"
+            class="rounded-md w-full p-3 border border-gray-400 bg-white focus:border-amber-500 outline-none"
             (change)="selectCategory($event)"
           >
             @for (category of categories; track category.id) {
@@ -130,7 +130,7 @@
         <div class="flex flex-col gap-1">
           <label for="brand">Marca</label>
           <select name="brand" formControlName="brand"
-            class="rounded-md w-full p-3 border border-gray-400 focus:border-amber-500 outline-none">
+            class="rounded-md w-full p-3 border border-gray-400 bg-white focus:border-amber-500 outline-none">
             @for (brand of brands; track brand.id) {
               <option [value]="brand.id">{{ brand.nombre }}</option>
             }
@@ -141,7 +141,7 @@
         </div>
 
         <button 
-          class="bg-amber-500 rounded-md w-full p-2 text-white mb-5" 
+          class="bg-amber-500 rounded-md w-full p-2 text-white" 
           type="submit"
         >
           Actualizar datos

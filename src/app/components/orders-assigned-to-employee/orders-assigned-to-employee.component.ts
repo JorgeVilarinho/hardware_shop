@@ -11,10 +11,11 @@ import { EmployeeService } from '../../services/employee.service';
 import { EmployeeTypeValue } from '../../models/employeeTypeValue';
 import { ChangeOrderAssembledStatusDialogComponent } from '../change-order-assembled-status-dialog/change-order-assembled-status-dialog.component';
 import { environment } from '../../../environments/environment';
+import { MatIcon } from '@angular/material/icon';
 
 @Component({
   selector: 'app-orders-assigned-to-employee',
-  imports: [ CurrencyPipe ],
+  imports: [ CurrencyPipe, MatIcon ],
   templateUrl: './orders-assigned-to-employee.component.html',
   styleUrl: './orders-assigned-to-employee.component.css'
 })

@@ -1,4 +1,4 @@
-<div class="px-10 py-5 flex flex-col justify-center gap-5">
+<div class="p-5 flex flex-col justify-center gap-5">
   <div class="flex flex-col gap-3">
     <div class="flex items-center gap-5 text-2xl font-medium">
       <button class="flex items-center" routerLink="/dashboard/orders">
@@ -18,7 +18,7 @@
         (click)="openDialog(employee.id)"
       >
         <p class="text-xl font-medium">{{ employee.name }}</p>
-        <div class="grid grid-cols-3 gap-2">
+        <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-2">
           <p>Tipo de trabajador: {{ employee.tipo_trabajador_desc }}</p>
           <p>Correo: {{ employee.email }}</p>
           <p>DNI: {{ employee.dni }}</p>
