@@ -1,22 +1,22 @@
-<div class="px-10 py-5 flex flex-col justify-center gap-5">
-  <div class="flex items-center gap-5 text-2xl font-medium">
-    <button class="flex items-center" routerLink="/dashboard/products">
+<div class="p-5 flex flex-col justify-center gap-3">
+  <div class="flex items-center gap-5 text-2xl">
+    <button class="flex items-center font-medium" routerLink="/dashboard/products">
       <mat-icon fontIcon="arrow_back" />
     </button>
-    <h1>Crear nuevo producto</h1>
+    <h1 class="font-medium">Crear nuevo producto</h1>
   </div>
 
   <div>
     <form [formGroup]="addProductForm" (ngSubmit)="onSubmit()" enctype="multipart/form-data">
-      <div class="flex flex-col gap-5">
-        <div class="flex gap-5 w-full">
+      <div class="flex flex-col gap-3">
+        <div class="flex flex-col sm:flex-row gap-3 w-full">
 
-          <div class="flex flex-col gap-1">
+          <div class="flex flex-col gap-2">
             <img 
               [src]="getImage('placeholder.png')" 
               id="productImage"
               alt="Imagen del producto"
-              class="w-[250px] h-[200px] border-2 border-neutral-300 rounded-md mb-2 object-cover"
+              class="border-2 border-neutral-300 rounded-md object-cover"
             >
             <label 
               for="image" 
@@ -48,7 +48,7 @@
             <div class="flex flex-col gap-1 flex-grow">
               <label for="description">Descripción</label>
               <textarea name="description" formControlName="description"
-                class="rounded-md w-full p-2 border flex-grow border-gray-400 focus:border-amber-500 outline-none resize-none"
+                class="rounded-md w-full p-2 border flex-grow border-gray-400 focus:border-amber-500 outline-none resize-none min-h-56"
               ></textarea>
               @if(descriptionHasRequiredError()) {
                 <span class="text-red-600">Este campo es obligatorio</span>
