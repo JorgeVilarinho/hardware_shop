@@ -1,27 +1,18 @@
 <div class="flex flex-col gap-5">
-  <!-- <h1 class="text-xl font-medium mb-10">CONFIGURADOR BYTESHOP</h1> -->
   <h1 class="text-xl font-medium">CONFIGURADOR BYTESHOP</h1>
 
-    <!-- <div class="flex gap-20 mb-10"> -->
     <div class="flex flex-col lg:flex-row gap-5">
       @if(hasBox()) {
-        <!-- <img 
-          [src]="getImage(this.pcConfiguratorService.getProduct('pc-towers-and-enclosures')?.image)" 
-          alt="Imagen de la caja" class="pt-10 w-[500px] h-[500px]"
-        > -->
         <img 
           [src]="getImage(this.pcConfiguratorService.getProduct('pc-towers-and-enclosures')?.image)" 
           alt="Imagen de la caja"
           class="sm:mx-auto lg:mx-0 max-w-[500px] max-h-[500px] lg:max-w-[300px] lg:max-h-[300px]"
         >
       } @else {
-        <!-- <img [src]="getImage('default_pc.png')" alt="Imagen de la caja" class="pt-10 w-[500px] h-[500px]"> -->
         <img [src]="getImage('default_pc.png')" alt="Imagen de la caja" class="sm:mx-auto lg:mx-0 max-w-[500px] max-h-[500px] lg:max-w-[300px] lg:max-h-[300px]">
       }
-      <!-- <div class="flex-grow"> -->
       <div class="flex flex-col gap-3 flex-grow">
         
-        <!-- <div class="flex gap-8 font-medium text-lg mb-5"> -->
         <div class="flex flex-col md:flex-row gap-2 md:gap-5 font-medium text-lg">
           <div 
             class="flex items-center md:justify-center gap-2 cursor-pointer md:flex-1" 
@@ -37,20 +28,6 @@
             </div>
           </div>
 
-          <!-- <div 
-            class="flex items-center md:justify-center gap-2 cursor-pointer md:flex-1 whitespace-nowrap lg:whitespace-normal"
-            [ngClass]="{'border-b-2 border-black': peripheralsTabActive, 'text-neutral-300': !peripheralsTabActive}"
-            (click)="changeActiveTabToPeripheralsTab()"
-          >
-            <p>PERIFÉRICOS Y ACCESSORIOS</p>
-            <div 
-              class="flex items-center justify-center w-5 h-5 rounded-full text-white text-base"
-              [ngClass]="{'bg-black': peripheralsTabActive, 'bg-neutral-300': !peripheralsTabActive}" 
-            >
-              <span>0</span>
-            </div>
-          </div> -->
-
           <div 
             class="flex items-center cursor-pointer md:justify-center md:flex-1"
             [ngClass]="{'border-b-2 border-black': assemblyTabActive, 'text-neutral-300': !assemblyTabActive}"
@@ -62,7 +39,6 @@
         </div>
 
         @if(componentsTabActive || peripheralsTabActive) {
-          <!-- <div class="grid grid-cols-2 gap-x-5 gap-y-8"> -->
           <div class="grid grid-cols-1 md:grid-cols-2 gap-y-3 gap-x-3">
 
             <div 
@@ -298,8 +274,6 @@
       </div>
     </div>
 
-    <!-- <div class="flex justify-between bg-white rounded-md px-3 py-5"> -->
-    <!-- temp  -->
     <div class="flex flex-col md:flex-row gap-3 md:justify-between bg-white rounded-md p-3">
 
       <div class="flex flex-col gap-3 lg:flex-row lg:gap-5">
@@ -328,69 +302,6 @@
           Añadir a la cesta
         </button>
       </div>
-
-        <!-- <div class="flex items-center gap-3">
-          <div class="border border-neutral-300 rounded-full p-2 flex items-center">
-            <mat-icon fontIcon="local_shipping" />
-          </div>
-          <p class="font-medium text-base">Gastos de envío: <span class="font-normal">{{ getShippingCost() | currency:'EUR' }}</span></p>
-        </div>
-  
-        <div class="flex items-center gap-3">
-          <div class="border border-neutral-300 rounded-full p-2 flex items-center">
-            <mat-icon fontIcon="local_shipping" />
-          </div>
-          <p class="font-medium text-base">Tiempo de montaje y de envío: <span class="font-normal">8 - 13 días laborables</span></p>
-        </div>
-
-        <p class="font-medium text-base">Total: <span class="font-normal">{{ getTotal() | currency:'EUR'}}</span></p>
-        
-        <button 
-          class="bg-amber-500 rounded-md px-3 py-2 text-white" 
-          (click)="addToCart()"
-        >
-          Añadir a la cesta
-        </button> -->
-
-
-        <!-- <div class="flex items-center gap-5">
-        <p>Total: {{ getTotal() | currency:'EUR'}}</p>
-        <button 
-          class="bg-amber-500 rounded-md px-3 py-2 text-white" 
-          (click)="addToCart()"
-        >Añadir a la cesta</button>
-      </div> -->
-
-      <!-- <div class="flex items-center gap-8">
-  
-        <div class="flex items-center gap-3">
-          <div class="border border-neutral-300 rounded-full p-2 flex items-center">
-            <mat-icon fontIcon="local_shipping" />
-          </div>
-          <div class="text-base">
-            <p class="font-medium">Gastos de envío:</p>
-            <p>{{ getShippingCost() | currency:'EUR' }}</p>
-          </div>
-        </div>
-  
-        <div class="flex items-center gap-3">
-          <div class="border border-neutral-300 rounded-full p-2 flex items-center">
-            <mat-icon fontIcon="local_shipping" />
-          </div>
-          <div class="text-base">
-            <p class="font-medium">Tiempo de montaje y de envío:</p>
-            <p>8 - 13 días laborables</p>
-          </div>
-        </div>
-      </div>
-
-      <div class="flex items-center gap-5">
-        <p>Total: {{ getTotal() | currency:'EUR'}}</p>
-        <button 
-          class="bg-amber-500 rounded-md px-3 py-2 text-white" 
-          (click)="addToCart()"
-        >Añadir a la cesta</button>
-      </div> -->
       
     </div>
 </div>
