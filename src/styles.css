@@ -3,17 +3,34 @@
 @tailwind components;
 @tailwind utilities;
 
-* { 
-  margin: 0;
-  padding: 0;
-  box-sizing: border-box; 
+@font-face {
+  font-family: 'Roboto';
+  src: url(../public/fonts/Roboto/Roboto-VariableFont_wdth,wght.woff2) format('woff2');
+  font-weight: 100 900;
+  font-display: swap;
 }
 
-body { 
-  font-family: Roboto, "Helvetica Neue", sans-serif; 
-  min-height: 100vh;
-  display: flex;
-  flex-direction: column;
+@font-face {
+  font-family: 'Roboto';
+  font-style: italic;
+  src: url(../public/fonts/Roboto/Roboto-Italic-VariableFont_wdth,wght.woff2) format('woff2');
+  font-weight: 100 900;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: 'Raleway';
+  src: url(../public/fonts/Raleway/Raleway-VariableFont_wght.woff2) format('woff2');
+  font-weight: 100 900;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: 'Raleway';
+  font-style: italic;
+  src: url(../public/fonts/Raleway/Raleway-Italic-VariableFont_wght.woff2) format('woff2');
+  font-weight: 100 900;
+  font-display: swap;
 }
 
 .material-symbols-outlined {
@@ -22,4 +39,21 @@ body {
   'wght' 400,
   'GRAD' 0,
   'opsz' 24
+}
+
+* { 
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box; 
+}
+
+body { 
+  font-family: 'Roboto', sans-serif;
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+}
+
+h1, h2, h3, h4, h5, h6, mat-panel-title {
+  font-family: 'Raleway', sans-serif;
 }

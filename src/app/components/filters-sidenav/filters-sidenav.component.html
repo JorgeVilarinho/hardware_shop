@@ -1,6 +1,6 @@
 <div class="flex flex-col gap-5 p-5">
   <div class="flex w-full justify-between items-center">
-    <h1 class="text-xl font-medium">Filtrar</h1>
+    <h1 class="text-xl font-bold">Filtrar</h1>
     <button mat-icon-button class="!flex !justify-center !items-center"
       (click)="closeFiltersSideNav()">
       <mat-icon fontIcon="close"></mat-icon>
@@ -8,10 +8,10 @@
   </div>
   <mat-expansion-panel>
     <mat-expansion-panel-header>
-      <mat-panel-title>Ordenar</mat-panel-title>
+      <mat-panel-title class="!font-semibold" class="!font-semibold">Ordenar</mat-panel-title>
     </mat-expansion-panel-header>
     <select name="order-filter" id="order-filter" 
-      class="w-full p-2 rounded-md border border-slate-200"
+      class="w-full p-2 rounded-md border border-slate-200 bg-white"
       (change)="selectOrderBy($event)">
       <option value="LOWER_PRICE">Menor precio</option>
       <option value="GREATER_PRICE">Mayor precio</option>
@@ -21,7 +21,7 @@
   </mat-expansion-panel>
   <mat-expansion-panel>
     <mat-expansion-panel-header>
-      <mat-panel-title>Precio</mat-panel-title>
+      <mat-panel-title class="!font-semibold">Precio</mat-panel-title>
     </mat-expansion-panel-header>
     <div>
       <mat-slider min="0" [max]="maxLimit" class="!w-[95%]">
@@ -43,7 +43,7 @@
   </mat-expansion-panel>
   <mat-expansion-panel>
     <mat-expansion-panel-header>
-      <mat-panel-title>Categoría</mat-panel-title>
+      <mat-panel-title class="!font-semibold">Categoría</mat-panel-title>
     </mat-expansion-panel-header>
     @for (category of categories; track category.id) {
       <label [for]="category.nombre" class="cursor-pointer flex items-center mb-2"> 
@@ -55,7 +55,7 @@
   </mat-expansion-panel>
   <mat-expansion-panel>
     <mat-expansion-panel-header>
-      <mat-panel-title>Marca</mat-panel-title>
+      <mat-panel-title class="!font-semibold">Marca</mat-panel-title>
     </mat-expansion-panel-header>
     <div class="grid grid-cols-2 gap-y-1">
       @for (brand of brands; track brand.id) {
@@ -69,7 +69,7 @@
   </mat-expansion-panel>
   <div class="flex-1 place-content-end">
     <div class="flex flex-col md:flex-row gap-3 justify-evenly">
-      <button class="border border-gray-200 rounded-md py-2 flex-auto transition hover:border-gray-400 active:scale-95"
+      <button class="border border-gray-300 rounded-md py-2 flex-auto transition hover:border-gray-400 active:scale-95"
         (click)="clearFilters()">Borrar filtros</button>
       <button class="bg-red-600 text-white rounded-md py-2 flex-auto transition hover:bg-red-700 active:scale-95" 
         (click)="applyFilters()">Aplicar filtros</button>
