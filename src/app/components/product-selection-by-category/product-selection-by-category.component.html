@@ -1,8 +1,8 @@
 <form [formGroup]="productSelectionForm" (ngSubmit)="onSubmit()" class="h-full flex flex-col">
-  <div class="flex gap-5 mb-5">
-    <div class="w-[70%] flex-grow">
-      <h1 class="text-2xl font-medium mb-3">{{ getCategoryName() }}</h1>
-      <div class="flex gap-3 mb-8">
+  <div class="flex flex-col gap-5 mb-5">
+    <div class="flex-grow flex flex-col gap-4">
+      <h1 class="text-2xl font-medium">{{ getCategoryName() }}</h1>
+      <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-3">
         <input 
           type="search" 
           name="searchByText" 
@@ -15,7 +15,7 @@
         <select 
           name="brands" 
           id="brands" 
-          class="px-3 py-2 rounded-sm border border-neutral-300 flex-1 outline-none"
+          class="px-3 py-2 rounded-sm border border-neutral-300 flex-1 outline-none bg-white"
           formControlName="brand"
           (change)="onChangeBrand()"
         >
@@ -27,7 +27,7 @@
         <select 
           name="orderBy" 
           id="orderBy"
-          class="px-3 py-2 rounded-sm border border-neutral-300 flex-1 outline-none"  
+          class="px-3 py-2 rounded-sm border border-neutral-300 flex-1 outline-none bg-white"  
           orderBy="orderBy"
           (change)="onChangeOrderBy()"
         >
@@ -39,7 +39,7 @@
         <select 
           name="compatibility" 
           id="compatibility"
-          class="px-3 py-2 rounded-sm border border-neutral-300 flex-1 outline-none"
+          class="px-3 py-2 rounded-sm border border-neutral-300 flex-1 outline-none bg-white"
           formControlName="compatibility"
           (change)="onChangeCompatibility()"
         >
@@ -47,7 +47,7 @@
           <option value="COMPATIBLE">Solo compatibles</option>
         </select>
       </div>
-      <p class="mb-3">{{ getNumberOfResults() }} resultados</p>
+      <p>{{ getNumberOfResults() }} resultados</p>
       <div class="flex flex-col gap-3">
   
         @for (product of products; track product.id) {
@@ -58,14 +58,16 @@
                 class="accent-red-600 scale-[1.2]" formControlName="product"
                 (change)="onChangeProduct(product)"
               >
-              <img [src]="getImage(product.image)" alt="Imagen del producto" class="w-16 h-16">
-              <div>
+              <img [src]="getImage(product.image)" alt="Imagen del producto" class="w-20 h-20 sm:w-24 sm:h-24">
+              <div class="flex flex-col gap-2">
                 <p>{{ product.name }}</p>
-                <div class="flex gap-2">
+                <div class="flex flex-col gap-1">
                   @if(product.discount > 0) {
-                    <p class="line-through">{{ product!.price | currency:"EUR" }}</p>
-                    <p>{{ (product!.price * (100 - product!.discount)) / 100 | currency:"EUR" }}</p>
-                    <div class="text-white bg-red-600 px-3 rounded-full">
+                    <div class="flex flex-col">
+                      <p class="line-through text-sm">{{ product!.price | currency:"EUR" }}</p>
+                      <p class="text-lg">{{ (product!.price * (100 - product!.discount)) / 100 | currency:"EUR" }}</p>
+                    </div>
+                    <div class="text-white bg-red-600 px-3 rounded-full w-fit">
                       Dto. {{ product.discount }} %
                     </div>
                   } @else {
@@ -81,57 +83,51 @@
     </div>
   
     @if(productIsSelected()) {
-      <div class="w-[30%] p-4 bg-gray-200 rounded-md flex flex-col gap-5">
-        <img [src]="getImage(selectedProduct!.image)" alt="Imagen del producto">
-        @if(selectedProduct!.discount > 0) {
-          <div class="font-medium">
-            <p class="line-through text-neutral-500 text-lg">{{ selectedProduct!.price | currency:"EUR" }}</p>
-            <p class="text-xl">{{ (selectedProduct!.price * (100 - selectedProduct!.discount)) / 100 | currency:"EUR" }}</p>
+      <div class="p-4 bg-gray-200 rounded-md flex flex-col gap-3">
+        <div class="flex flex-col sm:flex-row gap-3">
+          <img [src]="getImage(selectedProduct!.image)" alt="Imagen del producto" class="sm:max-w-52 sm:max-h-52 md:max-w-60 md:max-h-60 lg:max-w-72 lg:max-h-72">
+          <div class="flex flex-col gap-3">
+            <p class="text-2xl font-medium">{{ selectedProduct?.name }}</p>
+            @if(selectedProduct!.discount > 0) {
+              <div class="font-medium">
+                <p class="line-through text-neutral-500 text-lg">{{ selectedProduct!.price | currency:"EUR" }}</p>
+                <p class="text-xl">Total: {{ (selectedProduct!.price * (100 - selectedProduct!.discount)) / 100 | currency:"EUR" }}</p>
+              </div>
+            } @else {
+              <p class="text-xl font-medium">Total: {{ selectedProduct!.price | currency:"EUR" }}</p>
+            }
           </div>
-        } @else {
-          <p class="text-xl font-medium">{{ selectedProduct!.price | currency:"EUR" }}</p>
-        }
-        <p class="text-2xl font-medium">{{ selectedProduct?.name }}</p>
+        </div>
         <p>{{ selectedProduct?.description }}</p>
       </div>
     }
   </div>
 
   @if(productIsSelected()) {
-    <div class="flex justify-between bg-white rounded-md px-3 py-5 mb-5">
+    <div class="flex flex-col md:flex-row gap-3 md:justify-between bg-white rounded-md p-3">
 
-      <div class="flex items-center gap-8">
-        <button>
-          <mat-icon fontIcon="keyboard_arrow_up" class="text-3xl mr-5" />
-          Resumen
-        </button>
+      <div class="flex flex-col gap-3 lg:flex-row lg:gap-5">
   
         <div class="flex items-center gap-3">
           <div class="border border-neutral-300 rounded-full p-2 flex items-center">
             <mat-icon fontIcon="local_shipping" />
           </div>
-          <div class="text-base">
-            <p class="font-medium">Gastos de envío:</p>
-            <p>4,95 €</p>
-          </div>
+          <p class="font-medium text-base">Gastos de envío: <span class="font-normal">4,95 €</span></p>
         </div>
   
         <div class="flex items-center gap-3">
           <div class="border border-neutral-300 rounded-full p-2 flex items-center">
             <mat-icon fontIcon="local_shipping" />
           </div>
-          <div class="text-base">
-            <p class="font-medium">Tiempo de montaje y de envío:</p>
-            <p>8 - 13 días laborables</p>
-          </div>
+          <p class="font-medium text-base">Tiempo de montaje y de envío: <span class="font-normal">8 - 13 días laborables</span></p>
         </div>
       </div>
 
-      <div class="flex items-center gap-5">
+      <div class="flex flex-col gap-3 md:flex-row md:items-center md:gap-5">
         @if(selectedProduct!.discount > 0) {
-          <p>Total: {{ (selectedProduct!.price * (100 - selectedProduct!.discount)) / 100 | currency:"EUR" }}</p>
+          <p class="font-medium text-base">Total: <span class="font-normal">{{ (selectedProduct!.price * (100 - selectedProduct!.discount)) / 100 | currency:"EUR" }}</span></p>
         } @else {
-          <p>Total: {{ selectedProduct?.price | currency:"EUR" }}</p>
+          <p class="font-medium text-base">Total: <span class="font-normal">{{ selectedProduct?.price | currency:"EUR" }}</span></p>
         }
         <button class="bg-amber-500 rounded-md px-3 py-2 text-white">Añadir producto</button>
       </div>
