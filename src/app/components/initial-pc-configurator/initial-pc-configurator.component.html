@@ -1,5 +1,5 @@
 <div class="flex flex-col gap-5">
-  <h1 class="text-xl font-medium">CONFIGURADOR BYTESHOP</h1>
+  <h1 class="text-2xl font-bold">CONFIGURADOR BYTESHOP</h1>
 
     <div class="flex flex-col lg:flex-row gap-5">
       @if(hasBox()) {
@@ -19,7 +19,7 @@
             [ngClass]="{'border-b-2 border-black': componentsTabActive, 'text-neutral-300': !componentsTabActive}"
             (click)="changeActiveTabToComponentTab()"
           >
-            <p>COMPONENTES</p>
+            <h2 class="font-semibold">COMPONENTES</h2>
             <div 
               class="flex items-center justify-center w-5 h-5 rounded-full text-white text-base" 
               [ngClass]="{'bg-black': componentsTabActive, 'bg-neutral-300': !componentsTabActive}"
@@ -33,7 +33,7 @@
             [ngClass]="{'border-b-2 border-black': assemblyTabActive, 'text-neutral-300': !assemblyTabActive}"
             (click)="changeActiveTabToAssemblyTab()"
           >
-            <p>MONTAJE</p>
+            <h2 class="font-semibold">MONTAJE</h2>
           </div>
           
         </div>
@@ -59,7 +59,7 @@
                     alt="Imagen del producto"
                     class="w-12 h-12"
                   >
-                  <p class="text-black text-md">{{ this.pcConfiguratorService.getProduct('processors')?.name }}</p>
+                  <h2 class="text-black font-semibold">{{ this.pcConfiguratorService.getProduct('processors')?.name }}</h2>
                 } @else {
                   <mat-icon fontIcon="add" />
                   <p>Seleccionar componente</p>
@@ -85,7 +85,7 @@
                     alt="Imagen del producto"
                     class="w-12 h-12"
                   >
-                  <p class="text-black text-md">{{ this.pcConfiguratorService.getProduct('motherboards')?.name }}</p>
+                  <h2 class="text-black font-semibold">{{ this.pcConfiguratorService.getProduct('motherboards')?.name }}</h2>
                 } @else {
                   <mat-icon fontIcon="add" />
                   <p>Seleccionar componente</p>
@@ -111,7 +111,7 @@
                     alt="Imagen del producto"
                     class="w-12 h-12"
                   >
-                  <p class="text-black text-md">{{ this.pcConfiguratorService.getProduct('ram')?.name }}</p>
+                  <h2 class="text-black font-semibold">{{ this.pcConfiguratorService.getProduct('ram')?.name }}</h2>
                 } @else {
                   <mat-icon fontIcon="add" />
                   <p>Seleccionar componente</p>
@@ -137,7 +137,7 @@
                     alt="Imagen del producto"
                     class="w-12 h-12"
                   >
-                  <p class="text-black text-md">{{ this.pcConfiguratorService.getProduct('cpu-cooler')?.name }}</p>
+                  <h2 class="text-black font-semibold">{{ this.pcConfiguratorService.getProduct('cpu-cooler')?.name }}</h2>
                 } @else {
                   <mat-icon fontIcon="add" />
                   <p>Seleccionar componente</p>
@@ -163,7 +163,7 @@
                     alt="Imagen del producto"
                     class="w-12 h-12"
                   >
-                  <p class="text-black text-md">{{ this.pcConfiguratorService.getProduct('graphic-cards')?.name }}</p>
+                  <h2 class="text-black font-semibold">{{ this.pcConfiguratorService.getProduct('graphic-cards')?.name }}</h2>
                 } @else {
                   <mat-icon fontIcon="add" />
                   <p>Seleccionar componente</p>
@@ -189,7 +189,7 @@
                     alt="Imagen del producto"
                     class="w-12 h-12"
                   >
-                  <p class="text-black text-md">{{ this.pcConfiguratorService.getProduct('storage')?.name }}</p>
+                  <h2 class="text-black font-semibold">{{ this.pcConfiguratorService.getProduct('storage')?.name }}</h2>
                 } @else {
                   <mat-icon fontIcon="add" />
                   <p>Seleccionar componente</p>
@@ -215,7 +215,7 @@
                     alt="Imagen del producto"
                     class="w-12 h-12"
                   >
-                  <p class="text-black text-md">{{ this.pcConfiguratorService.getProduct('power-supplies')?.name }}</p>
+                  <h2 class="text-black font-semibold">{{ this.pcConfiguratorService.getProduct('power-supplies')?.name }}</h2>
                 } @else {
                   <mat-icon fontIcon="add" />
                   <p>Seleccionar componente</p>
@@ -241,7 +241,7 @@
                     alt="Imagen del producto"
                     class="w-12 h-12"
                   >
-                  <p class="text-black text-md">{{ this.pcConfiguratorService.getProduct('pc-towers-and-enclosures')?.name }}</p>
+                  <h2 class="text-black font-semibold">{{ this.pcConfiguratorService.getProduct('pc-towers-and-enclosures')?.name }}</h2>
                 } @else {
                   <mat-icon fontIcon="add" />
                   <p>Seleccionar componente</p>

@@ -3,22 +3,22 @@
   overflow-x-auto whitespace-nowrap lg:flex-1 lg:border-r-2 lg:border-r-slate-300
   lg:border-b-0">
     <a class="py-2 px-3 hover:bg-gray-300 rounded-md transition-colors 
-          cursor-pointer flex-1 sm:text-center lg:text-start lg:flex-none"
+          cursor-pointer font-medium sm:text-lg flex-1 text-center lg:text-start lg:flex-none"
       (click)="changeSelected('orders')"
       [ngClass]="{'selected': ordersIsActive}"
       routerLink="orders/active">Pedidos</a>
     <a class="py-2 px-3 hover:bg-gray-300 rounded-md transition-colors 
-          cursor-pointer flex-1 sm:text-center lg:text-start lg:flex-none"
+          cursor-pointer font-medium sm:text-lg flex-1 text-center lg:text-start lg:flex-none"
       (click)="changeSelected('address')"
       [ngClass]="{'selected': addressIsActive}"
       routerLink="address">Direcciones</a>
     <a class="py-2 px-3 hover:bg-gray-300 rounded-md transition-colors 
-          cursor-pointer flex-1 sm:text-center lg:text-start lg:flex-none"
+          cursor-pointer font-medium sm:text-lg flex-1 text-center lg:text-start lg:flex-none"
       (click)="changeSelected('data')"
       [ngClass]="{'selected': dataIsActive}"
       routerLink="data">Datos</a>
     <a class="py-2 px-3 hover:bg-gray-300 rounded-md transition-colors 
-          cursor-pointer flex-1 sm:text-center lg:text-start lg:flex-none"
+          cursor-pointer font-medium sm:text-lg flex-1 text-center lg:text-start lg:flex-none"
       (click)="openCloseSessionDialog()">Cerrar sesión</a>
   </div>
   <div class="lg:flex-[3] w-full p-5">

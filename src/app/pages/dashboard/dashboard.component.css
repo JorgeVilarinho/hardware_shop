@@ -8,3 +8,7 @@
   background-color: rgb(255, 233, 208);
   color: rgb(255, 160, 51);
 }
+
+div p {
+  font-family: 'Raleway', sans-serif;
+}

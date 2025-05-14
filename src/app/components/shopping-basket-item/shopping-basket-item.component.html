@@ -7,7 +7,7 @@
   <div class="flex flex-col w-full justify-between">
     <div class="flex flex-col gap-2 sm:flex-row justify-between mb-3">
       <div class="flex flex-col gap-2">
-        <p class="line-clamp-2">{{ cartItem?.name }}</p>
+        <h1 class="line-clamp-2 font-semibold">{{ cartItem?.name }}</h1>
         <p class="text-zinc-400">{{ cartItem?.category }}</p>
       </div>
       @if(cartItem?.discount) {

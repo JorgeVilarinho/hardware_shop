@@ -2,15 +2,15 @@
   <div class="lg:w-[60%] p-5 lg:py-10 lg:pl-20 flex flex-col gap-5">
     <div>
       <div class="flex items-center gap-1 text-lg">
-        <p class="flex items-center justify-center gap-1 text-xl">
+        <p class="flex items-center justify-center gap-1 text-xl font-bold">
           <span>Envío</span> 
           <mat-icon fontIcon="arrow_forward_ios" class="!text-xs !flex !items-center !justify-center" />
-          <span class="text-zinc-400">Pago</span>
+          <span class="text-zinc-400 font-medium">Pago</span>
         </p>
       </div>
     </div>
     <form class="w-[95%] flex flex-col gap-3" [formGroup]="selectionForm">
-      <p class="font-medium text-base">Elige tu forma de envío</p>
+      <h2 class="font-semibold text-md">Elige tu forma de envío</h2>
       @for (shippingMethod of shippingMethods; track shippingMethod.id) {
         <div class="flex flex-col">
           <div class="border border-slate-300 bg-white rounded-md px-4 py-3 flex justify-between">
@@ -31,7 +31,7 @@
       }
       
       @if(shippingMethodIsHomeDelivery()) {
-        <p class="font-medium text-base">Elige una dirección de envío</p>
+        <h2 class="font-semibold text-md">Elige una dirección de envío</h2>
         @for (address of addresses; track address.id) {
           <div class="flex flex-col gap-4">
             <div class="border border-slate-300 bg-white rounded-md px-4 py-3">
@@ -49,7 +49,7 @@
           </div>
         }
   
-        <p class="font-medium text-base">Elige una opción de envío</p>
+        <h2 class="font-semibold text-md">Elige una opción de envío</h2>
         @for (shippingOption of shippingOptions; track shippingOption.id) {
           <div class="flex flex-col gap-4">
             <div class="border border-slate-300 bg-white rounded-md px-4 py-3 gap-5 flex justify-between">
@@ -85,11 +85,11 @@
   </div>
   
   <div class="bg-gray-200 lg:w-[40%] p-5 flex flex-col gap-3">
-    <h1 class="text-xl">Resumen del pedido</h1>
+    <h1 class="text-xl font-bold">Resumen del pedido</h1>
   
     <hr class="w-full border border-gray-300">
   
-    <h2 class="text-xl">Artículos</h2>
+    <h2 class="text-xl font-semibold">Artículos</h2>
     <p>{{ getTotalItems() }} artículos</p>
     <div class="flex flex-col gap-5">
       @for(pc of pcs; track pc.id) {
@@ -100,7 +100,7 @@
             class="w-full min-w-20 col-span-2 sm:col-span-1"
           >
           <div class="col-span-2 sm:col-span-3 flex flex-col gap-3">
-            <p>Ordenador personalizado</p>
+            <h1 class="font-semibold">Ordenador personalizado</h1>
             <div class="text-sm">
               <p class="text-neutral-400">Ordenador ByteShop</p>
               <p class="text-neutral-400">1 ud.</p>
@@ -123,7 +123,7 @@
             class="w-full min-w-20 col-span-2 sm:col-span-1"
           >
           <div class="col-span-2 sm:col-span-3 flex flex-col gap-3">
-            <p>{{ item.name }}</p>
+            <h1 class="font-semibold">{{ item.name }}</h1>
             <div class="text-sm">
               <p class="text-neutral-400">{{ item.category }}</p>
               <p class="text-neutral-400">{{ item.units }} ud.</p>

@@ -1,14 +1,14 @@
 <div class="flex flex-col gap-5">
   <div class="flex justify-between items-center">
-    <h1 class="text-2xl">Direcciones</h1>
+    <h1 class="text-2xl font-bold">Direcciones</h1>
     <button class="bg-amber-500 rounded p-2 text-white"
       (click)="changeToAddressCreateComponent()">Añadir dirección</button>
   </div>
   <div class="flex flex-col gap-4">
     @for (address of addresses; track address.id) {
-      <div class="flex flex-col gap-3 border rounded-md p-4 py-2 shadow-md bg-white border-gray-400 transition-all hover:border-amber-500 hover:shadow-lg">
+      <div class="flex flex-col gap-1 border rounded-md p-4 py-2 shadow-md bg-white border-gray-400 transition-all hover:border-amber-500 hover:shadow-lg">
         <div class="flex justify-between items-center">
-          <h2 class="text-xl font-medium">{{ address.nombre }}</h2>
+          <h2 class="text-xl font-semibold">{{ address.nombre }}</h2>
           <button mat-icon-button (click)="deleteAddress(address.id)">
             <mat-icon>delete</mat-icon>
           </button>

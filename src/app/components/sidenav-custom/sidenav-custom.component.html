@@ -14,9 +14,9 @@
               outline-none cursor-pointer transition hover:bg-neutral-200"
             (click)="goToShop()"
           >
-            <div class="flex gap-2">
+            <div class="flex items-center gap-3">
               <mat-icon fontIcon="store"></mat-icon>
-              <span>Tienda</span>
+              <h1 class="font-semibold text-lg">Tienda</h1>
             </div>
             <div class="flex">
               <mat-icon fontIcon="chevron_right"></mat-icon>
@@ -32,9 +32,9 @@
                 outline-none cursor-pointer transition hover:bg-neutral-200"
               (click)="goToDashboard()"
             >
-              <div class="flex gap-2">
+              <div class="flex items-center gap-3">
                 <mat-icon fontIcon="space_dashboard"></mat-icon>
-                <span>Dashboard</span>
+                <h1 class="font-semibold text-lg">Dashboard</h1>
               </div>
               <div class="flex">
                 <mat-icon fontIcon="chevron_right"></mat-icon>
@@ -48,9 +48,9 @@
                 outline-none cursor-pointer transition hover:bg-neutral-200"
               (click)="goToAccount()"
             >
-              <div class="flex gap-2">
+              <div class="flex items-center gap-3">
                 <mat-icon fontIcon="person"></mat-icon>
-                <span>Cuenta</span>
+                <h1 class="font-semibold text-lg">Cuenta</h1>
               </div>
               <div class="flex">
                 <mat-icon fontIcon="chevron_right"></mat-icon>
@@ -65,9 +65,9 @@
               outline-none cursor-pointer transition hover:bg-neutral-200"
             (click)="goToConfigureYourPC()"
           >
-            <div class="flex gap-2">
+            <div class="flex items-center gap-3">
               <mat-icon fontIcon="computer"></mat-icon>
-              <span>Configura tu PC</span>
+              <h1 class="font-semibold text-lg">Configura tu PC</h1>
             </div>
             <div class="flex">
               <mat-icon fontIcon="chevron_right"></mat-icon>
@@ -83,9 +83,9 @@
             justify-self-end absolute bottom-14 w-full"
           (click)="openLogOutDialog()"
         >
-          <div class="flex gap-2">
+          <div class="flex items-center gap-3">
             <mat-icon fontIcon="logout"></mat-icon>
-            <span>Cerrar sesión</span>
+            <h1 class="font-semibold text-lg">Cerrar sesión</h1>
           </div>
         </button>
       } @else {
@@ -95,9 +95,9 @@
             justify-self-end absolute bottom-14 w-full"
           (click)="goToLogin()"
         >
-          <div class="flex gap-2">
+          <div class="flex items-center gap-3">
             <mat-icon fontIcon="login"></mat-icon>
-            <span>Iniciar sesión</span>
+            <h1 class="font-semibold text-lg">Iniciar sesión</h1>
           </div>
         </button>
       }

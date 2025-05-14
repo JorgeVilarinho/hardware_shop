@@ -1,6 +1,6 @@
 <div class="p-5 flex flex-col justify-center gap-3 flex-1">
   <div class="flex flex-col gap-3">
-    <h1 class="text-2xl font-medium">Asignación de pedidos</h1>
+    <h1 class="text-2xl font-bold">Asignación de pedidos</h1>
     @if(unassignedOrders.length != 0) {
       <div class="flex flex-col gap-1">
         <p class="text-base">Los pedidos están ordenados de mayor a menor en relación a su fecha de creación</p>
@@ -33,7 +33,7 @@
         <div class="flex items-center justify-center">
           <mat-icon class="material-symbols-outlined text-7xl !w-full !h-full" fontIcon="orders" />
         </div>
-        <p>No hay pedidos que falten por ser asignados</p>
+        <p class="text-xl">No hay pedidos que falten por ser asignados</p>
       </div>
     }
   </div>

@@ -1,10 +1,10 @@
 <div class="p-5 flex flex-col justify-center gap-3">
   <div class="flex flex-col gap-3">
-    <h1 class="text-2xl font-medium">Pedidos asignados a mi</h1>
+    <h1 class="text-2xl font-bold">Pedidos asignados a mi</h1>
     @if(isDeliveryEmployee() && assignedOrders.length !== 0) {
-      <p class="text-lg">Eliga el pedido a ser enviado</p>
+      <p class="text-lg">Elija el pedido a ser enviado</p>
     } @else if(isAssemblerEmployee() && assignedOrders.length !== 0) {
-      <p class="text-lg">Eliga el pedido para indicar que los PCs de dicho pedido ya están montados</p>
+      <p class="text-lg">Elija el pedido para indicar que los PCs de dicho pedido ya están montados</p>
     }
   </div>
 

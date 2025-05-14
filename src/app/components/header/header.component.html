@@ -57,7 +57,7 @@
       </button>
     </div>
     <mat-menu #menu="matMenu" class="mt-2 p-4 mx-4 sm:!min-w-[400px] !bg-white !overflow-y-hidden">
-      <p class="mb-2">Productos en tu cesta ({{ getCountProducts() }})</p>
+      <h1 class="mb-2 font-semibold text-base">Productos en tu cesta ({{ getCountProducts() }})</h1>
       <div class="overflow-x-hidden max-h-[200px] sm:max-h-[320px] mb-3 flex flex-col gap-3">
         @for(pc of cart.pcs; track pc.id; let last = $last) {
           <div class="flex gap-3 max-w-[400px]">
@@ -68,7 +68,7 @@
                 <img [src]="getImage('default_pc.png')" alt="Imagen del producto" class="max-w-28 max-h-28 sm:max-w-36 sm:max-h-36 border">
               }
               <div class="flex flex-col justify-between">
-                <p>Ordenador personalizado</p>
+                <h2 class="font-semibold">Ordenador personalizado</h2>
                 <div>
                   @if(someComponentHasDiscount(pc)) {
                     <p class="text-slate-500 line-through">{{ getTotalWithoutDiscount(pc) | currency:'EUR' }}</p>
@@ -92,7 +92,7 @@
             <div class="flex gap-3">
               <img [src]="getImage(item.image)" alt="Imagen del producto" class="max-w-28 max-h-28 sm:max-w-36 sm:max-h-36 border">
               <div class="flex flex-col justify-between">
-                <p>{{ item.name }}</p>
+                <h2 class="font-semibold">{{ item.name }}</h2>
                 @if(item.discount) {
                   <div class="flex flex-col">
                     <p class="text-slate-500 line-through">{{ item.price | currency:'EUR' }}</p>

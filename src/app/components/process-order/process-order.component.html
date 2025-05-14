@@ -5,7 +5,7 @@
       <div>
         <mat-icon fontIcon="verified" class="text-green-500 !text-8xl !w-full !h-full"></mat-icon>
       </div>
-      <p class="text-xl md:text-2xl text-center font-medium">¡Tu pedido ha sido realizado con éxito!</p>
+      <h1 class="text-xl md:text-2xl text-center font-bold">¡Tu pedido ha sido realizado con éxito!</h1>
     </div>
     <div class="flex flex-col gap-3">
       <p class="text-lg">Gracias por tu compra</p>
@@ -19,9 +19,9 @@
       <p class="text-lg font-medium">Por favor, complete a continuación el pago de tu pedido</p>
       <div class="flex flex-col gap-3">
         <form class="border border-slate-300 rounded-md flex flex-col gap-5 p-3 sm:p-5" [formGroup]="checkOutForm" (ngSubmit)="onSubmit()">
-          <p class="font-medium md:text-xl">Tarjeta</p>
+          <h2 class="font-semibold text-xl">Tarjeta</h2>
           <div class="flex flex-col gap-1">
-            <label class="font-medium text-sm md:text-base" for="cardHolder">Nombre del titular de la tarjeta</label>
+            <label class="font-medium" for="cardHolder">Nombre del titular de la tarjeta</label>
             <input 
               class="w-full px-4 py-3 border border-gray-400 rounded-md outline-none
               transition hover:border-red-400" 
@@ -37,7 +37,7 @@
           </div>
 
           <div class="flex flex-col gap-1">
-            <label class="font-medium text-sm md:text-base" for="cardNumber">Número de tarjeta</label>
+            <label class="font-medium" for="cardNumber">Número de tarjeta</label>
             <div class="flex border border-gray-400 rounded-md transition hover:border-red-400" [class.invalid]="invalidCardNumber()">
               <input 
                 type="text" 
@@ -60,9 +60,9 @@
             }
           </div>
 
-          <div class="flex gap-5">
+          <div class="flex flex-col sm:flex-row gap-5">
             <div class="flex-1 flex flex-col gap-1">
-              <label class="font-medium text-sm md:text-base" for="expireDate">Fecha de caducidad</label>
+              <label class="font-medium" for="expireDate">Fecha de caducidad</label>
               <input 
                 class="w-full px-4 py-3 border border-gray-400 rounded-md outline-none transition hover:border-red-400" 
                 type="text"
@@ -82,7 +82,7 @@
               }
             </div>
             <div class="flex-1  flex flex-col gap-1">
-              <label class="font-medium text-sm md:text-base" for="securityCode">Código de serguridad</label>
+              <label class="font-medium" for="securityCode">Código de serguridad</label>
               <input 
                 class="w-full px-4 py-3 border border-gray-400 rounded-md outline-none transition hover:border-red-400" 
                 type="text"
@@ -136,7 +136,7 @@
   <div class="bg-gray-200 lg:w-[40%] p-5 sm:p-10 lg:p-7">
 
     <div class="flex flex-col gap-4">
-      <p class="text-2xl font-medium">Datos de tu pedido</p>
+      <h1 class="text-2xl font-bold">Datos de tu pedido</h1>
       <div>
         <p class="font-medium text-lg">Número de tu pedido</p>
         <p>{{ order?.id }}</p>
