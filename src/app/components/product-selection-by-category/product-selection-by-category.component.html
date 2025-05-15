@@ -55,7 +55,7 @@
             <label [for]="product.id" class="flex items-center gap-4 cursor-pointer">
               <input 
                 type="radio" name="product" [id]="product.id" [value]="product.id" 
-                class="accent-red-600 scale-[1.2]" formControlName="product"
+                class="accent-blue-500 scale-[1.2]" formControlName="product"
                 (change)="onChangeProduct(product)"
               >
               <img [src]="getImage(product.image)" alt="Imagen del producto" class="w-20 h-20 sm:w-24 sm:h-24">
@@ -129,7 +129,7 @@
         } @else {
           <p class="font-medium text-base">Total: <span class="font-normal">{{ selectedProduct?.price | currency:"EUR" }}</span></p>
         }
-        <button class="bg-amber-500 rounded-md px-3 py-2 text-white">Añadir producto</button>
+        <button class="bg-blue-500 hover:bg-blue-600 rounded-md px-3 py-2 text-white transition active:scale-95">Añadir producto</button>
       </div>
       
     </div>

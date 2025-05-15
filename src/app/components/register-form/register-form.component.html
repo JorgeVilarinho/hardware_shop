@@ -5,7 +5,7 @@
       <label for="email">Nombre</label>
       <input type="text" name="username" formControlName="clientName"
         placeholder="Nombre y apellidos"
-        class="rounded-md w-full p-3 border border-gray-400 focus:border-amber-500 outline-none"
+        class="rounded-md w-full p-3 border border-gray-400 focus:border-blue-500 outline-none"
         [class.invalid]="invalidClientName()">
       @if(clientNameHasRequiredError()) {
         <span class="text-red-600">Este campo es obligatorio</span>
@@ -14,7 +14,7 @@
     <div class="flex flex-col gap-2">
       <label for="email">Correo electrónico</label>
       <input type="email" name="email" formControlName="email"
-        class="rounded-md w-full p-3 border border-gray-400 focus:border-amber-500 outline-none"
+        class="rounded-md w-full p-3 border border-gray-400 focus:border-blue-500 outline-none"
         [class.invalid]="invalidEmail()">
       @if(emailHasRequiredError()) {
         <span class="text-red-600">Este campo es obligatorio</span>
@@ -27,7 +27,7 @@
       <label for="password">Contraseña</label>
       <input type="password" name="password" formControlName="password"
         placeholder="Al menos 6 caracteres"
-        class="rounded-md w-full p-3 border border-gray-400 focus:border-amber-500 outline-none"
+        class="rounded-md w-full p-3 border border-gray-400 focus:border-blue-500 outline-none"
         [class.invalid]="invalidPassword()">
       @if(passwordHasRequiredError()) {
         <span class="text-red-600">Este campo es obligatorio</span>
@@ -37,7 +37,7 @@
       }
     </div>
     <button 
-      class="bg-amber-500 rounded-md w-full p-2 text-white mb-3" 
+      class="bg-blue-500 hover:bg-blue-600 rounded-md w-full p-2 text-white mb-3 transition active:scale-95" 
       type="submit"
     >
       Crear cuenta
@@ -47,6 +47,6 @@
 <hr class="border border-gray-200 mb-3">
 <div class="flex flex-col gap-3 mb-3">
   <h2 class="font-medium">¿Tienes una cuenta?</h2>
-  <button class="bg-white rounded-md w-full p-2 border border-gray-400 text-black"
+  <button class="bg-white rounded-md w-full p-2 border border-gray-300 hover:border-gray-400 text-black transition active:scale-95"
     routerLink="/login">Iniciar sesión</button>
 </div>

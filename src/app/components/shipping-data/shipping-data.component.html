@@ -17,7 +17,7 @@
             <div class="flex items-center gap-5">
               <label [for]="shippingMethod.valor" class="cursor-pointer flex items-center justify-center gap-5">
                 <input type="radio" [id]="shippingMethod.valor" name="shippingMethod" formControlName="shippingMethod" [value]="shippingMethod"
-                class="w-5 h-5 accent-red-600 cursor-pointer" (change)="onChangeShippingMethod()">
+                class="w-5 h-5 accent-blue-500 cursor-pointer" (change)="onChangeShippingMethod()">
                 <span>{{ shippingMethod.descripcion }}</span>
               </label>
             </div>
@@ -37,7 +37,7 @@
             <div class="border border-slate-300 bg-white rounded-md px-4 py-3">
               <label [for]="address.id" class="flex items-center gap-5 cursor-pointer">
                 <input type="radio" [id]="address.id" name="address" formControlName="address" 
-                  [value]="address" class="w-5 h-5 accent-red-600 cursor-pointer" 
+                  [value]="address" class="w-5 h-5 accent-blue-500 cursor-pointer" 
                   (change)="onChangeAddressOption(address)"
                 >
                 <div>
@@ -55,7 +55,7 @@
             <div class="border border-slate-300 bg-white rounded-md px-4 py-3 gap-5 flex justify-between">
               <label [for]="shippingOption.valor" class="flex gap-4 cursor-pointer">
                 <input type="radio" [id]="shippingOption.valor" name="shippingOption" 
-                  formControlName="shippingOption" [value]="shippingOption" class="w-5 h-5 accent-red-600 cursor-pointer"
+                  formControlName="shippingOption" [value]="shippingOption" class="w-5 h-5 accent-blue-500 cursor-pointer"
                   (change)="onChangeShippingOption(shippingOption)"  
                 >
                 <img [src]="getImage(shippingOption.imagen)" class="w-12">
@@ -72,8 +72,8 @@
       }
   
       @if(selectionFormIsValid()) {
-        <button class="self-end border py-2 px-5 rounded-md bg-red-600 
-        text-white transition-transform active:scale-95 shadow-sm hover:bg-red-700"
+        <button class="self-end border py-2 px-5 rounded-md bg-blue-500 
+        text-white transition-transform active:scale-95 shadow-sm hover:bg-blue-600"
           type="button"
           routerLink="payment-data"
         >

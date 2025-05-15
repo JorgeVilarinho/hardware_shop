@@ -48,7 +48,7 @@
     @for (category of categories; track category.id) {
       <label [for]="category.nombre" class="cursor-pointer flex items-center mb-2"> 
         <input type="radio" name="category" [id]="category.nombre" [value]="category.id" 
-        class="w-5 h-5 rounded-sm mr-2 cursor-pointer accent-red-500" (click)="selectCategory(category)"> 
+        class="w-5 h-5 rounded-sm mr-2 cursor-pointer accent-blue-500" (click)="selectCategory(category)"> 
         {{ category.nombre }}
       </label>
     }
@@ -61,7 +61,7 @@
       @for (brand of brands; track brand.id) {
         <label [for]="brand.nombre" class="cursor-pointer flex items-center">
           <input type="checkbox" [name]="brand.nombre" [id]="brand.nombre" 
-            class="w-5 h-5 rounded-sm mr-2 cursor-pointer accent-red-500" (click)="upsertBrandToFilters(brand)">
+            class="w-5 h-5 rounded-sm mr-2 cursor-pointer accent-blue-500" (click)="upsertBrandToFilters(brand)">
           {{ brand.nombre }}
         </label>
       }
@@ -71,7 +71,7 @@
     <div class="flex flex-col md:flex-row gap-3 justify-evenly">
       <button class="border border-gray-300 rounded-md py-2 flex-auto transition hover:border-gray-400 active:scale-95"
         (click)="clearFilters()">Borrar filtros</button>
-      <button class="bg-red-600 text-white rounded-md py-2 flex-auto transition hover:bg-red-700 active:scale-95" 
+      <button class="bg-blue-500 text-white rounded-md py-2 flex-auto transition hover:bg-blue-600 active:scale-95" 
         (click)="applyFilters()">Aplicar filtros</button>
     </div>
   </div>

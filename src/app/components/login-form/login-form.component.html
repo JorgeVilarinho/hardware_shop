@@ -4,7 +4,7 @@
     <div class="flex flex-col gap-2">
       <label for="email">Correo electrónico</label>
       <input type="email" name="email" formControlName="email"
-        class="rounded-md w-full p-3 border border-gray-400 focus:border-amber-500 outline-none"
+        class="rounded-md w-full p-3 border border-gray-400 focus:border-blue-500 outline-none"
         [class.invalid]="invalidEmail()">
       @if(emailHasRequiredError()) {
         <span class="text-red-600">Este campo es obligatorio</span>
@@ -17,7 +17,7 @@
       <label for="password">Contraseña</label>
       <input type="password" name="password" formControlName="password"
         placeholder="Al menos 6 caracteres"
-        class="rounded-md w-full p-3 border border-gray-400 focus:border-amber-500 outline-none"
+        class="rounded-md w-full p-3 border border-gray-400 focus:border-blue-500 outline-none"
         [class.invalid]="invalidPassword()">
       @if(passwordHasRequiredError()) {
         <span class="text-red-600">Este campo es obligatorio</span>
@@ -26,13 +26,13 @@
         <span class="text-red-600">La contraseña tiene que tener un mínimo de 6 caracteres</span>
       }
     </div>
-    <button class="bg-amber-500 rounded-md w-full p-2 text-white mb-3" type="submit">Acceder</button>
+    <button class="bg-blue-500 rounded-md w-full p-2 text-white mb-3 hover:bg-blue-600 transition active:scale-95" type="submit">Acceder</button>
   </div>
 </form>
 <hr class="border border-gray-200 mb-3">
 <div class="flex flex-col gap-3 mb-3">
   <h2 class="font-medium">¿No estás registrado en ByteShop?</h2>
-  <button class="bg-white rounded-md w-full p-2 border border-gray-400 text-black"
+  <button class="bg-white rounded-md w-full p-2 border border-gray-300 hover:border-gray-400 text-black transition active:scale-95"
     routerLink="/register">Crear cuenta</button>
 </div>
 

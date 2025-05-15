@@ -5,8 +5,8 @@
 }
 
 .selected {
-  background-color: rgb(255, 233, 208);
-  color: rgb(255, 160, 51);
+  background-color: rgba(59, 131, 246, 0.212);
+  color: rgb(59, 130, 246);
 }
 
 a {

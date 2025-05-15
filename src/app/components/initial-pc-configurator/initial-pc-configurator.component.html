@@ -255,7 +255,7 @@
 
             <form class="col-span-2" [formGroup]="assemblyForm">
               <div 
-                class="bg-white rounded-md py-5 px-5 gap-3 accent-red-600"
+                class="bg-white rounded-md py-5 px-5 gap-3 accent-blue-500"
               >
                 <label for="assembly" class="flex items-center gap-3 cursor-pointer">
                   <input 
@@ -296,7 +296,7 @@
         <p class="font-medium text-base">Total: <span class="font-normal">{{ getTotal() | currency:'EUR'}}</span></p>
         
         <button 
-          class="bg-amber-500 rounded-md px-3 py-2 text-white" 
+          class="bg-blue-500 hover:bg-blue-600 rounded-md px-3 py-2 text-white transition active:scale-95" 
           (click)="addToCart()"
         >
           Añadir a la cesta

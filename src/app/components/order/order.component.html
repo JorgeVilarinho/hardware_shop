@@ -23,7 +23,7 @@
         }
       </div>
       @if(isPayable()) {
-        <button class="bg-red-600 text-white rounded-md py-2 px-3 transition hover:bg-red-700 active:scale-95" (click)="goToPayment()">Realizar pago</button>
+        <button class="bg-blue-500 hover:bg-blue-600 text-white rounded-md py-2 px-3 transition active:scale-95" (click)="goToPayment()">Realizar pago</button>
       }
     </div>
     <p class="text-neutral-500">Pedido realizado: {{ getFormattedDate(order?.fecha_creacion!) }}</p>
@@ -126,7 +126,7 @@
     @if(isCancelable()) {
       <hr class="border-neutral-400 flex flex-1">
       <div class="flex flex-1 justify-end">
-        <button class="bg-red-600 text-white rounded-md py-2 px-3 transition hover:bg-red-700 active:scale-95" (click)="cancelOrder()">Cancelar pedido</button>
+        <button class="bg-blue-500 hover:bg-blue-600 text-white rounded-md py-2 px-3 transition active:scale-95" (click)="cancelOrder()">Cancelar pedido</button>
       </div>
     }
   </div>

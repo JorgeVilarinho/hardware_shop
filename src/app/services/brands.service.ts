@@ -47,10 +47,7 @@ export class BrandsService {
         observe: 'response',
       })
     );
-
-    console.log(response.ok)
-    console.log(response.body)
-
+    
     if (response.ok) return response.body!.brands;
 
     return [];

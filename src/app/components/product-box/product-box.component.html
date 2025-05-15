@@ -17,14 +17,14 @@
     <div class="text-slate-500 line-through">
       {{ product!.price | currency : "EUR" }}
     </div>
-    <div class="text-red-600 mb-2 text-xl">
+    <div class="mb-2 text-xl">
       {{ (product!.price * (100 - product!.discount)) / 100 | currency : "EUR" }}
     </div>
     } @else {
     <div class="invisible text-slate-500 line-through">
       {{ product!.price }}
     </div>
-    <div class="text-red-600 mb-2 text-xl">
+    <div class="mb-2 text-xl">
       {{ product!.price | currency : "EUR" }}
     </div>
     }
@@ -32,7 +32,7 @@
       mat-button
       disableRipple="true"
       (click)="onAddProductToCart()"
-      class="!w-full !bg-red-600 !active:bg-red-800 !text-white !py-1 !mt-1 !rounded-md"
+      class="!w-full !bg-blue-500 !active:bg-red-800 !text-white !py-1 !mt-1 !rounded-md transition-transform active:scale-95 shadow-sm"
     >
       Añadir
     </button>

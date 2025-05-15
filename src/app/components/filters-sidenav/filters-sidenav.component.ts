@@ -162,7 +162,7 @@ export class FiltersSidenavComponent implements OnInit {
 
   private changeBrands(category: Category): void {
     this.httpClient.get<any>(
-      `${environment.apiBaseUrl}brands/${category.id}`, 
+      `${environment.apiBaseUrl}brands/category/${category.id}`, 
       { observe: 'response' })
       .subscribe(result => {
         if(result.ok) {

@@ -19,7 +19,7 @@
               <label [for]="paymentOption.valor" class="flex items-center gap-5 cursor-pointer">
                 <input 
                   type="radio" [id]="paymentOption.valor" name="paymentOption" formControlName="paymentOption" 
-                  [value]="paymentOption" class="w-5 h-5 accent-red-600 cursor-pointer"
+                  [value]="paymentOption" class="w-5 h-5 accent-blue-500 cursor-pointer"
                   (change)="onChangePaymentOption(paymentOption)"
                 >
                 <img [src]="getImage(paymentOption.imagen)" class="w-12">
@@ -39,8 +39,8 @@
 
       @if(paymentOptionIsSelected()) {
         <button 
-          class="self-end border py-2 px-3 rounded-md bg-red-600 
-        text-white transition-transform active:scale-95 shadow-sm hover:bg-red-700
+          class="self-end border py-2 px-3 rounded-md bg-blue-500 
+        text-white transition-transform active:scale-95 shadow-sm hover:bg-blue-600
           flex justify-center items-center gap-3"
           type="button"
           (click)="processOrderAndChangeToProcessOrderStep()"

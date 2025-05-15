@@ -1,11 +1,11 @@
 <div>
   <form name="form" [formGroup]="addressForm" (ngSubmit)="onSubmit()">
     <div class="flex flex-col gap-3">
-      <h1 class="text-2xl">Agregar dirección</h1>
+      <h1 class="text-2xl font-bold">Agregar dirección</h1>
       <div class="flex flex-col gap-1">
         <label for="fullName">Nombre y apellidos</label>
         <input type="text" name="fullName" formControlName="fullName"
-          class="rounded-md w-full p-3 border border-gray-400 focus:border-amber-500 outline-none"
+          class="rounded-md w-full p-3 border border-gray-400 focus:border-blue-500 outline-none"
           [class.invalid]="invalidName()">
           @if(nameHasRequiredError()) {
             <span class="text-red-600">Este campo es obligatorio</span>
@@ -15,7 +15,7 @@
       <div class="flex flex-col gap-1">
         <label for="address">Direccion</label>
         <input type="text" name="address" formControlName="address"
-          class="rounded-md w-full p-3 border border-gray-400 focus:border-amber-500 outline-none"
+          class="rounded-md w-full p-3 border border-gray-400 focus:border-blue-500 outline-none"
           [class.invalid]="invalidAddress()">
         @if(addressHasRequiredError()) {
           <span class="text-red-600">Este campo es obligatorio</span>
@@ -24,7 +24,7 @@
       <div class="flex flex-col gap-1">
         <label for="cp">Código postal</label>
         <input type="text" name="cp" formControlName="cp"
-          class="rounded-md w-full p-3 border border-gray-400 focus:border-amber-500 outline-none"
+          class="rounded-md w-full p-3 border border-gray-400 focus:border-blue-500 outline-none"
           [class.invalid]="invalidCP()">
         @if(cpHasRequiredError()) {
           <span class="text-red-600">Este campo es obligatorio</span>
@@ -36,7 +36,7 @@
       <div class="flex flex-col gap-1">
         <label for="region">Provincia</label>
         <input type="text" name="region" formControlName="region"
-          class="rounded-md w-full p-3 border border-gray-400 focus:border-amber-500 outline-none"
+          class="rounded-md w-full p-3 border border-gray-400 focus:border-blue-500 outline-none"
           [class.invalid]="invalidProvincia()">
         @if(provinciaHasRequiredError()) {
           <span class="text-red-600">Este campo es obligatorio</span>
@@ -45,7 +45,7 @@
       <div class="flex flex-col gap-1">
         <label for="city">Ciudad</label>
         <input type="text" name="city" formControlName="city"
-          class="rounded-md w-full p-3 border border-gray-400 focus:border-amber-500 outline-none"
+          class="rounded-md w-full p-3 border border-gray-400 focus:border-blue-500 outline-none"
           [class.invalid]="invalidCity()">
         @if(cityHasRequiredError()) {
           <span class="text-red-600">Este campo es obligatorio</span>
@@ -54,7 +54,7 @@
       <div class="flex flex-col gap-1">
         <label for="phone">Teléfono</label>
         <input type="tel" name="phone" formControlName="phone"
-          class="rounded-md w-full p-3 border border-gray-400 focus:border-amber-500 outline-none"
+          class="rounded-md w-full p-3 border border-gray-400 focus:border-blue-500 outline-none"
           [class.invalid]="invalidPhone()">
         @if(phoneHasRequiredError()) {
           <span class="text-red-600">Este campo es obligatorio</span>
@@ -64,8 +64,8 @@
         }
       </div>
       <div class="flex flex-col gap-3 md:flex-row">
-        <button class="bg-amber-500 rounded-md w-full p-2 text-white" type="submit">Guardar dirección</button>
-        <button class="bg-white rounded-md w-full p-2 border border-gray-400 text-black" type="button"
+        <button class="bg-blue-500 hover:bg-blue-600 rounded-md w-full p-2 text-white transition active:scale-95" type="submit">Guardar dirección</button>
+        <button class="bg-white rounded-md w-full p-2 border border-gray-300 hover:border-gray-400 text-black transition active:scale-95" type="button"
           (click)="changeInitialAddressComponentToActive()">Cancelar</button>
       </div>
     </div>

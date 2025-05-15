@@ -6,8 +6,9 @@
     <p class="text-2xl mb-2">No hay productos en la cesta</p>
     <p class="text-lg sm:text-2xl mb-4 text-center">¡Échale un vistazo a los productos de nuestra tienda!</p>
     <button 
-      class="bg-red-600 active:bg-red-700 active:shadow-lg 
-      text-white py-2 px-16 rounded-md"
+      class="bg-blue-500 hover:bg-blue-600 
+      text-white py-2 px-16 rounded-md shadow-md
+      transition-transform active:scale-95"
       routerLink="/home"
     >
       Ver productos
@@ -69,7 +70,7 @@
         </div>
         <button
           role="link" 
-          class="bg-red-600 py-2 rounded-md text-white transition-transform active:scale-95 shadow-sm hover:bg-red-700"
+          class="bg-blue-500 py-2 rounded-md text-white transition-transform active:scale-95 shadow-sm hover:bg-blue-600"
           (click)="processCheckout()"
         >Terminar pedido</button>
       </div>

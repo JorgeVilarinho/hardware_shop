@@ -71,10 +71,10 @@
                 <h2 class="font-semibold">Ordenador personalizado</h2>
                 <div>
                   @if(someComponentHasDiscount(pc)) {
-                    <p class="text-slate-500 line-through">{{ getTotalWithoutDiscount(pc) | currency:'EUR' }}</p>
-                    <p class="text-red-600 text-xl mr-2">{{ getTotalWithDiscount(pc) | currency:'EUR' }}</p>
+                    <p class="text-slate-400 line-through">{{ getTotalWithoutDiscount(pc) | currency:'EUR' }}</p>
+                    <p class="text-xl mr-2">{{ getTotalWithDiscount(pc) | currency:'EUR' }}</p>
                   } @else {
-                    <p class="text-red-600 text-xl">{{ getTotalWithoutDiscount(pc) | currency:'EUR' }}</p>
+                    <p class="text-xl">{{ getTotalWithoutDiscount(pc) | currency:'EUR' }}</p>
                   }
                 </div>
               </div>
@@ -95,13 +95,13 @@
                 <h2 class="font-semibold">{{ item.name }}</h2>
                 @if(item.discount) {
                   <div class="flex flex-col">
-                    <p class="text-slate-500 line-through">{{ item.price | currency:'EUR' }}</p>
+                    <p class="text-slate-400 line-through">{{ item.price | currency:'EUR' }}</p>
                     <div class="flex gap-3">
-                      <p class="text-red-600 text-xl">{{ (item.price * item.units * (100 - item.discount) / 100) | currency:'EUR' }}</p>
+                      <p class="text-xl">{{ (item.price * item.units * (100 - item.discount) / 100) | currency:'EUR' }}</p>
                     </div>
                   </div>
                 } @else {
-                  <p class="text-red-600 text-xl">{{ item.price * item.units | currency:'EUR' }}</p>
+                  <p class="text-xl">{{ item.price * item.units | currency:'EUR' }}</p>
                 }
               </div>
             </div>
@@ -130,12 +130,12 @@
           <p>Por calcular</p>
         </div>
         <div class="flex justify-between gap-3">
-          <button class="w-full bg-white active:bg-slate-200 active:shadow-md text-black
-          border-gray-300 border py-2 rounded-md mt-3"
+          <button class="w-full bg-white hover:bg-slate-100 text-black
+          border-gray-300 border py-2 rounded-md mt-3 transition-transform active:scale-95 shadow-sm"
           routerLink="shopping-basket">Ver cesta</button>
           <button 
-            class="w-full bg-red-600 active:bg-red-800 active:shadow-lg text-white
-            py-2 rounded-md mt-3"
+            class="w-full bg-blue-500 hover:bg-blue-600 text-white
+            py-2 rounded-md mt-3 transition-transform active:scale-95 shadow-sm"
             (click)="processCheckout()"
             >Realizar pedido</button>
         </div>

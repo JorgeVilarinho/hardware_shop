@@ -3,3 +3,7 @@
   flex-direction: column;
   flex: 1;
 }
+
+.invalid {
+  border: 1px solid red;
+}
