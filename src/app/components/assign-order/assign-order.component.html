@@ -14,7 +14,7 @@
     @for (employee of employees; track employee.user_id) {
       <div 
         class="border border-neutral-400 rounded-md p-3 w-full flex flex-col gap-2
-        transition shadow-sm hover:shadow-md hover:border-red-400 cursor-pointer bg-white"
+        transition shadow-sm hover:shadow-md hover:border-blue-500 cursor-pointer bg-white"
         (click)="openDialog(employee.id)"
       >
         <h1 class="text-xl font-semibold">{{ employee.name }}</h1>

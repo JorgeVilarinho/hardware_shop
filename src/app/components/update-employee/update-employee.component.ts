@@ -107,6 +107,31 @@ export class UpdateEmployeeComponent implements OnInit {
     || this.updateEmployeeForm.get('password')?.touched || this.isSubmitted);
   }
 
+  public invalidName(): boolean | undefined {
+    return this.updateEmployeeForm.get('fullName')?.invalid && (this.updateEmployeeForm.get('fullName')?.dirty
+          || this.updateEmployeeForm.get('fullName')?.touched || this.isSubmitted);
+  }
+
+  public invalidDni(): boolean | undefined {
+    return this.updateEmployeeForm.get('dni')?.invalid && (this.updateEmployeeForm.get('dni')?.dirty
+          || this.updateEmployeeForm.get('dni')?.touched || this.isSubmitted);
+  }
+
+  public invalidEmail(): boolean | undefined {
+    return this.updateEmployeeForm.get('email')?.invalid && (this.updateEmployeeForm.get('email')?.dirty
+          || this.updateEmployeeForm.get('email')?.touched || this.isSubmitted);
+  }
+
+  public invalidPhone(): boolean | undefined {
+    return this.updateEmployeeForm.get('phone')?.invalid && (this.updateEmployeeForm.get('phone')?.dirty
+          || this.updateEmployeeForm.get('phone')?.touched || this.isSubmitted);
+  }
+
+  public invalidPassword(): boolean | undefined {
+    return this.updateEmployeeForm.get('password')?.invalid && (this.updateEmployeeForm.get('password')?.dirty
+          || this.updateEmployeeForm.get('password')?.touched || this.isSubmitted);
+  }
+
   public async onSubmit(): Promise<void> {
     if(this.updateEmployeeForm.valid) {
       const response = await this.employeeService.updateEmployee(

@@ -7,8 +7,8 @@
       <h1 class="text-2xl font-bold">Datos del producto</h1>
     </div>
     <button 
-      class="flex items-center justify-center gap-2 py-2 px-3 bg-red-600 rounded-md 
-    text-white transition-transform active:scale-95 shadow-md"
+      class="flex items-center justify-center gap-2 py-2 px-3 bg-blue-500 hover:bg-blue-600 rounded-md 
+    text-white transition active:scale-95 shadow-md"
       (click)="openDeleteDialog()"
     >
       <mat-icon fontIcon="delete" />
@@ -30,7 +30,8 @@
             >
             <label 
               for="image" 
-              class="bg-amber-500 rounded-md w-full p-2 text-center text-white cursor-pointer"
+              class="bg-blue-500 hover:bg-blue-600 rounded-md w-full p-2 text-center 
+              text-white cursor-pointer transition active:scale-95"
             >
               <input 
                 type="file" 
@@ -48,7 +49,8 @@
             <div class="flex flex-col gap-1">
               <label for="name">Nombre del producto</label>
               <input type="text" name="name" formControlName="name"
-                class="rounded-md w-full p-3 border border-gray-400 focus:border-amber-500 outline-none"
+                class="rounded-md w-full p-3 border border-gray-400 focus:border-blue-500 outline-none"
+                [class.invalid]="invalidName()"
               >
               @if(nameHasRequiredError()) {
                 <span class="text-red-600">Este campo es obligatorio</span>
@@ -58,7 +60,8 @@
             <div class="flex flex-col gap-1 flex-grow">
               <label for="description">Descripción</label>
               <textarea name="description" formControlName="description"
-                class="rounded-md w-full p-2 border flex-grow border-gray-400 focus:border-amber-500 outline-none resize-none min-h-56"
+                class="rounded-md w-full p-2 border flex-grow border-gray-400 focus:border-blue-500 outline-none resize-none min-h-56"
+                [class.invalid]="invalidDescription()"
               ></textarea>
               @if(descriptionHasRequiredError()) {
                 <span class="text-red-600">Este campo es obligatorio</span>
@@ -73,7 +76,8 @@
         <div class="flex flex-col gap-1">
           <label for="price">Precio</label>
           <input type="number" name="price" formControlName="price" min="0"
-            class="rounded-md w-full p-3 border border-gray-400 focus:border-amber-500 outline-none"
+            class="rounded-md w-full p-3 border border-gray-400 focus:border-blue-500 outline-none"
+            [class.invalid]="invalidPrice()"
           >
           @if(priceHasRequiredError()) {
             <span class="text-red-600">Este campo es obligatorio</span>
@@ -86,7 +90,8 @@
         <div class="flex flex-col gap-1">
           <label for="units">Unidades</label>
           <input type="number" name="units" formControlName="units" min="0"
-            class="rounded-md w-full p-3 border border-gray-400 focus:border-amber-500 outline-none"
+            class="rounded-md w-full p-3 border border-gray-400 focus:border-blue-500 outline-none"
+            [class.invalid]="invalidUnits()"
           >
           @if(unitsHasRequiredError()) {
             <span class="text-red-600">Este campo es obligatorio</span>
@@ -99,7 +104,8 @@
         <div class="flex flex-col gap-1">
           <label for="discount">Descuento</label>
           <input type="number" name="discount" formControlName="discount" min="0"
-            class="rounded-md w-full p-3 border border-gray-400 focus:border-amber-500 outline-none"
+            class="rounded-md w-full p-3 border border-gray-400 focus:border-blue-500 outline-none"
+            [class.invalid]="invalidDiscount()"
           >
           @if(discountHasRequiredError()) {
             <span class="text-red-600">Este campo es obligatorio</span>
@@ -115,7 +121,8 @@
         <div class="flex flex-col gap-1">
           <label for="category">Categoría</label>
           <select name="category" formControlName="category"
-            class="rounded-md w-full p-3 border border-gray-400 bg-white focus:border-amber-500 outline-none"
+            class="rounded-md w-full p-3 border border-gray-400 bg-white focus:border-blue-500 outline-none"
+            [class.invalid]="invalidCategory()"
             (change)="selectCategory($event)"
           >
             @for (category of categories; track category.id) {
@@ -130,7 +137,8 @@
         <div class="flex flex-col gap-1">
           <label for="brand">Marca</label>
           <select name="brand" formControlName="brand"
-            class="rounded-md w-full p-3 border border-gray-400 bg-white focus:border-amber-500 outline-none">
+            class="rounded-md w-full p-3 border border-gray-400 bg-white focus:border-blue-500 outline-none"
+            [class.invalid]="invalidBrand()">
             @for (brand of brands; track brand.id) {
               <option [value]="brand.id">{{ brand.nombre }}</option>
             }
@@ -141,7 +149,7 @@
         </div>
 
         <button 
-          class="bg-amber-500 rounded-md w-full p-2 text-white" 
+          class="bg-blue-500 hover:bg-blue-600 rounded-md w-full p-2 text-white transition active:scale-95" 
           type="submit"
         >
           Actualizar datos

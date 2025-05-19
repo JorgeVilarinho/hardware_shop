@@ -133,6 +133,41 @@ export class UpdateProductComponent implements OnInit {
     || this.updateProductForm.get('brand')?.touched || this.isSubmitted);
   }
 
+  public invalidName(): boolean | undefined {
+    return this.updateProductForm.get('name')?.invalid && (this.updateProductForm.get('name')?.dirty
+          || this.updateProductForm.get('name')?.touched || this.isSubmitted);
+  }
+
+  public invalidDescription(): boolean | undefined {
+    return this.updateProductForm.get('description')?.invalid && (this.updateProductForm.get('description')?.dirty
+          || this.updateProductForm.get('description')?.touched || this.isSubmitted);
+  }
+
+  public invalidPrice(): boolean | undefined {
+    return this.updateProductForm.get('price')?.invalid && (this.updateProductForm.get('price')?.dirty
+          || this.updateProductForm.get('price')?.touched || this.isSubmitted);
+  }
+
+  public invalidUnits(): boolean | undefined {
+    return this.updateProductForm.get('units')?.invalid && (this.updateProductForm.get('units')?.dirty
+          || this.updateProductForm.get('units')?.touched || this.isSubmitted);
+  }
+
+  public invalidDiscount(): boolean | undefined {
+    return this.updateProductForm.get('discount')?.invalid && (this.updateProductForm.get('discount')?.dirty
+          || this.updateProductForm.get('discount')?.touched || this.isSubmitted);
+  }
+
+  public invalidCategory(): boolean | undefined {
+    return this.updateProductForm.get('category')?.invalid && (this.updateProductForm.get('category')?.dirty
+          || this.updateProductForm.get('category')?.touched || this.isSubmitted);
+  }
+
+  public invalidBrand(): boolean | undefined {
+    return this.updateProductForm.get('brand')?.invalid && (this.updateProductForm.get('brand')?.dirty
+          || this.updateProductForm.get('brand')?.touched || this.isSubmitted);
+  }
+
   public async loadProductData(): Promise<void> {
     const category = await this.categoriesService.getCategoryByName(this.product?.category!)
     this.brands = await this.brandsService.getBrandsByCategory(category?.id!)

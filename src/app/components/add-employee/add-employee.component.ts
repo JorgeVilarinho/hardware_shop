@@ -90,6 +90,36 @@ export class AddEmployeeComponent implements OnInit {
     || this.addEmployeeForm.get('password')?.touched || this.isSubmitted);
   }
 
+  public invalidName(): boolean | undefined {
+    return this.addEmployeeForm.get('fullName')?.invalid && (this.addEmployeeForm.get('fullName')?.dirty
+          || this.addEmployeeForm.get('fullName')?.touched || this.isSubmitted);
+  }
+
+  public invalidDni(): boolean | undefined {
+    return this.addEmployeeForm.get('dni')?.invalid && (this.addEmployeeForm.get('dni')?.dirty
+          || this.addEmployeeForm.get('dni')?.touched || this.isSubmitted);
+  }
+
+  public invalidEmail(): boolean | undefined {
+    return this.addEmployeeForm.get('email')?.invalid && (this.addEmployeeForm.get('email')?.dirty
+          || this.addEmployeeForm.get('email')?.touched || this.isSubmitted);
+  }
+
+  public invalidPhone(): boolean | undefined {
+    return this.addEmployeeForm.get('phone')?.invalid && (this.addEmployeeForm.get('phone')?.dirty
+          || this.addEmployeeForm.get('phone')?.touched || this.isSubmitted);
+  }
+
+  public invalidPassword(): boolean | undefined {
+    return this.addEmployeeForm.get('password')?.invalid && (this.addEmployeeForm.get('password')?.dirty
+          || this.addEmployeeForm.get('password')?.touched || this.isSubmitted);
+  }
+
+  public invalidEmployeeType(): boolean | undefined {
+    return this.addEmployeeForm.get('employeeType')?.invalid && (this.addEmployeeForm.get('employeeType')?.dirty
+          || this.addEmployeeForm.get('employeeType')?.touched || this.isSubmitted);
+  }
+
   public async onSubmit(): Promise<void> {
     if(this.addEmployeeForm.valid) {
       const response = await this.employeeService.createEmployee(

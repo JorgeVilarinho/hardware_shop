@@ -2,7 +2,6 @@ import { AuthenticationService } from './../../services/authentication.service';
 import { Component, inject, OnInit } from '@angular/core';
 import { EmployeeService } from '../../services/employee.service';
 import { FormBuilder, FormControl, ReactiveFormsModule, Validators } from '@angular/forms';
-import { EmployeeType } from '../../models/employeeType.model';
 import { Employee } from '../../models/employee.model';
 import { Router } from '@angular/router';
 import { MatSnackBar } from '@angular/material/snack-bar';
@@ -92,6 +91,31 @@ export class UpdateMyDataEmployeeComponent implements OnInit {
   public passwordHasLenghtError(): boolean | undefined {
     return this.updateMyDataEmployee.get('password')?.hasError('minlength') && (this.updateMyDataEmployee.get('password')?.dirty
     || this.updateMyDataEmployee.get('password')?.touched || this.isSubmitted);
+  }
+
+  public invalidName(): boolean | undefined {
+    return this.updateMyDataEmployee.get('fullName')?.invalid && (this.updateMyDataEmployee.get('fullName')?.dirty
+          || this.updateMyDataEmployee.get('fullName')?.touched || this.isSubmitted);
+  }
+
+  public invalidDni(): boolean | undefined {
+    return this.updateMyDataEmployee.get('dni')?.invalid && (this.updateMyDataEmployee.get('dni')?.dirty
+          || this.updateMyDataEmployee.get('dni')?.touched || this.isSubmitted);
+  }
+
+  public invalidEmail(): boolean | undefined {
+    return this.updateMyDataEmployee.get('email')?.invalid && (this.updateMyDataEmployee.get('email')?.dirty
+          || this.updateMyDataEmployee.get('email')?.touched || this.isSubmitted);
+  }
+
+  public invalidPhone(): boolean | undefined {
+    return this.updateMyDataEmployee.get('phone')?.invalid && (this.updateMyDataEmployee.get('phone')?.dirty
+          || this.updateMyDataEmployee.get('phone')?.touched || this.isSubmitted);
+  }
+
+  public invalidPassword(): boolean | undefined {
+    return this.updateMyDataEmployee.get('password')?.invalid && (this.updateMyDataEmployee.get('password')?.dirty
+          || this.updateMyDataEmployee.get('password')?.touched || this.isSubmitted);
   }
 
   public async onSubmit(): Promise<void> {

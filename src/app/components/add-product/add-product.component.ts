@@ -126,6 +126,41 @@ export class AddProductComponent implements OnInit {
     || this.addProductForm.get('brand')?.touched || this.isSubmitted);
   }
 
+  public invalidName(): boolean | undefined {
+    return this.addProductForm.get('name')?.invalid && (this.addProductForm.get('name')?.dirty
+          || this.addProductForm.get('name')?.touched || this.isSubmitted);
+  }
+
+  public invalidDescription(): boolean | undefined {
+    return this.addProductForm.get('description')?.invalid && (this.addProductForm.get('description')?.dirty
+          || this.addProductForm.get('description')?.touched || this.isSubmitted);
+  }
+
+  public invalidPrice(): boolean | undefined {
+    return this.addProductForm.get('price')?.invalid && (this.addProductForm.get('price')?.dirty
+          || this.addProductForm.get('price')?.touched || this.isSubmitted);
+  }
+
+  public invalidUnits(): boolean | undefined {
+    return this.addProductForm.get('units')?.invalid && (this.addProductForm.get('units')?.dirty
+          || this.addProductForm.get('units')?.touched || this.isSubmitted);
+  }
+
+  public invalidDiscount(): boolean | undefined {
+    return this.addProductForm.get('discount')?.invalid && (this.addProductForm.get('discount')?.dirty
+          || this.addProductForm.get('discount')?.touched || this.isSubmitted);
+  }
+
+  public invalidCategory(): boolean | undefined {
+    return this.addProductForm.get('category')?.invalid && (this.addProductForm.get('category')?.dirty
+          || this.addProductForm.get('category')?.touched || this.isSubmitted);
+  }
+
+  public invalidBrand(): boolean | undefined {
+    return this.addProductForm.get('brand')?.invalid && (this.addProductForm.get('brand')?.dirty
+          || this.addProductForm.get('brand')?.touched || this.isSubmitted);
+  }
+
   public async onSubmit(): Promise<void> {
     if(this.addProductForm.valid) {
       if(!this.selectedFile) {
