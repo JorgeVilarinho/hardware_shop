@@ -5,6 +5,8 @@ import { Router, RouterModule } from '@angular/router';
 import { Employee } from '../../models/employee.model';
 import { StateService } from '../../services/state.service';
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
+import { DialogLogoutComponent } from '../../components/dialog-logout/dialog-logout.component';
+import { MatDialog } from '@angular/material/dialog';
 
 @Component({
   selector: 'app-dashboard',
@@ -24,6 +26,7 @@ export class DashboardComponent {
   authenticationService = inject(AuthenticationService)
   stateService = inject(StateService)
   router = inject(Router)
+  dialog = inject(MatDialog)
 
   constructor() {
     this.myDataIsActive = true
@@ -98,6 +101,10 @@ export class DashboardComponent {
     const employee = this.authenticationService.loggedInUser as Employee
 
     return employee.id
+  }
+  
+  public openCloseSessionDialog(): void {
+    this.dialog.open(DialogLogoutComponent)
   }
 
   private changeToMyDataTabDashboard(): void {
