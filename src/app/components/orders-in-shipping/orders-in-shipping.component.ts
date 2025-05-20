@@ -8,6 +8,7 @@ import { ChangeOrderStatusDialogComponent } from '../change-order-status-dialog/
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import { environment } from '../../../environments/environment';
 import { MatIcon } from '@angular/material/icon';
+import { AdditionalInfoByParametersDialogComponent } from '../../additional-info-by-parameters-dialog/additional-info-by-parameters-dialog.component';
 
 @Component({
   selector: 'app-orders-in-shipping',
@@ -16,6 +17,11 @@ import { MatIcon } from '@angular/material/icon';
   styleUrl: './orders-in-shipping.component.css'
 })
 export class OrdersInShippingComponent implements OnInit {
+  private ordersInShippingTitle: string = 
+  'Ordenación de pedidos en proceso de envío'
+  private ordersInShippingDescription: string = 
+  'Los pedidos en proceso de envío están ordenados desde la fecha creación más antigua hacia la más actual'
+
   ordersInShipping: Order[] = []
   employeeId: string | null = null
 
@@ -43,6 +49,12 @@ export class OrdersInShippingComponent implements OnInit {
     const dialogRef = this.dialog.open(ChangeOrderStatusDialogComponent)
     dialogRef.componentInstance.orderId = orderId
     dialogRef.componentInstance.employeeId = this.employeeId
+  }
+
+  public openAddtionalInfoPopUpForOrdersInShipping(): void {
+    const dialogRef = this.dialog.open(AdditionalInfoByParametersDialogComponent);
+    dialogRef.componentInstance.title = this.ordersInShippingTitle;
+    dialogRef.componentInstance.description = this.ordersInShippingDescription;
   }
 
   private listenToUpdatedOrderStatus() {

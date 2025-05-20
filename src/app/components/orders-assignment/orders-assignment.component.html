@@ -1,11 +1,17 @@
 <div class="p-5 flex flex-col justify-center gap-3 flex-1">
   <div class="flex flex-col gap-3">
-    <h1 class="text-2xl font-bold">Asignación de pedidos</h1>
+    <div class="flex gap-3">
+      <h1 class="text-2xl font-bold">Asignación de pedidos</h1>
+      <button 
+        class="flex items-center justify-center" 
+        type="button" 
+        (click)="openAddtionalInfoPopUpForOrderAssigment()"
+      >
+        <mat-icon fontIcon="info"></mat-icon>
+      </button>
+    </div>
     @if(unassignedOrders.length != 0) {
-      <div class="flex flex-col gap-1">
-        <p class="text-base">Los pedidos están ordenados de mayor a menor en relación a su fecha de creación</p>
-        <p class="text-lg">Selecciona un pedido para asignarlo a un trabajador</p>
-      </div>
+      <p class="text-lg">Selecciona un pedido para asignarlo a un trabajador</p>
     }
   </div>
 

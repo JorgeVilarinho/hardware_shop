@@ -4,10 +4,18 @@
       <button class="flex items-center" routerLink="/dashboard/orders">
         <mat-icon fontIcon="arrow_back" />
       </button>
-      <h1 class="text-2xl font-bold">Asignación de trabajador</h1>
+      <div class="flex gap-3">
+        <h1 class="text-2xl font-bold">Asignación de trabajador</h1>
+        <button 
+          class="flex items-center justify-center" 
+          type="button" 
+          (click)="openAddtionalInfoPopUpForEmployeeAssignment()"
+        >
+          <mat-icon fontIcon="info"></mat-icon>
+        </button>
+      </div>
     </div>
     <p class="text-xl">Selecciona un trabajador para que se encargue del pedido</p>
-    <p class="text-lg">Ordenados en base al menor nº de pedidos asignados</p>
   </div>
   <div class="flex flex-col gap-3">
 

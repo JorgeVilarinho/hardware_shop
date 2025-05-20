@@ -5,6 +5,7 @@ import { MatIcon } from '@angular/material/icon';
 import { MatDialog } from '@angular/material/dialog';
 import { AssignEmployeeDialogComponent } from '../assign-employee-dialog/assign-employee-dialog.component';
 import { ActivatedRoute, RouterLink } from '@angular/router';
+import { AdditionalInfoByParametersDialogComponent } from '../../additional-info-by-parameters-dialog/additional-info-by-parameters-dialog.component';
 
 @Component({
   selector: 'app-assign-order',
@@ -13,6 +14,10 @@ import { ActivatedRoute, RouterLink } from '@angular/router';
   styleUrl: './assign-order.component.css'
 })
 export class AssignOrderComponent implements OnInit {
+  private employeeAssignmentTitle = 'Ordenación de trabajadores'
+  private employeeAssignmentDescription = 
+  'Los trabajadores están ordenados en base al que tenga el menor nº de pedidos asignados'
+  
   employees: Employee[] = []
   orderId: string | null = null
   
@@ -30,5 +35,11 @@ export class AssignOrderComponent implements OnInit {
     const dialogRef = this.dialog.open(AssignEmployeeDialogComponent)
     dialogRef.componentInstance.orderId = +this.orderId!
     dialogRef.componentInstance.employeeId = employeeId
+  }
+
+  public openAddtionalInfoPopUpForEmployeeAssignment(): void {
+    const dialogRef = this.dialog.open(AdditionalInfoByParametersDialogComponent);
+    dialogRef.componentInstance.title = this.employeeAssignmentTitle;
+    dialogRef.componentInstance.description = this.employeeAssignmentDescription;
   }
 }

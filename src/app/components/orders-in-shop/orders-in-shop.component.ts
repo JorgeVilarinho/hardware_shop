@@ -8,6 +8,7 @@ import { MatDialog } from '@angular/material/dialog';
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import { environment } from '../../../environments/environment';
 import { MatIcon } from '@angular/material/icon';
+import { AdditionalInfoByParametersDialogComponent } from '../../additional-info-by-parameters-dialog/additional-info-by-parameters-dialog.component';
 
 @Component({
   selector: 'app-orders-in-shop',
@@ -16,6 +17,11 @@ import { MatIcon } from '@angular/material/icon';
   styleUrl: './orders-in-shop.component.css'
 })
 export class OrdersInShopComponent implements OnInit {
+  private ordersInShopTitle: string = 
+  'Ordenación de pedidos en tienda'
+  private ordersInShopDescription: string = 
+  'Los pedidos en tienda están ordenados desde la fecha creación más antigua hacia la más actual'
+
   ordersInShop: Order[] = []
 
   ordersService = inject(OrdersService)
@@ -42,6 +48,12 @@ export class OrdersInShopComponent implements OnInit {
     const dialogRef = this.dialog.open(ChangeOrderStatusDialogComponent)
     dialogRef.componentInstance!.employeeId = this.authenticationService.getEmployeeId().toString()
     dialogRef.componentInstance!.orderId = orderId
+  }
+
+  public openAddtionalInfoPopUpForOrdersInShop(): void {
+    const dialogRef = this.dialog.open(AdditionalInfoByParametersDialogComponent);
+    dialogRef.componentInstance.title = this.ordersInShopTitle;
+    dialogRef.componentInstance.description = this.ordersInShopDescription;
   }
 
   private listenToUpdatedOrderStatus() {

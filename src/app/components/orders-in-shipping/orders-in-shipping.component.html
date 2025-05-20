@@ -1,6 +1,15 @@
 <div class="p-5 flex flex-col justify-center gap-3">
   <div class="flex flex-col gap-3">
-    <h1 class="text-2xl font-bold">Pedidos en proceso de envío</h1>
+    <div class="flex gap-3">
+      <h1 class="text-2xl font-bold">Pedidos en proceso de envío</h1>
+      <button 
+            class="flex items-center justify-center" 
+            type="button" 
+            (click)="openAddtionalInfoPopUpForOrdersInShipping()"
+          >
+          <mat-icon fontIcon="info"></mat-icon>
+      </button>
+    </div>
     @if(ordersInShipping.length !== 0) {
       <p class="text-lg">Elija el pedido con el cual haya acabado su proceso de envío</p>
     }

@@ -12,6 +12,7 @@ import { EmployeeTypeValue } from '../../models/employeeTypeValue';
 import { ChangeOrderAssembledStatusDialogComponent } from '../change-order-assembled-status-dialog/change-order-assembled-status-dialog.component';
 import { environment } from '../../../environments/environment';
 import { MatIcon } from '@angular/material/icon';
+import { AdditionalInfoByParametersDialogComponent } from '../../additional-info-by-parameters-dialog/additional-info-by-parameters-dialog.component';
 
 @Component({
   selector: 'app-orders-assigned-to-employee',
@@ -20,6 +21,10 @@ import { MatIcon } from '@angular/material/icon';
   styleUrl: './orders-assigned-to-employee.component.css'
 })
 export class OrdersAssignedToEmployeeComponent implements OnInit {
+  private ordersAssignedToActualEmployeeTitle: string = 'Ordenación de pedidos asignados a mi'
+  private ordersAssignedToActualEmployeeDescription: string = 
+  'Los pedidos asignados a mi están ordenados desde la fecha creación más antigua hacia la más actual'
+
   assignedOrders: Order[] = []
   employeeId: string | null = null
   employee: Employee | null = null
@@ -67,6 +72,12 @@ export class OrdersAssignedToEmployeeComponent implements OnInit {
     let employeeTypeValue = this.employee?.tipo_trabajador as EmployeeTypeValue
 
     return employeeTypeValue == EmployeeTypeValue.COMPUTER_ASSEMBLER
+  }
+
+  public openAddtionalInfoPopUpForOrdersAssignedToActualEmployee(): void {
+    const dialogRef = this.dialog.open(AdditionalInfoByParametersDialogComponent);
+    dialogRef.componentInstance.title = this.ordersAssignedToActualEmployeeTitle;
+    dialogRef.componentInstance.description = this.ordersAssignedToActualEmployeeDescription;
   }
 
   private listenToUpdatedOrderStatus() {
