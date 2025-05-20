@@ -1,5 +1,5 @@
 import { AuthenticationService } from './../../services/authentication.service';
-import { Component, inject } from '@angular/core';
+import { Component, inject, Input } from '@angular/core';
 import { FormBuilder, ReactiveFormsModule, Validators } from '@angular/forms';
 import { MatIconModule } from '@angular/material/icon';
 import { MatSnackBar } from '@angular/material/snack-bar';
@@ -12,6 +12,7 @@ import { Router, RouterLink } from '@angular/router';
   styleUrl: './login-form.component.css'
 })
 export class LoginFormComponent {
+  @Input() redirectToCheckout: boolean = false
   formBuilder = inject(FormBuilder);
   snackBar = inject(MatSnackBar);
   authenticationService = inject(AuthenticationService);
@@ -25,15 +26,15 @@ export class LoginFormComponent {
 
   public onSubmit(): void {
     if(this.registerForm.valid) {
-      this.logInUser(this.registerForm.get('email')!.value!, this.registerForm.get('password')!.value!);
+      this.logInUser(this.registerForm.get('email')!.value!, this.registerForm.get('password')!.value!, this.redirectToCheckout);
     } else {
       this.snackBar.open("Los campos introducidos no son válidos", 'Ok', { duration: 3000 });
     }
     this.isSubmited = true;
   }
 
-  private logInUser(email: string, password: string): void {
-    this.authenticationService.logInUser(email, password);
+  private logInUser(email: string, password: string, redirectToCheckout: boolean): void {
+    this.authenticationService.logInUser(email, password, redirectToCheckout);
   }
 
   public emailHasRequiredError(): boolean | undefined {

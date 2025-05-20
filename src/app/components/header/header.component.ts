@@ -96,7 +96,7 @@ export class HeaderComponent implements OnInit {
 
   public processCheckout(): void {
     if(!this.authenticationService.isLoggedIn()) {
-      this.router.navigate(['login']);
+      this.router.navigate(['login'], { state: { 'redirectToCheckout': true } });
       return
     }
 

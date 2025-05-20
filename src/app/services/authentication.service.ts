@@ -29,7 +29,7 @@ export class AuthenticationService {
 
   constructor() {}
 
-  public async logInUser(email: string, password: string): Promise<void> {
+  public async logInUser(email: string, password: string, redirectToCheckout: boolean): Promise<void> {
     const response = await firstValueFrom(
       this.httpClient.post<LogInUserResponse>(
         `${environment.apiBaseUrl}auth/login`,
@@ -75,7 +75,7 @@ export class AuthenticationService {
       this.userIsLoggedInSubject.next(true);
       this.snackBar.open('Inicio de sesión correcto', 'Ok', { duration: 3000 });
       if(this.loggedInUser.kind == UserType.CLIENT) {
-        this.router.navigate(['/home']);
+        redirectToCheckout ? this.router.navigate(['/checkout']) : this.router.navigate(['/home']);
       } else {
         this.router.navigate(['/dashboard']);
       }
