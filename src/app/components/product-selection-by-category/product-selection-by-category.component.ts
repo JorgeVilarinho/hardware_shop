@@ -1,7 +1,7 @@
 import { PcConfiguratorService } from './../../services/pc-configurator.service';
 import { BrandsService } from './../../services/brands.service';
 import { CategoriesService } from './../../services/categories.service';
-import { Component, inject, OnInit } from '@angular/core';
+import { AfterViewChecked, Component, inject, OnInit } from '@angular/core';
 import { Category } from '../../models/category.model';
 import { ProductsService } from '../../services/products.service';
 import { CategoryValue } from '../../models/categoryValue.model';
@@ -23,7 +23,7 @@ import { environment } from '../../../environments/environment';
   templateUrl: './product-selection-by-category.component.html',
   styleUrl: './product-selection-by-category.component.css'
 })
-export class ProductSelectionByCategoryComponent implements OnInit {
+export class ProductSelectionByCategoryComponent implements OnInit, AfterViewChecked {
   categoryValue: CategoryValue | null = null
   category: Category | undefined
   products: Product[] = []
@@ -48,14 +48,19 @@ export class ProductSelectionByCategoryComponent implements OnInit {
     brand: new FormControl<number>(0, Validators.required),
     orderBy: new FormControl<OrderBy>(OrderBy.LOWER_PRICE, Validators.required),
     compatibility: new FormControl<CompatibilityValue>(CompatibilityValue.ALL, Validators.required),
-    product: new FormControl<Product | null>(null, Validators.required)
+    product: new FormControl<number | null>(null, Validators.required)
   });
   isSubmitted = false
 
   constructor(private route: ActivatedRoute) {
     this.categoryValue = this.route.snapshot.paramMap.get('categoryValue') as CategoryValue
+    this.selectedProduct = this.pcConfiguratorService.getProduct(this.categoryValue)
   }
 
+  ngAfterViewChecked(): void {
+    this.checkSelectedProduct()
+  }
+  
   async ngOnInit(): Promise<void> {
     if(!this.categoryValue) {
       this.snackBar.open('No se ha recibido la categoría de los productos a buscar', 'Ok', { duration: 3000 })
@@ -136,5 +141,14 @@ export class ProductSelectionByCategoryComponent implements OnInit {
     this.isSubmitted = true
   }
 
-  
+  private checkSelectedProduct(): void {
+    if(this.selectedProduct) {
+      let radio = document.querySelector(`input[id='${this.selectedProduct!.id}']`)! as HTMLInputElement
+
+      if(radio) {
+        radio.checked = true
+        this.productSelectionForm.get('product')?.setValue(this.selectedProduct.id)
+      } 
+    }
+  }
 }
