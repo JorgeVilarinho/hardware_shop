@@ -1,7 +1,12 @@
 <form [formGroup]="productSelectionForm" (ngSubmit)="onSubmit()" class="h-full flex flex-col">
   <div class="flex flex-col gap-5 mb-5">
     <div class="flex-grow flex flex-col gap-4">
-      <h1 class="text-2xl font-bold">{{ getCategoryName() }}</h1>
+      <div class="flex gap-3">
+        <button class="flex items-center font-medium" type="button" routerLink="/configurator">
+          <mat-icon fontIcon="arrow_back" />
+        </button>
+        <h1 class="text-2xl font-bold">{{ getCategoryName() }}</h1>
+      </div>
       <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-3">
         <input 
           type="search" 

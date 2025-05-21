@@ -5,7 +5,7 @@ import { AfterViewChecked, Component, inject, OnInit } from '@angular/core';
 import { Category } from '../../models/category.model';
 import { ProductsService } from '../../services/products.service';
 import { CategoryValue } from '../../models/categoryValue.model';
-import { ActivatedRoute, Router } from '@angular/router';
+import { ActivatedRoute, Router, RouterModule } from '@angular/router';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { Product } from '../../models/product.model';
 import { Filters } from '../../models/filters.model';
@@ -19,7 +19,7 @@ import { environment } from '../../../environments/environment';
 
 @Component({
   selector: 'app-product-selection-by-category',
-  imports: [ CurrencyPipe, ReactiveFormsModule, MatIcon ],
+  imports: [ CurrencyPipe, ReactiveFormsModule, MatIcon, RouterModule ],
   templateUrl: './product-selection-by-category.component.html',
   styleUrl: './product-selection-by-category.component.css'
 })
@@ -82,7 +82,7 @@ export class ProductSelectionByCategoryComponent implements OnInit, AfterViewChe
     return this.products.length
   }
 
-  public onChangeProduct(product: Product): void {
+  public onChangeProduct(product: Product): void { 
     this.selectedProduct = product
   }
 
@@ -128,6 +128,10 @@ export class ProductSelectionByCategoryComponent implements OnInit, AfterViewChe
 
   public getCategoryName(): string | undefined {
     return this.category?.nombre
+  }
+
+  public goToPcConfigurator(): void {
+    this.router.navigate(['/configurator'])
   }
 
   public onSubmit(): void {
