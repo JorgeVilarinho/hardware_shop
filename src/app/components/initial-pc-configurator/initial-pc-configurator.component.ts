@@ -93,6 +93,10 @@ export class InitialPcConfiguratorComponent {
     this.pcConfiguratorService.changeAssembly(this.assemblyForm.get('assembly')?.value!) 
   }
 
+  public isValidToAddToCart(): boolean {
+    return this.pcConfiguratorService.isValidToAddToCart()
+  }
+
   public addToCart(): void {
     let pcData: PcData = {
       components: this.pcConfiguratorService.getComponents(),
