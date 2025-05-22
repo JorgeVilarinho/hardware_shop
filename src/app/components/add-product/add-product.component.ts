@@ -77,7 +77,7 @@ export class AddProductComponent implements OnInit {
   }
 
   public descriptionHasMaxLengthError(): boolean | undefined {
-    return this.addProductForm.get('description')?.hasError('maxLength') && (this.addProductForm.get('description')?.dirty
+    return this.addProductForm.get('description')?.hasError('maxlength') && (this.addProductForm.get('description')?.dirty
     || this.addProductForm.get('description')?.touched || this.isSubmitted);
   }
 
