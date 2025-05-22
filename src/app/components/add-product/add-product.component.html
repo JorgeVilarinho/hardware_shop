@@ -45,6 +45,9 @@
               @if(nameHasRequiredError()) {
                 <span class="text-red-600">Este campo es obligatorio</span>
               }
+              @if(nameHasMaxLengthError()) {
+                <span class="text-red-600">Este campo debe contener un máximo de 100 caracteres</span>
+              }
             </div>
   
             <div class="flex flex-col gap-1 flex-grow">

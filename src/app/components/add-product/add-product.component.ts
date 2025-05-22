@@ -31,7 +31,7 @@ export class AddProductComponent implements OnInit {
   router = inject(Router);
 
   addProductForm = this.formBuilder.group({
-    name: new FormControl<string>('', Validators.required),
+    name: new FormControl<string>('', [ Validators.required, Validators.maxLength(100) ]),
     description: new FormControl<string>('', [ Validators.required, Validators.maxLength(800) ]),
     price: new FormControl<number>(0, [ Validators.required, Validators.min(0) ]),
     units: new FormControl<number>(0, [ Validators.required, Validators.min(0) ]),
@@ -68,6 +68,11 @@ export class AddProductComponent implements OnInit {
 
   public nameHasRequiredError(): boolean | undefined {
     return this.addProductForm.get('name')?.hasError('required') && (this.addProductForm.get('name')?.dirty
+    || this.addProductForm.get('name')?.touched || this.isSubmitted);
+  }
+
+  public nameHasMaxLengthError(): boolean | undefined {
+    return this.addProductForm.get('name')?.hasError('maxlength') && (this.addProductForm.get('name')?.dirty
     || this.addProductForm.get('name')?.touched || this.isSubmitted);
   }
 
