@@ -2,10 +2,10 @@ import { HttpClient } from '@angular/common/http';
 import { inject, Injectable } from '@angular/core';
 import { Category } from '../models/category.model';
 import { firstValueFrom } from 'rxjs';
-import { environment } from '../../environments/environment.development';
 import { GetCategoriesResponse } from '../responses/getCategories.response';
 import { GetCategoryResponse } from '../responses/getCategory.response';
 import { CategoryValue } from '../models/categoryValue.model';
+import { environment } from '../../environments/environment';
 
 @Injectable({
   providedIn: 'root',

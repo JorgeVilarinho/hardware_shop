@@ -1,7 +1,7 @@
 import { HttpClient, HttpResponse } from '@angular/common/http';
 import { inject, Injectable } from '@angular/core';
 import { BehaviorSubject, firstValueFrom } from 'rxjs';
-import { environment } from '../../environments/environment.development';
+import { environment } from '../../environments/environment';
 import { GetActiveOrdersResponse } from '../responses/getActiveOrders.response';
 import { Order } from '../models/order.model';
 import { GetProductsFromOrderResponse } from '../responses/getProductsFromOrder.response';

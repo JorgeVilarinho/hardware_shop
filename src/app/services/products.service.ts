@@ -1,6 +1,6 @@
 import { HttpClient, HttpResponse } from '@angular/common/http';
 import { inject, Injectable } from '@angular/core';
-import { environment } from '../../environments/environment.development';
+import { environment } from '../../environments/environment';
 import { BehaviorSubject, firstValueFrom } from 'rxjs';
 import { Product } from '../models/product.model';
 import { MatSnackBar } from '@angular/material/snack-bar';

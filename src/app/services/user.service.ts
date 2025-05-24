@@ -1,13 +1,12 @@
 import { AuthenticationService } from './authentication.service';
 import { LocalStorageService } from './local-storage.service';
 import { Injectable, inject } from '@angular/core';
-import { Client } from '../models/client.model';
 import { BehaviorSubject, firstValueFrom } from 'rxjs';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { Router } from '@angular/router';
 import { Address } from '../models/address.model';
 import { HttpClient } from '@angular/common/http';
-import { environment } from '../../environments/environment.development';
+import { environment } from '../../environments/environment';
 import { StateService } from './state.service';
 import { CartService } from './cart.service';
 import { GetOrUpdateDataClient } from '../models/getOrUpdateDataClient';

@@ -2,7 +2,7 @@ import { HttpClient } from '@angular/common/http';
 import { inject, Injectable } from '@angular/core';
 import { Brand } from '../models/brand.model';
 import { firstValueFrom } from 'rxjs';
-import { environment } from '../../environments/environment.development';
+import { environment } from '../../environments/environment';
 import { GetBrandsResponse } from '../responses/getBrands.response';
 import { GetBrandsByCategoryResponse } from '../responses/getBrandsByCategory.response';
 import { GetBrandByValueResponse } from '../responses/getBrandsByValue.response';

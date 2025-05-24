@@ -5,7 +5,7 @@ import { ShippingMethod } from './../models/shippingMethod.model';
 import { HttpClient } from '@angular/common/http';
 import { inject, Injectable } from '@angular/core';
 import { BehaviorSubject, firstValueFrom } from 'rxjs';
-import { environment } from '../../environments/environment.development';
+import { environment } from '../../environments/environment';
 import { Product } from '../models/product.model';
 import { OrderRepository } from '../models/orderRepository.model';
 import { Address } from '../models/address.model';

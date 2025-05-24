@@ -6,7 +6,6 @@ import { Router } from '@angular/router';
 import { PcConfiguratorService } from '../../services/pc-configurator.service';
 import { CategoryValue } from '../../models/categoryValue.model';
 import { CartService } from '../../services/cart.service';
-import { Pc } from '../../models/pc.model';
 import { FormBuilder, FormControl, ReactiveFormsModule, Validators } from '@angular/forms';
 import { environment } from '../../../environments/environment';
 import { PcData } from '../../models/pcData.model';

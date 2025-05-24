@@ -5,7 +5,7 @@ import { Cart } from '../models/cart.model';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { LocalStorageService } from './local-storage.service';
 import { HttpClient } from '@angular/common/http';
-import { environment } from '../../environments/environment.development';
+import { environment } from '../../environments/environment';
 import { AuthenticationService } from './authentication.service';
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import { Pc } from '../models/pc.model';

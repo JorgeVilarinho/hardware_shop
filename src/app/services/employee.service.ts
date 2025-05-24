@@ -3,7 +3,7 @@ import { inject, Injectable } from '@angular/core';
 import { Employee } from '../models/employee.model';
 import { firstValueFrom } from 'rxjs';
 import { GetAllEmployeesResponse } from '../responses/getAllEmployees.response';
-import { environment } from '../../environments/environment.development';
+import { environment } from '../../environments/environment';
 import { DeleteEmployeeResponse } from '../responses/deleteEmployee.response';
 import { EmployeeType } from '../models/employeeType.model';
 import { GetEmployeeTypesResponse } from '../responses/getEmployeeTypes.response';
