@@ -110,7 +110,6 @@ export class FiltersSidenavComponent implements OnInit {
     this.minPriceValue = 0;
     this.maxPriceValue = this.maxLimit;
     this.filters = {
-      orderBy: OrderBy.LOWER_PRICE,
       minPrice: 0,
       brands: []
     };
