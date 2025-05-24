@@ -1,4 +1,10 @@
 <div class="h-full p-5 lg:container lg:mx-auto flex flex-col gap-5">
+  <div class="flex gap-3">
+    <button class="flex items-center font-medium" routerLink="/home">
+      <mat-icon fontIcon="arrow_back" />
+    </button>
+    <h1 class="text-2xl font-bold">Producto</h1>
+  </div>
   <div class="flex flex-col sm:flex-row gap-3 sm:gap-5">
     <div>
       <img [src]="getImage(product?.image)" alt="Imagen del producto" class="sm:max-w-72 sm:max-h-72 md:max-w-sm md:max-h-none lg:max-w-md" />

@@ -1,13 +1,14 @@
 import { Component, inject, OnInit } from '@angular/core';
-import { ActivatedRoute } from '@angular/router';
+import { ActivatedRoute, RouterModule } from '@angular/router';
 import { Product } from '../../models/product.model';
 import { CurrencyPipe } from '@angular/common';
 import { CartService } from '../../services/cart.service';
 import { environment } from '../../../environments/environment';
+import { MatIcon } from '@angular/material/icon';
 
 @Component({
   selector: 'app-product',
-  imports: [ CurrencyPipe ],
+  imports: [ CurrencyPipe, RouterModule, MatIcon ],
   templateUrl: './product.component.html',
   styleUrl: './product.component.css'
 })
