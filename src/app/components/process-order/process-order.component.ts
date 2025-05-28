@@ -1,3 +1,4 @@
+import { LocalStorageService } from './../../services/local-storage.service';
 import { CheckoutService } from './../../services/checkout.service';
 import { Component, inject, OnInit } from '@angular/core';
 import { MatIcon } from '@angular/material/icon';
@@ -9,7 +10,6 @@ import { MatSnackBar } from '@angular/material/snack-bar';
 import { MatDialog } from '@angular/material/dialog';
 import { OrdersService } from '../../services/orders.service';
 import { PaymentDialogComponent } from '../payment-dialog/payment-dialog.component';
-import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import { CurrencyPipe } from '@angular/common';
 import { ShippingMethod } from '../../models/shippingMethod.model';
 import { Order } from '../../models/order.model';
@@ -35,6 +35,7 @@ export class ProcessOrderComponent implements OnInit {
 
   checkoutService = inject(CheckoutService)
   ordersService = inject(OrdersService)
+  localStorageService = inject(LocalStorageService)
   formBuilder = inject(FormBuilder)
   snackBar = inject(MatSnackBar)
   dialog = inject(MatDialog)
@@ -55,16 +56,13 @@ export class ProcessOrderComponent implements OnInit {
     ],
   });
 
-  constructor(private route: ActivatedRoute) {
-    this.listenToChangeShippingMethod()
-    this.listenToChangeTotal()
-  }
+  constructor(private route: ActivatedRoute) {}
 
   async ngOnInit(): Promise<void> {
+    this.initializeVariables()
+
     this.orderId = this.route.snapshot.paramMap.get('id')!;
-    this.order = await this.ordersService.getOrderById(this.orderId!) 
-    this.shippingMethod = await this.ordersService.getShippingMethodById(this.order?.id_metodo_envio!)
-    this.paymentOption = await this.ordersService.getPaymentOptionById(this.order?.id_opcion_pago!)
+    this.order = await this.ordersService.getOrderById(this.orderId!)
   }
 
   public getImage(imageFile: string): string {
@@ -224,15 +222,9 @@ export class ProcessOrderComponent implements OnInit {
     this.checkOutFormSubmitted = true;
   }
 
-  private listenToChangeShippingMethod(): void {
-    this.checkoutService.changeShippingMethod$
-    .pipe(takeUntilDestroyed())
-    .subscribe(shippingMethod => this.shippingMethod = shippingMethod)
-  }
-
-  private listenToChangeTotal(): void {
-    this.checkoutService.changeTotalWithTax$
-    .pipe(takeUntilDestroyed())
-    .subscribe(total => this.total = total)
+  private initializeVariables(): void {
+    this.shippingMethod = JSON.parse(this.localStorageService.getItem('shippingMethod')!) as ShippingMethod
+    this.total = JSON.parse(this.localStorageService.getItem('total')!) as number
+    this.paymentOption = JSON.parse(this.localStorageService.getItem('paymentOption')!) as PaymentOption
   }
 }

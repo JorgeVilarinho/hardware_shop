@@ -1,3 +1,4 @@
+import { LocalStorageService } from './../../services/local-storage.service';
 import { CartService } from './../../services/cart.service';
 import { Component, inject, OnInit } from '@angular/core';
 import { FormBuilder, FormControl, ReactiveFormsModule, Validators } from '@angular/forms';
@@ -35,6 +36,7 @@ export class ShippingDataComponent implements OnInit {
   checkoutService = inject(CheckoutService)
   cartService = inject(CartService)
   categoriesService = inject(CategoriesService)
+  localStorageService = inject(LocalStorageService)
   formBuilder = inject(FormBuilder)
 
   selectionForm = this.formBuilder.group({
@@ -57,17 +59,21 @@ export class ShippingDataComponent implements OnInit {
   }
 
   public onChangeShippingMethod(): void {
-    this.checkoutService.changeShippingMethodSubject.next(this.selectionForm.get('shippingMethod')?.value!)
-    this.selectionForm.get('address')!.setValue(null) 
-    this.selectionForm.get('shippingOption')!.setValue(null) 
+    this.localStorageService.setItem('shippingMethod', JSON.stringify(this.selectionForm.get('shippingMethod')?.value!))
+
+    this.selectionForm.get('address')!.setValue(null)
+    if(this.localStorageService.getItem('address')) this.localStorageService.removeItem('address')
+
+    this.selectionForm.get('shippingOption')!.setValue(null)
+    if(this.localStorageService.getItem('shippingOption')) this.localStorageService.removeItem('shippingOption')
   }
 
   public onChangeShippingOption(shippingOption: ShippingOption): void {
-    this.checkoutService.changeShippingOptionSubject.next(shippingOption)
+    this.localStorageService.setItem('shippingOption', JSON.stringify(shippingOption))
   }
 
   public onChangeAddressOption(address: Address): void {
-    this.checkoutService.changeAddressSubject.next(address)
+    this.localStorageService.setItem('address', JSON.stringify(address))
   }
 
   public shippingMethodIsHomeDelivery(): boolean {
@@ -120,13 +126,13 @@ export class ShippingDataComponent implements OnInit {
     if(this.shippingOptionIsSelected()) {
       totalWithTax = (this.cartService.getTotal() + this.getShippingOptionCost()!) * 1.21
       
-      this.checkoutService.changeTotalWithTaxSubject.next(totalWithTax)
+      this.localStorageService.setItem('total', totalWithTax as unknown as string)
       return totalWithTax
     }
 
     totalWithTax = this.cartService.getTotalWithTax()
 
-    this.checkoutService.changeTotalWithTaxSubject.next(totalWithTax)
+    this.localStorageService.setItem('total', totalWithTax as unknown as string)
     return totalWithTax
   }
 

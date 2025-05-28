@@ -16,18 +16,8 @@ import { Pc } from '../models/pc.model';
 })
 export class CheckoutService {
   httpClient = inject(HttpClient)
-
-  changeShippingOptionSubject = new BehaviorSubject<ShippingOption | null>(null)
-  changeShippingMethodSubject = new BehaviorSubject<ShippingMethod | null>(null)
-  changeAddressSubject = new BehaviorSubject<Address | null>(null)
-  changePaymentOptionSubject = new BehaviorSubject<PaymentOption | null>(null)
-  changeTotalWithTaxSubject = new BehaviorSubject<number>(0)
-  createOrderSubject = new BehaviorSubject<OrderRepository | null>(null)
   
-  changeShippingOption$ = this.changeShippingOptionSubject.asObservable()
-  changeShippingMethod$ = this.changeShippingMethodSubject.asObservable()
-  changeAddress$ = this.changeAddressSubject.asObservable()
-  changeTotalWithTax$ = this.changeTotalWithTaxSubject.asObservable()
+  createOrderSubject = new BehaviorSubject<OrderRepository | null>(null)
 
   constructor() { }
 

@@ -1,3 +1,4 @@
+import { LocalStorageService } from './../../services/local-storage.service';
 import { CartService } from './../../services/cart.service';
 import { Component, inject, OnInit } from '@angular/core';
 import { FormBuilder, FormControl, ReactiveFormsModule, Validators } from '@angular/forms';
@@ -7,7 +8,6 @@ import { CheckoutService } from '../../services/checkout.service';
 import { MatDialog } from '@angular/material/dialog';
 import { AdditionalInfoDialogComponent } from '../additional-info-dialog/additional-info-dialog.component';
 import { OrderRepository } from '../../models/orderRepository.model';
-import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import { Product } from '../../models/product.model';
 import { ShippingMethod } from '../../models/shippingMethod.model';
 import { ShippingOption } from '../../models/shippingOption.model';
@@ -44,6 +44,7 @@ export class PaymentDataComponent implements OnInit {
   checkoutService = inject(CheckoutService)
   cartService = inject(CartService)
   categoriesService = inject(CategoriesService)
+  localStorageService = inject(LocalStorageService)
   formBuilder = inject(FormBuilder)
   dialog = inject(MatDialog)
   router = inject(Router)
@@ -52,14 +53,11 @@ export class PaymentDataComponent implements OnInit {
     paymentOption: new FormControl<PaymentOption | null>(null, Validators.required)
   })
 
-  constructor() {
-    this.listenToChangeTotalWithTax()
-    this.listenToChangeShippingMethod()
-    this.listenToChangeShippingOption()
-    this.listenToChangeAddress()
-  }
+  constructor() {}
 
   async ngOnInit(): Promise<void> {
+    this.initializeVariables()
+
     this.paymentOptions = await this.checkoutService.getPaymentOptions()
     this.cartProducts = this.cartService.getItems()
     this.pcs = this.cartService.getPcs()
@@ -151,7 +149,7 @@ export class PaymentDataComponent implements OnInit {
   }
 
   public onChangePaymentOption(paymentOption: PaymentOption): void {
-    this.checkoutService.changePaymentOptionSubject.next(paymentOption)
+    this.localStorageService.setItem('paymentOption', JSON.stringify(paymentOption))
   }
 
   public getBox(pcProduct: Pc): Product | undefined {
@@ -194,27 +192,10 @@ export class PaymentDataComponent implements OnInit {
     return this.paymentForm.get('paymentOption')!.value!
   }
 
-  private listenToChangeTotalWithTax(): void {
-    this.checkoutService.changeTotalWithTax$
-    .pipe(takeUntilDestroyed())
-    .subscribe(total => this.total = total)
-  }
-
-  private listenToChangeShippingMethod(): void {
-    this.checkoutService.changeShippingMethod$
-    .pipe(takeUntilDestroyed())
-    .subscribe(shippingMethod => this.shippingMethod = shippingMethod)
-  }
-
-  private listenToChangeShippingOption(): void {
-    this.checkoutService.changeShippingOption$
-    .pipe(takeUntilDestroyed())
-    .subscribe(shippingOption => this.shippingOption = shippingOption)
-  }
-
-  private listenToChangeAddress(): void {
-    this.checkoutService.changeAddress$
-    .pipe(takeUntilDestroyed())
-    .subscribe(address => this.address = address)
+  private initializeVariables(): void {
+    this.total = this.localStorageService.getItem('total') as unknown as number
+    this.shippingMethod = JSON.parse(this.localStorageService.getItem('shippingMethod')!) as ShippingMethod
+    this.shippingOption = JSON.parse(this.localStorageService.getItem('shippingOption')!) as ShippingOption
+    this.address = JSON.parse(this.localStorageService.getItem('address')!) as Address
   }
 }
