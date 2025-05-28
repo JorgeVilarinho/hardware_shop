@@ -7,7 +7,7 @@ import { Router } from '@angular/router';
 import { environment } from '../../../environments/environment';
 import { MatIcon } from '@angular/material/icon';
 import { MatDialog } from '@angular/material/dialog';
-import { AdditionalInfoByParametersDialogComponent } from '../../additional-info-by-parameters-dialog/additional-info-by-parameters-dialog.component';
+import { AdditionalInfoByParametersDialogComponent } from '../additional-info-by-parameters-dialog/additional-info-by-parameters-dialog.component';
 
 @Component({
   selector: 'app-orders-assignment',

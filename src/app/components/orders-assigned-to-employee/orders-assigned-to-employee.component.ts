@@ -12,7 +12,7 @@ import { EmployeeTypeValue } from '../../models/employeeTypeValue';
 import { ChangeOrderAssembledStatusDialogComponent } from '../change-order-assembled-status-dialog/change-order-assembled-status-dialog.component';
 import { environment } from '../../../environments/environment';
 import { MatIcon } from '@angular/material/icon';
-import { AdditionalInfoByParametersDialogComponent } from '../../additional-info-by-parameters-dialog/additional-info-by-parameters-dialog.component';
+import { AdditionalInfoByParametersDialogComponent } from '../additional-info-by-parameters-dialog/additional-info-by-parameters-dialog.component';
 
 @Component({
   selector: 'app-orders-assigned-to-employee',
