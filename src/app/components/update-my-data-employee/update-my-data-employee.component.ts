@@ -44,6 +44,7 @@ export class UpdateMyDataEmployeeComponent implements OnInit {
   isSubmitted = false
 
   async ngOnInit(): Promise<void> {
+    await this.authenticationService.initializeLoggedInUser()
     this.employee = this.authenticationService.loggedInUser as Employee
     this.loadEmployeeData()
   }
